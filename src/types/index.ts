@@ -1,0 +1,205 @@
+export interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  department: string;
+  description: string;
+  requirements: string[];
+  responsibilities: string[];
+  salary: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+  postedDate: string;
+  status: 'Active' | 'Closed' | 'Draft';
+  hiringManager: string;
+  recruiter: string;
+  pipeline: {
+    stages: RecruitmentStage[];
+  };
+  skills?: string[];
+  benefits?: string[];
+}
+
+export interface Candidate {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  currentTitle: string;
+  currentCompany: string;
+  location: string;
+  experience: number;
+  skills: string[];
+  education: Education[];
+  resume: string;
+  source: string;
+  appliedDate: string;
+  stage: RecruitmentStage;
+  jobId: string;
+  notes?: string;
+  assessment?: Assessment;
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: 'High' | 'Medium' | 'Low';
+  status: 'Pending' | 'In Progress' | 'Completed';
+  category: 'Interview' | 'Coordination' | 'Update';
+}
+
+export interface DashboardMetrics {
+  activeJobs: number;
+  newApplications: number;
+  shortlistedCandidates: number;
+  topRankingCandidates: number;
+}
+
+export interface Interview {
+  id: number;
+  candidate: {
+    name: string;
+    position: string;
+  };
+  date: string;
+  time: string;
+  type: 'Technical' | 'Behavioral' | 'HR';
+  status: 'Scheduled' | 'Completed' | 'Cancelled';
+  interviewers: string[];
+  location: string;
+  transcript: {
+    timestamp: string;
+    speaker: 'Interviewer' | 'Candidate';
+    content: string;
+  }[];
+  aiAssessment: {
+    overallScore: number;
+    categoryScores: {
+      technical: number;
+      communication: number;
+      problemSolving: number;
+      culturalFit: number;
+    };
+    strengths: string[];
+    areasForImprovement: string[];
+    recommendations: string[];
+  };
+  humanFeedback: {
+    score: number;
+    notes: string;
+    nextSteps: string;
+    decision: 'Hire' | 'Reject' | 'Further Evaluation';
+  };
+}
+
+export interface InterviewNotes {
+  transcript: string;
+  aiScore: number;
+  humanScore: number;
+  feedback: {
+    [key: string]: string;
+  };
+}
+
+export interface Notification {
+  id: string;
+  type: 'application' | 'interview' | 'job' | 'message';
+  title: string;
+  message: string;
+  time: string;
+  read: boolean;
+  icon: React.ReactNode;
+}
+
+export interface CompanyInfo {
+  name: string;
+  industry: string;
+  size: string;
+  location: string;
+  website: string;
+  description: string;
+  contactEmail: string;
+  foundedYear: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface SupportChannel {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  contact: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  industry: string;
+  size: string;
+  location: string;
+  website: string;
+  description: string;
+  logo: string;
+  foundedYear: number;
+  techStack: string[];
+  benefits: string[];
+  companyCulture: string[];
+  socialMedia: {
+    linkedin: string;
+    twitter: string;
+    facebook: string;
+  };
+  contact: {
+    email: string;
+    phone: string;
+    address: string;
+  };
+  settings: {
+    notificationPreferences: {
+      email: boolean;
+      push: boolean;
+      sms: boolean;
+    };
+    interviewPreferences: {
+      duration: number;
+      bufferTime: number;
+      timezone: string;
+    };
+    assessmentPreferences: {
+      autoScoring: boolean;
+      plagiarismCheck: boolean;
+    };
+  };
+}
+
+export enum RecruitmentStage {
+  APPLIED = 'Applied',
+  OUTREACHED = 'Outreached',
+  ENGAGED = 'Engaged',
+  RESUME_SHORTLISTED = 'Resume Shortlisted',
+  ASSESSMENT_SENT = 'Assessment Sent',
+  INTERVIEW_SCHEDULED = 'Interview Scheduled',
+  FEEDBACK_DONE = 'Feedback Done',
+  HIRED = 'Hired',
+  REJECTED = 'Rejected'
+}
+
+export interface Education {
+  degree: string;
+  institution: string;
+  year: number;
+}
+
+export interface Assessment {
+  score: number;
+  feedback: string;
+  completed: boolean;
+} 
