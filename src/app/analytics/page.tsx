@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { FiTrendingUp, FiUsers, FiBriefcase, FiClock, FiBarChart2, FiPieChart } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
@@ -24,8 +26,8 @@ export default function AnalyticsPage() {
   const timeToHire = candidates
     .filter(c => c.stage === RecruitmentStage.HIRED)
     .map(c => {
-      const applicationDate = new Date(c.applicationDate);
-      const hireDate = new Date(c.lastUpdated);
+      const applicationDate = new Date(c.appliedDate);
+      const hireDate = new Date(c.appliedDate); // Using appliedDate as a placeholder since we don't have hireDate
       return Math.ceil((hireDate.getTime() - applicationDate.getTime()) / (1000 * 60 * 60 * 24));
     });
   const avgTimeToHire = timeToHire.length > 0 
