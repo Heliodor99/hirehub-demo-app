@@ -1,17 +1,9 @@
-'use client';
-
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import { usePathname } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'HireHub AI - Recruitment Platform',
-  description: 'AI-powered recruitment platform',
-}
 
 export default function RootLayout({
   children,
