@@ -9,7 +9,8 @@ import {
   FiBarChart2, 
   FiSettings, 
   FiUser,
-  FiCalendar
+  FiCalendar,
+  FiPieChart
 } from 'react-icons/fi';
 
 const navigation = [
@@ -17,6 +18,7 @@ const navigation = [
   { name: 'Jobs', href: '/jobs', icon: FiBriefcase },
   { name: 'Candidates', href: '/candidates', icon: FiUsers },
   { name: 'Interviews', href: '/interviews', icon: FiCalendar },
+  { name: 'Analytics', href: '/analytics', icon: FiPieChart },
   { name: 'Reports', href: '/reports', icon: FiBarChart2 },
   { name: 'Settings', href: '/settings', icon: FiSettings },
 ];

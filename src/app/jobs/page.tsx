@@ -24,13 +24,13 @@ export default function JobsPage() {
               Manage and track all your job postings
             </p>
           </div>
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          <Link
+            href="/jobs/new"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
           >
-            <FiPlus className="mr-2 h-4 w-4" />
+            <FiPlus className="h-4 w-4" />
             Post New Job
-          </button>
+          </Link>
         </div>
 
         <div className="bg-white shadow rounded-lg">
