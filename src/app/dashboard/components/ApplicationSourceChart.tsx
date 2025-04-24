@@ -4,7 +4,7 @@ import { candidates } from '@/data/jobs';
 export default function ApplicationSourceChart() {
   // Get applications from the last 7 days
   const lastWeekApplications = candidates.filter(candidate => {
-    const appDate = new Date(candidate.applicationDate);
+    const appDate = new Date(candidate.appliedDate);
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - appDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

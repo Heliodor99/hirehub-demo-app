@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const metrics = {
     activeJobs: jobs.filter(job => job.status === 'Active').length,
     newApplications: candidates.filter(c => {
-      const appDate = new Date(c.applicationDate);
+      const appDate = new Date(c.appliedDate);
       const now = new Date();
       const diffTime = Math.abs(now.getTime() - appDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -29,7 +29,7 @@ export default function DashboardPage() {
   };
 
   const recentApplications = candidates
-    .sort((a, b) => new Date(b.applicationDate).getTime() - new Date(a.applicationDate).getTime())
+    .sort((a, b) => new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime())
     .slice(0, 5);
 
   const upcomingInterviews = candidates
@@ -46,10 +46,12 @@ export default function DashboardPage() {
   const totalCandidates = candidates.length;
   const interviewsToday = candidates.filter(candidate => 
     candidate.stage === 'Interview Scheduled' && 
-    new Date(candidate.interview?.date || '').toDateString() === new Date().toDateString()
+    candidate.interview?.date && 
+    new Date(candidate.interview.date).toDateString() === new Date().toDateString()
   ).length;
   const hiredThisMonth = candidates.filter(candidate => 
     candidate.stage === 'Hired' && 
+    candidate.lastUpdated &&
     new Date(candidate.lastUpdated).getMonth() === new Date().getMonth()
   ).length;
 

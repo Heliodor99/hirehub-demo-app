@@ -4,13 +4,7 @@ import { useState, useMemo } from 'react';
 import { FiTrendingUp, FiUsers, FiBriefcase, FiClock, FiBarChart2, FiPieChart, FiAward, FiStar, FiActivity, FiTarget } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import { RecruitmentStage, Job, Candidate } from '@/types';
-
-const PERFORMANCE_WEIGHTS = {
-  timeToHire: 0.3,
-  conversionRate: 0.3,
-  candidateQuality: 0.25,
-  sourceDiversity: 0.15
-};
+import { calculateTimeToHire, calculateRecruitmentEfficiency, calculateFunnelEfficiency } from '@/services/analytics';
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState('30');  // days
@@ -29,15 +23,11 @@ export default function AnalyticsPage() {
     return acc;
   }, {} as Record<RecruitmentStage, number>);
 
-  // Calculate time-to-hire metrics (in days)
+  // Calculate time-to-hire metrics (in days) using our consistent service
   const timeToHire = candidates
     .filter(c => c.stage === RecruitmentStage.HIRED)
-    .map(c => {
-      const applicationDate = new Date(c.appliedDate);
-      const hireDate = new Date(c.appliedDate); // Using appliedDate as a placeholder since we don't have hireDate
-      hireDate.setDate(hireDate.getDate() + Math.floor(Math.random() * 40) + 10); // Add random days for simulation
-      return Math.ceil((hireDate.getTime() - applicationDate.getTime()) / (1000 * 60 * 60 * 24));
-    });
+    .map(c => calculateTimeToHire(c));
+    
   const avgTimeToHire = timeToHire.length > 0 
     ? Math.round(timeToHire.reduce((a, b) => a + b, 0) / timeToHire.length)
     : 0;
@@ -103,41 +93,29 @@ export default function AnalyticsPage() {
     return Math.round((hiredInRange / candidatesInRange.length) * 100);
   }
   
-  // Calculate recruitment efficiency score - a weighted score of multiple factors
-  const recruitmentEfficiency = useMemo(() => {
-    // Time to hire score (lower is better) - normalize to 0-100
-    const bestTimeToHire = 15; // Benchmark: 15 days is excellent
-    const worstTimeToHire = 60; // Benchmark: 60 days is poor
-    const timeToHireScore = avgTimeToHire <= bestTimeToHire 
-      ? 100 
-      : avgTimeToHire >= worstTimeToHire 
-        ? 0 
-        : 100 - (((avgTimeToHire - bestTimeToHire) / (worstTimeToHire - bestTimeToHire)) * 100);
+  // Calculate recruitment efficiency score using our service
+  const conversionRate = totalCandidates > 0 
+    ? (stageMetrics[RecruitmentStage.HIRED] / totalCandidates) * 100
+    : 0;
     
-    // Conversion rate score (higher is better)
-    const conversionRate = totalCandidates > 0 
-      ? (stageMetrics[RecruitmentStage.HIRED] / totalCandidates) * 100
-      : 0;
-    const conversionScore = Math.min(conversionRate * 5, 100); // Normalize: 20% conversion = 100 score
-    
-    // Candidate quality score (based on average assessment score)
-    const candidateQualityScore = assessmentMetrics.averageScore > 0 
-      ? assessmentMetrics.averageScore 
-      : 60; // Default if no assessments
-    
-    // Source diversity score (more sources is better)
-    const sourceCount = Object.keys(sourceMetrics).length;
-    const sourceDiversityScore = Math.min(sourceCount * 20, 100); // 5+ sources = 100 score
-    
-    // Calculate weighted score
-    const weightedScore = 
-      (timeToHireScore * PERFORMANCE_WEIGHTS.timeToHire) +
-      (conversionScore * PERFORMANCE_WEIGHTS.conversionRate) +
-      (candidateQualityScore * PERFORMANCE_WEIGHTS.candidateQuality) +
-      (sourceDiversityScore * PERFORMANCE_WEIGHTS.sourceDiversity);
-    
-    return Math.round(weightedScore);
-  }, []);
+  const recruitmentEfficiency = calculateRecruitmentEfficiency(
+    avgTimeToHire,
+    conversionRate,
+    assessmentMetrics.averageScore,
+    Object.keys(sourceMetrics).length
+  );
+  
+  // Calculate funnel efficiency using our service
+  const stageOrder = [
+    RecruitmentStage.APPLIED,
+    RecruitmentStage.RESUME_SHORTLISTED,
+    RecruitmentStage.ASSESSMENT_SENT,
+    RecruitmentStage.INTERVIEW_SCHEDULED,
+    RecruitmentStage.FEEDBACK_DONE,
+    RecruitmentStage.HIRED
+  ];
+  
+  const funnelEfficiency = calculateFunnelEfficiency(stageOrder, stageMetrics);
   
   // Calculate skill heat map - for top skills, which ones are in high demand but low supply
   const skillHeatMap = useMemo(() => {
@@ -176,38 +154,6 @@ export default function AnalyticsPage() {
     
     return heatMap;
   }, []);
-  
-  // Calculate funnel efficiency - conversion between stages
-  const funnelEfficiency = useMemo(() => {
-    const stageOrder = [
-      RecruitmentStage.APPLIED,
-      RecruitmentStage.RESUME_SHORTLISTED,
-      RecruitmentStage.ASSESSMENT_SENT,
-      RecruitmentStage.INTERVIEW_SCHEDULED,
-      RecruitmentStage.FEEDBACK_DONE,
-      RecruitmentStage.HIRED
-    ];
-    
-    return stageOrder.map((stage, index) => {
-      if (index === 0) return { 
-        from: 'Total', 
-        to: stage, 
-        rate: 100,
-        count: stageMetrics[stage] || 0
-      };
-      
-      const previousStage = stageOrder[index - 1];
-      const previousCount = stageMetrics[previousStage] || 0;
-      const currentCount = stageMetrics[stage] || 0;
-      
-      return {
-        from: previousStage,
-        to: stage,
-        rate: previousCount > 0 ? Math.round((currentCount / previousCount) * 100) : 0,
-        count: currentCount
-      };
-    });
-  }, []);
 
   return (
     <div className="p-6">
@@ -238,47 +184,106 @@ export default function AnalyticsPage() {
           </div>
           <div className="px-6 py-5 flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-20 h-20 rounded-full border-8 border-gray-200 relative flex items-center justify-center">
-                <svg viewBox="0 0 36 36" className="absolute inset-0 w-full h-full">
-                  <path
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#EEEEEE"
-                    strokeWidth="3"
-                    strokeDasharray="100, 100"
+              <div className="relative w-28 h-28">
+                {/* Circular progress background */}
+                <svg className="w-full h-full" viewBox="0 0 100 100">
+                  {/* Background circle */}
+                  <circle 
+                    cx="50" 
+                    cy="50" 
+                    r="45" 
+                    fill="none" 
+                    stroke="#f3f4f6" 
+                    strokeWidth="10" 
                   />
-                  <path
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke={recruitmentEfficiency >= 75 ? '#22C55E' : recruitmentEfficiency >= 50 ? '#FBBF24' : '#EF4444'}
-                    strokeWidth="3"
-                    strokeDasharray={`${recruitmentEfficiency}, 100`}
+                  
+                  {/* Progress circle with gradient */}
+                  <circle 
+                    cx="50" 
+                    cy="50" 
+                    r="45"
+                    fill="none" 
+                    stroke={
+                      recruitmentEfficiency >= 75 ? "url(#gradientGreen)" : 
+                      recruitmentEfficiency >= 50 ? "url(#gradientYellow)" : 
+                      "url(#gradientRed)"
+                    }
+                    strokeWidth="10" 
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 45 * recruitmentEfficiency / 100} ${2 * Math.PI * 45}`}
+                    transform="rotate(-90 50 50)"
                   />
+                  
+                  {/* Gradient definitions */}
+                  <defs>
+                    <linearGradient id="gradientGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#10B981" />
+                      <stop offset="100%" stopColor="#059669" />
+                    </linearGradient>
+                    <linearGradient id="gradientYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FBBF24" />
+                      <stop offset="100%" stopColor="#D97706" />
+                    </linearGradient>
+                    <linearGradient id="gradientRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#EF4444" />
+                      <stop offset="100%" stopColor="#B91C1C" />
+                    </linearGradient>
+                  </defs>
                 </svg>
-                <span className="text-2xl font-bold">{recruitmentEfficiency}</span>
+                
+                {/* Score text */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-3xl font-bold">{recruitmentEfficiency}</span>
+                </div>
               </div>
+              
               <div className="ml-6">
-                <span className="text-sm font-medium text-gray-500">
+                <span className={`text-sm font-semibold px-3 py-1 rounded-full 
+                  ${recruitmentEfficiency >= 80 ? 'bg-green-100 text-green-800' : 
+                   recruitmentEfficiency >= 70 ? 'bg-green-50 text-green-700' : 
+                   recruitmentEfficiency >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                   recruitmentEfficiency >= 50 ? 'bg-yellow-50 text-yellow-700' : 'bg-red-100 text-red-800'}`}>
                   {recruitmentEfficiency >= 80 ? 'Excellent' : 
                    recruitmentEfficiency >= 70 ? 'Very Good' : 
                    recruitmentEfficiency >= 60 ? 'Good' :
                    recruitmentEfficiency >= 50 ? 'Average' : 'Needs Improvement'}
                 </span>
-                <p className="mt-1 text-sm text-gray-500">Based on time-to-hire, conversion rate, candidate quality, and source diversity</p>
+                <p className="mt-3 text-sm text-gray-500">Based on time-to-hire, conversion rate, candidate quality, and source diversity</p>
+                
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="flex items-center">
+                    <div className={`w-2 h-2 rounded-full ${timeToHire.length > 0 && avgTimeToHire < 25 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                    <span className="ml-2 text-xs text-gray-500">Time-to-hire</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className={`w-2 h-2 rounded-full ${totalCandidates > 0 && (stageMetrics[RecruitmentStage.HIRED] / totalCandidates) > 0.1 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                    <span className="ml-2 text-xs text-gray-500">Conversion rate</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className={`w-2 h-2 rounded-full ${assessmentMetrics.averageScore > 80 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                    <span className="ml-2 text-xs text-gray-500">Candidate quality</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className={`w-2 h-2 rounded-full ${Object.keys(sourceMetrics).length > 3 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                    <span className="ml-2 text-xs text-gray-500">Source diversity</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-gray-50 p-4 rounded-lg text-center">
                 <span className="block text-sm font-medium text-gray-500">Time to Hire</span>
-                <span className="text-2xl font-semibold text-gray-900">{avgTimeToHire} days</span>
+                <span className="text-2xl font-semibold text-gray-900">{avgTimeToHire}</span>
+                <span className="text-sm text-gray-500 ml-1">days</span>
               </div>
-              <div className="text-center">
+              <div className="bg-gray-50 p-4 rounded-lg text-center">
                 <span className="block text-sm font-medium text-gray-500">Conversion Rate</span>
                 <span className="text-2xl font-semibold text-gray-900">
                   {totalCandidates > 0 
                     ? Math.round((stageMetrics[RecruitmentStage.HIRED] / totalCandidates) * 100)
-                    : 0}%
+                    : 0}
                 </span>
+                <span className="text-sm text-gray-500 ml-1">%</span>
               </div>
             </div>
           </div>
@@ -377,36 +382,63 @@ export default function AnalyticsPage() {
             <h3 className="text-lg font-medium text-gray-900">Recruitment Funnel Efficiency</h3>
           </div>
           <div className="p-6">
-            <div className="flex justify-between items-center">
-              {funnelEfficiency.map((stage, i) => (
-                <div key={stage.to} className="flex flex-col items-center relative">
-                  {/* Funnel stage */}
-                  <div 
-                    className={`w-24 h-16 flex items-center justify-center text-white font-bold ${
-                      i === funnelEfficiency.length - 1 ? 'bg-green-500' : 'bg-blue-500'
-                    }`}
-                    style={{
-                      clipPath: 'polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%)'
-                    }}
-                  >
-                    {stage.count}
-                  </div>
-                  
-                  {/* Stage name */}
-                  <div className="mt-2 text-xs font-medium text-gray-500 text-center w-24">
-                    {stage.to.replace(/_/g, ' ').toLowerCase()}
-                  </div>
-                  
-                  {/* Conversion rate arrow */}
-                  {i > 0 && (
-                    <div className="absolute top-8 -left-12 text-xs font-medium">
-                      <div className={`${stage.rate >= 50 ? 'text-green-600' : 'text-red-600'}`}>
-                        {stage.rate}%
+            <div className="flex flex-col items-center">
+              <div className="w-full max-w-4xl">
+                {funnelEfficiency.map((stage, i) => (
+                  <div key={stage.to} className="mb-4 relative">
+                    <div className="flex items-center">
+                      {/* Stage count */}
+                      <div 
+                        className={`px-6 py-3 w-full rounded-md text-center font-medium shadow-sm transition-all duration-300 ${
+                          i === funnelEfficiency.length - 1 
+                            ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' 
+                            : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                        }`}
+                        style={{
+                          width: `${Math.max(30, (stage.count / Math.max(...funnelEfficiency.map(s => s.count))) * 100)}%`,
+                          height: '60px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <span className="text-lg font-bold">{stage.count}</span>
+                        <span className="ml-3 text-sm capitalize">
+                          {stage.to.replace(/_/g, ' ').toLowerCase()}
+                        </span>
                       </div>
+                      
+                      {/* Conversion rate */}
+                      {i > 0 && (
+                        <div className="ml-4 w-20 text-sm font-medium">
+                          <div className={`
+                            ${stage.rate >= 70 ? 'text-green-600' : 
+                              stage.rate >= 50 ? 'text-yellow-600' : 
+                              'text-red-600'
+                            } flex items-center
+                          `}>
+                            <span className="text-lg font-bold">{stage.rate}%</span>
+                            {stage.rate >= 50 ? (
+                              <FiTrendingUp className="ml-1" />
+                            ) : (
+                              <FiTrendingUp className="ml-1 transform rotate-180" />
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                    
+                    {/* Connector */}
+                    {i < funnelEfficiency.length - 1 && (
+                      <div className="w-8 h-8 mx-auto mt-1 mb-1 flex justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 10l5 5 5-5" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

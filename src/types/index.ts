@@ -47,6 +47,8 @@ export interface Candidate {
   notes?: string;
   assessment?: Assessment;
   skillCompetencies?: Skill[]; // Optional dedicated field for skill competencies
+  interview?: Interview; // Add interview property
+  lastUpdated?: string; // Add lastUpdated property
 }
 
 export interface Task {

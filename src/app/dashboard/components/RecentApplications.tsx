@@ -5,7 +5,7 @@ import { candidates, jobs } from '@/data/jobs';
 export default function RecentApplications() {
   // Get recent applications sorted by date
   const recentApplications = candidates
-    .sort((a, b) => new Date(b.applicationDate).getTime() - new Date(a.applicationDate).getTime())
+    .sort((a, b) => new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime())
     .slice(0, 5);
 
   // Get job title for a candidate
@@ -50,7 +50,7 @@ export default function RecentApplications() {
               </div>
               <div className="flex flex-col items-end">
                 <div className="text-sm text-gray-900">
-                  {formatDate(candidate.applicationDate)}
+                  {formatDate(candidate.appliedDate)}
                 </div>
                 <span className={`mt-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                   candidate.stage === 'Applied' ? 'bg-blue-100 text-blue-800' :

@@ -87,10 +87,15 @@ export const getCandidatesByStageGroup = (
 // Calculate time-to-hire metrics (in days)
 export const calculateTimeToHire = (candidates: Candidate[]): number => {
   const timeToHire = candidates
-    .filter(c => c.stage === RecruitmentStage.HIRED)
+    .filter(c => c.stage === RecruitmentStage.HIRED && c.appliedDate)
     .map(c => {
-      const applicationDate = new Date(c.applicationDate);
-      const hireDate = new Date(c.lastUpdated);
+      const applicationDate = new Date(c.appliedDate);
+      
+      // Use lastUpdated if available, otherwise use the current date
+      const hireDate = c.lastUpdated 
+        ? new Date(c.lastUpdated) 
+        : new Date(); // Fallback to today if no lastUpdated date
+        
       return Math.ceil((hireDate.getTime() - applicationDate.getTime()) / (1000 * 60 * 60 * 24));
     });
   
