@@ -40,7 +40,7 @@ export default function InterviewsPage() {
   // Get all candidates with interviews
   const interviews = useMemo(() => {
     return candidates
-      .filter(candidate => candidate.stage === RecruitmentStage.INTERVIEW_SCHEDULED)
+      .filter(candidate => candidate.stage === RecruitmentStage.INTERVIEWED)
       .map(candidate => ({
         id: candidate.id,
         candidate: {
@@ -137,89 +137,99 @@ export default function InterviewsPage() {
           </div>
 
           {view === 'list' ? (
-            <div className="divide-y divide-gray-200">
-              {filteredInterviews.map((interview) => (
-                <div 
-                  key={interview.id} 
-                  className="p-4 hover:bg-gray-50 cursor-pointer"
-                  onClick={() => setSelectedInterview(interview)}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                          <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                            <FiUser className="h-5 w-5 text-primary-600" />
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Candidate
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date & Time
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Interview Type
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Interviewers
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Scores
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredInterviews.map((interview) => (
+                    <tr 
+                      key={interview.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => setSelectedInterview(interview)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
+                            <FiUser className="h-4 w-4 text-primary-600" />
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">{interview.candidate.name}</div>
+                            <div className="text-sm text-gray-500">{interview.candidate.position}</div>
                           </div>
                         </div>
-                        <div className="ml-4">
-                          <h3 className="text-sm font-medium text-gray-900">
-                            {interview.candidate.name}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {interview.candidate.position}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 sm:mt-0 sm:ml-6">
-                      <div className="flex items-center text-sm text-gray-500">
-                        <FiCalendar className="mr-1.5 h-4 w-4" />
-                        {interview.date}
-                      </div>
-                      <div className="flex items-center text-sm text-gray-500 mt-1">
-                        <FiClock className="mr-1.5 h-4 w-4" />
-                        {interview.time}
-                      </div>
-                    </div>
-                    <div className="mt-4 sm:mt-0 sm:ml-6">
-                      <div className="flex items-center text-sm text-gray-500">
-                        <FiBriefcase className="mr-1.5 h-4 w-4" />
-                        {interview.type}
-                      </div>
-                      <div className="text-sm text-gray-500 mt-1">
-                        {interview.interviewers.join(', ')}
-                      </div>
-                    </div>
-                    <div className="mt-4 sm:mt-0 sm:ml-6">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        interview.status === 'Scheduled' ? 'bg-blue-100 text-blue-800' :
-                        interview.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {interview.status}
-                      </span>
-                    </div>
-                  </div>
-                  {interview.notes && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center">
-                          <FiStar className="h-4 w-4 text-yellow-400" />
-                          <span className="ml-1 text-sm text-gray-500">
-                            AI Score: {interview.notes.aiScore}%
-                          </span>
-                        </div>
-                        <div className="flex items-center">
-                          <FiStar className="h-4 w-4 text-blue-400" />
-                          <span className="ml-1 text-sm text-gray-500">
-                            Human Score: {interview.notes.humanScore}%
-                          </span>
-                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{interview.date}</div>
+                        <div className="text-sm text-gray-500">{interview.time}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{interview.type}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{interview.interviewers.join(', ')}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          interview.status === 'Scheduled' ? 'bg-blue-100 text-blue-800' :
+                          interview.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {interview.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {interview.notes && (
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center">
+                              <FiStar className="h-4 w-4 text-yellow-400" />
+                              <span className="ml-1 text-sm text-gray-500">AI: {interview.notes.aiScore}%</span>
+                            </div>
+                            <div className="flex items-center">
+                              <FiStar className="h-4 w-4 text-blue-400" />
+                              <span className="ml-1 text-sm text-gray-500">Human: {interview.notes.humanScore}%</span>
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <a 
                           href={interview.gmeetLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-sm text-primary-600 hover:text-primary-700"
+                          className="text-primary-600 hover:text-primary-900"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          <FiVideo className="mr-1.5 h-4 w-4" />
-                          Join Meeting
+                          <FiVideo className="h-5 w-5" />
                         </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
             <div className="p-4">

@@ -46,42 +46,56 @@ export default function CandidatesPage() {
   const pipelineStages = useMemo(() => {
     return [
       { 
-        id: 'screening', 
-        name: 'Screening', 
+        id: 'applied', 
+        name: 'Applied', 
         color: 'bg-blue-100 text-blue-800', 
-        stages: [
-          RecruitmentStage.APPLIED,
-          RecruitmentStage.OUTREACHED,
-          RecruitmentStage.ENGAGED,
-          RecruitmentStage.RESUME_SHORTLISTED
-        ]
+        stages: [RecruitmentStage.APPLIED]
       },
       { 
-        id: 'assessment', 
-        name: 'Assessment', 
-        color: 'bg-yellow-100 text-yellow-800', 
-        stages: [RecruitmentStage.ASSESSMENT_SENT] 
-      },
-      { 
-        id: 'interview', 
-        name: 'Interview', 
-        color: 'bg-purple-100 text-purple-800', 
-        stages: [RecruitmentStage.INTERVIEW_SCHEDULED] 
-      },
-      { 
-        id: 'offer', 
-        name: 'Offer', 
+        id: 'shortlisted', 
+        name: 'Shortlisted', 
         color: 'bg-green-100 text-green-800', 
-        stages: [RecruitmentStage.FEEDBACK_DONE] 
+        stages: [RecruitmentStage.SHORTLISTED]
+      },
+      { 
+        id: 'interviewed', 
+        name: 'Interviewed', 
+        color: 'bg-purple-100 text-purple-800', 
+        stages: [RecruitmentStage.INTERVIEWED]
+      },
+      { 
+        id: 'rejected', 
+        name: 'Rejected', 
+        color: 'bg-red-100 text-red-800', 
+        stages: [RecruitmentStage.REJECTED]
+      },
+      { 
+        id: 'offer_extended', 
+        name: 'Offer Extended', 
+        color: 'bg-yellow-100 text-yellow-800', 
+        stages: [RecruitmentStage.OFFER_EXTENDED]
+      },
+      { 
+        id: 'offer_rejected', 
+        name: 'Offer Rejected', 
+        color: 'bg-orange-100 text-orange-800', 
+        stages: [RecruitmentStage.OFFER_REJECTED]
       },
       { 
         id: 'hired', 
         name: 'Hired', 
-        color: 'bg-indigo-100 text-indigo-800', 
-        stages: [RecruitmentStage.HIRED] 
+        color: 'bg-emerald-100 text-emerald-800', 
+        stages: [RecruitmentStage.HIRED]
       }
     ];
   }, []);
+
+  // Get candidates for each pipeline stage
+  const getCandidatesInStage = (stageGroup: typeof pipelineStages[0]) => {
+    return filteredCandidates.filter(candidate => 
+      stageGroup.stages.includes(candidate.stage)
+    ).length;
+  };
 
   // Get match percentage from assessment
   const getMatchPercentage = (candidate: Candidate) => {
@@ -126,9 +140,9 @@ export default function CandidatesPage() {
         type: 'application'
       });
 
-      // Add interview date if scheduled
-      if (candidate.stage === RecruitmentStage.INTERVIEW_SCHEDULED) {
-        // For interview scheduled candidates, set interview date 5 days after application
+      // Add interview date if interviewed
+      if (candidate.stage === RecruitmentStage.INTERVIEWED) {
+        // For interviewed candidates, set interview date 5 days after application
         const interviewDate = new Date(applicationDate);
         interviewDate.setDate(interviewDate.getDate() + 5);
         const interviewDateStr = formatDate(interviewDate);
@@ -251,9 +265,9 @@ export default function CandidatesPage() {
 
         {/* Pipeline Stages */}
         {view === 'list' && (
-          <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-4">
             {pipelineStages.map(stage => {
-              const candidatesInStage = getCandidatesByStageGroup(candidates, stage.id);
+              const candidatesInStage = getCandidatesInStage(stage);
               return (
                 <button
                   key={stage.id}
@@ -266,7 +280,7 @@ export default function CandidatesPage() {
                 >
                   <div className="flex justify-between items-center">
                     <h3 className="font-medium">{stage.name}</h3>
-                    <span className="text-sm font-semibold">{candidatesInStage.length}</span>
+                    <span className="text-sm font-semibold">{candidatesInStage}</span>
                   </div>
                 </button>
               );
@@ -276,76 +290,90 @@ export default function CandidatesPage() {
 
         {/* Content */}
         {view === 'list' ? (
-          // Existing list view code
-          <div className="bg-white shadow rounded-lg">
-            <div className="divide-y divide-gray-200">
-              {filteredCandidates.map((candidate) => {
-                const job = jobs.find(j => j.id === candidate.jobId);
-                return (
-                  <div 
-                    key={candidate.id} 
-                    className="p-6 hover:bg-gray-50 transition-colors duration-150 ease-in-out"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="flex-shrink-0">
-                          <div className="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-                            <FiUser className="h-6 w-6 text-primary-600" />
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Candidate
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Position
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Contact
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Stage
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Applied Date
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Assessment
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredCandidates.map((candidate) => {
+                    const job = jobs.find(j => j.id === candidate.jobId);
+                    return (
+                      <tr 
+                        key={candidate.id}
+                        className="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                <FiUser className="h-5 w-5 text-primary-600" />
+                              </div>
+                            </div>
+                            <div className="ml-4">
+                              <Link
+                                href={`/candidates/${candidate.id}`}
+                                className="text-sm font-medium text-gray-900 hover:text-primary-600"
+                              >
+                                {candidate.name}
+                              </Link>
+                              <div className="text-sm text-gray-500">{candidate.location}</div>
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <Link
-                            href={`/candidates/${candidate.id}`}
-                            className="text-lg font-medium text-gray-900 hover:text-primary-600"
-                          >
-                            {candidate.name}
-                          </Link>
-                          <div className="mt-1 flex items-center space-x-4">
-                            <span className="text-sm text-gray-500">{candidate.currentTitle}</span>
-                            <span className="text-sm text-gray-500">{candidate.location}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 sm:mt-0 flex items-center space-x-4">
-                        <div className="flex flex-col items-end">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{job?.title}</div>
+                          <div className="text-sm text-gray-500">{candidate.currentTitle}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{candidate.email}</div>
+                          <div className="text-sm text-gray-500">{candidate.phone}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             getStageColor(candidate.stage)
                           }`}>
                             {formatStageName(candidate.stage)}
                           </span>
-                          <span className="mt-1 text-sm text-gray-500">
-                            Applied {new Date(candidate.appliedDate).toLocaleDateString()}
-                          </span>
-                        </div>
-                        {candidate.assessment?.score && (
-                          <div className="flex items-center space-x-2">
-                            <FiBarChart2 className="h-5 w-5 text-gray-400" />
-                            <span className="text-sm font-medium text-gray-900">
-                              {candidate.assessment.score}%
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="flex items-center space-x-2">
-                        <FiBriefcase className="h-5 w-5 text-gray-400" />
-                        <span className="text-sm text-gray-500">
-                          Applied for: <span className="font-medium text-gray-900">{job?.title}</span>
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <FiMail className="h-5 w-5 text-gray-400" />
-                        <span className="text-sm text-gray-500">{candidate.email}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <FiPhone className="h-5 w-5 text-gray-400" />
-                        <span className="text-sm text-gray-500">{candidate.phone}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(candidate.appliedDate).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {candidate.assessment?.score && (
+                            <div className="flex items-center">
+                              <FiBarChart2 className="h-5 w-5 text-gray-400 mr-2" />
+                              <span className="text-sm font-medium text-gray-900">
+                                {candidate.assessment.score}%
+                              </span>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
 
             {filteredCandidates.length === 0 && (

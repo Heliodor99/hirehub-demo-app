@@ -190,14 +190,12 @@ export interface Company {
 
 export enum RecruitmentStage {
   APPLIED = 'Applied',
-  OUTREACHED = 'Outreached',
-  ENGAGED = 'Engaged',
-  RESUME_SHORTLISTED = 'Resume Shortlisted',
-  ASSESSMENT_SENT = 'Assessment Sent',
-  INTERVIEW_SCHEDULED = 'Interview Scheduled',
-  FEEDBACK_DONE = 'Feedback Done',
-  HIRED = 'Hired',
-  REJECTED = 'Rejected'
+  SHORTLISTED = 'Shortlisted',
+  INTERVIEWED = 'Interviewed',
+  REJECTED = 'Rejected',
+  OFFER_EXTENDED = 'Offer Extended',
+  OFFER_REJECTED = 'Offer Rejected',
+  HIRED = 'Hired'
 }
 
 export interface Education {

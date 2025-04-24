@@ -108,11 +108,12 @@ export default function AnalyticsPage() {
   // Calculate funnel efficiency using our service
   const stageOrder = [
     RecruitmentStage.APPLIED,
-    RecruitmentStage.RESUME_SHORTLISTED,
-    RecruitmentStage.ASSESSMENT_SENT,
-    RecruitmentStage.INTERVIEW_SCHEDULED,
-    RecruitmentStage.FEEDBACK_DONE,
-    RecruitmentStage.HIRED
+    RecruitmentStage.SHORTLISTED,
+    RecruitmentStage.INTERVIEWED,
+    RecruitmentStage.OFFER_EXTENDED,
+    RecruitmentStage.OFFER_REJECTED,
+    RecruitmentStage.HIRED,
+    RecruitmentStage.REJECTED
   ];
   
   const funnelEfficiency = calculateFunnelEfficiency(stageOrder, stageMetrics);

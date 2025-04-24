@@ -4,54 +4,59 @@ import { RecruitmentStage, Candidate } from '@/types';
 export const getStageColor = (stage: RecruitmentStage): string => {
   const colors: Record<RecruitmentStage, string> = {
     [RecruitmentStage.APPLIED]: 'bg-blue-100 text-blue-800',
-    [RecruitmentStage.OUTREACHED]: 'bg-purple-100 text-purple-800',
-    [RecruitmentStage.ENGAGED]: 'bg-indigo-100 text-indigo-800',
-    [RecruitmentStage.RESUME_SHORTLISTED]: 'bg-green-100 text-green-800',
-    [RecruitmentStage.ASSESSMENT_SENT]: 'bg-yellow-100 text-yellow-800',
-    [RecruitmentStage.INTERVIEW_SCHEDULED]: 'bg-orange-100 text-orange-800',
-    [RecruitmentStage.FEEDBACK_DONE]: 'bg-pink-100 text-pink-800',
-    [RecruitmentStage.HIRED]: 'bg-emerald-100 text-emerald-800',
+    [RecruitmentStage.SHORTLISTED]: 'bg-green-100 text-green-800',
+    [RecruitmentStage.INTERVIEWED]: 'bg-purple-100 text-purple-800',
     [RecruitmentStage.REJECTED]: 'bg-red-100 text-red-800',
+    [RecruitmentStage.OFFER_EXTENDED]: 'bg-yellow-100 text-yellow-800',
+    [RecruitmentStage.OFFER_REJECTED]: 'bg-orange-100 text-orange-800',
+    [RecruitmentStage.HIRED]: 'bg-emerald-100 text-emerald-800'
   };
   return colors[stage] || 'bg-gray-100 text-gray-800';
 };
 
-// Standard pipeline stage groups
+// Pipeline stages matching recruitment stages exactly
 export const pipelineStageGroups = [
   { 
-    id: 'screening', 
-    name: 'Screening', 
+    id: 'applied', 
+    name: 'Applied', 
     color: 'bg-blue-100 text-blue-800', 
-    stages: [
-      RecruitmentStage.APPLIED,
-      RecruitmentStage.OUTREACHED,
-      RecruitmentStage.ENGAGED,
-      RecruitmentStage.RESUME_SHORTLISTED
-    ]
+    stages: [RecruitmentStage.APPLIED]
   },
   { 
-    id: 'assessment', 
-    name: 'Assessment', 
-    color: 'bg-yellow-100 text-yellow-800', 
-    stages: [RecruitmentStage.ASSESSMENT_SENT] 
-  },
-  { 
-    id: 'interview', 
-    name: 'Interview', 
-    color: 'bg-purple-100 text-purple-800', 
-    stages: [RecruitmentStage.INTERVIEW_SCHEDULED] 
-  },
-  { 
-    id: 'offer', 
-    name: 'Offer', 
+    id: 'shortlisted', 
+    name: 'Shortlisted', 
     color: 'bg-green-100 text-green-800', 
-    stages: [RecruitmentStage.FEEDBACK_DONE] 
+    stages: [RecruitmentStage.SHORTLISTED]
+  },
+  { 
+    id: 'interviewed', 
+    name: 'Interviewed', 
+    color: 'bg-purple-100 text-purple-800', 
+    stages: [RecruitmentStage.INTERVIEWED]
+  },
+  { 
+    id: 'rejected', 
+    name: 'Rejected', 
+    color: 'bg-red-100 text-red-800', 
+    stages: [RecruitmentStage.REJECTED]
+  },
+  { 
+    id: 'offer_extended', 
+    name: 'Offer Extended', 
+    color: 'bg-yellow-100 text-yellow-800', 
+    stages: [RecruitmentStage.OFFER_EXTENDED]
+  },
+  { 
+    id: 'offer_rejected', 
+    name: 'Offer Rejected', 
+    color: 'bg-orange-100 text-orange-800', 
+    stages: [RecruitmentStage.OFFER_REJECTED]
   },
   { 
     id: 'hired', 
     name: 'Hired', 
-    color: 'bg-indigo-100 text-indigo-800', 
-    stages: [RecruitmentStage.HIRED] 
+    color: 'bg-emerald-100 text-emerald-800', 
+    stages: [RecruitmentStage.HIRED]
   }
 ];
 
@@ -105,6 +110,7 @@ export const calculateTimeToHire = (candidates: Candidate[]): number => {
 };
 
 // Format stage name for display
-export const formatStageName = (stage: RecruitmentStage): string => {
-  return stage.replace(/_/g, ' ').toLowerCase();
+export const formatStageName = (stage: RecruitmentStage | undefined): string => {
+  if (!stage) return '';
+  return stage; // The enum values are already in the desired format ('Applied', 'Shortlisted', etc.)
 }; 
