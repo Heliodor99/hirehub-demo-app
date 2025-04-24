@@ -26,11 +26,22 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
   const timeline: CommunicationEvent[] = [];
   
   // Determine if this is a HireHub outreach case
-  const isHireHubOutreach = candidate.source === 'HireHub';
+  const isHireHubSource = candidate.source === 'HireHub';
   
   // Start date will be 14 days before application date for outreach
+  // But we need to make sure we're not generating dates too far in the past
   const applicationDate = new Date(candidate.appliedDate);
-  const startDate = addDays(applicationDate, isHireHubOutreach ? -14 : -7); // Outreach starts earlier for HireHub cases
+  
+  // Ensure we don't go back more than 60 days from today
+  const today = new Date();
+  const sixtyDaysAgo = new Date();
+  sixtyDaysAgo.setDate(today.getDate() - 60);
+  
+  // For outreach, go back 14 days from application date, but no earlier than 60 days ago
+  let startDate = addDays(applicationDate, -14);
+  if (startDate < sixtyDaysAgo) {
+    startDate = new Date(sixtyDaysAgo);
+  }
   
   let currentDate = new Date(startDate);
   let eventCounter = 1;
@@ -43,10 +54,10 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
     { type: 'whatsapp' as const, channel: 'WhatsApp' }
   ];
   
-  // For HireHub outreach, use only Email or WhatsApp with 50/50 chance
+  // For HireHub sources, use only Email or WhatsApp with 50/50 chance
   let initialChannel = randomSelect(outreachChannels);
-  if (isHireHubOutreach) {
-    // 50% WhatsApp, 50% Email for HireHub outreach
+  if (isHireHubSource) {
+    // 50% WhatsApp, 50% Email for HireHub sources
     initialChannel = Math.random() < 0.5 
       ? { type: 'whatsapp' as const, channel: 'WhatsApp' }
       : { type: 'email' as const, channel: 'Email' };
@@ -66,12 +77,21 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
     recipient: candidate.email
   });
   
-  // If the candidate is only in the OUTREACHED stage, we stop here without adding responses
-  if (candidate.stage === RecruitmentStage.OUTREACHED) {
-    // Maybe add a follow-up message after a few days
-    currentDate = addDays(currentDate, 3);
+  // If the candidate is only in the OUTREACHED stage or has HireHub source, we always show outreach-first pattern
+  if (candidate.stage === RecruitmentStage.OUTREACHED || isHireHubSource) {
+    // Make sure we're not going beyond application date with follow-ups
+    if (addDays(currentDate, 3) < applicationDate) {
+      // Make sure follow-up doesn't go beyond application date
+    if (addDays(currentDate, 3) < applicationDate) {
+      currentDate = addDays(currentDate, 3);
+    } else {
+      currentDate = addDays(applicationDate, -1); // One day before application
+    }
+    } else {
+      currentDate = addDays(applicationDate, -1); // One day before application
+    }
     
-    // Add a follow-up outreach
+    // Add a follow-up outreach using the same channel
     timeline.push({
       id: `${candidate.id}-${eventCounter++}`,
       date: formatDate(currentDate),
@@ -86,10 +106,47 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
       recipient: candidate.email
     });
     
-    return timeline;
+    // If truly in OUTREACHED stage, return here - no candidate responses
+    if (candidate.stage === RecruitmentStage.OUTREACHED) {
+      return timeline;
+    }
+    
+    // For HireHub sources in later stages, continue with more outreach attempts
+    if (isHireHubSource) {
+      // Ensure we're not going beyond application date
+      if (addDays(currentDate, 4) < applicationDate) {
+        // Ensure third message doesn't exceed application date
+    if (addDays(currentDate, 4) < applicationDate) {
+      currentDate = addDays(currentDate, 4);
+    } else {
+      currentDate = new Date(applicationDate); // Use application date
+    }
+      } else {
+        currentDate = new Date(applicationDate); // Use application date
+      }
+      
+      // Try a different channel for the third attempt if was using email before
+      const thirdChannel = initialChannel.type === 'email' 
+        ? { type: 'whatsapp' as const, channel: 'WhatsApp' }
+        : initialChannel;
+      
+      timeline.push({
+        id: `${candidate.id}-${eventCounter++}`,
+        date: formatDate(currentDate),
+        time: randomTime(),
+        type: thirdChannel.type,
+        channel: thirdChannel.channel,
+        subject: `One more follow-up: ${job.title} at ${job.company}`,
+        content: `Hello ${candidate.name},\n\nI hope this message finds you well. I wanted to reach out one final time regarding the ${job.title} role at ${job.company}.\n\nBased on your background at ${candidate.currentCompany}, I believe this could be a great opportunity for you. If you're interested in learning more, please let me know.\n\nBest regards,\n${job.recruiter}`,
+        direction: 'outbound',
+        status: 'sent',
+        sender: job.recruiter,
+        recipient: candidate.email
+      });
+    }
   }
   
-  // For stages beyond OUTREACHED, add candidate response
+  // For stages beyond OUTREACHED and non-HireHub sources, add candidate response
   // Add 1-2 days for candidate response
   currentDate = addDays(currentDate, 1 + Math.floor(Math.random() * 2));
   
@@ -148,15 +205,18 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
   // Fast forward to the application date
   currentDate = new Date(applicationDate);
   
+  // For HireHub sources, this is the point where the candidate officially enters the system
+  const appChannel = isHireHubSource ? initialChannel : { type: 'system' as const, channel: 'Application Portal' };
+  
   // Application received
   timeline.push({
     id: `${candidate.id}-${eventCounter++}`,
     date: formatDate(currentDate),
     time: randomTime(9, 13),
-    type: 'system',
-    channel: 'Application Portal',
+    type: appChannel.type,
+    channel: appChannel.channel,
     subject: 'Application Submitted',
-    content: `${candidate.name} submitted an application for the ${job.title} position`,
+    content: `${candidate.name} submitted an application for the ${job.title} position${isHireHubSource ? ' following our outreach' : ''}`,
     direction: 'system',
     status: 'completed',
     metadata: {
@@ -257,7 +317,10 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
   currentDate = addDays(currentDate, 1);
   
   // Schedule interview
-  const interviewDate = addDays(currentDate, 3);
+  // Ensure interview date is reasonable and recent
+    const maxInterviewDate = addDays(new Date(), -3); // No more than 3 days ago
+    const suggestedInterviewDate = addDays(currentDate, 3);
+    const interviewDate = suggestedInterviewDate > maxInterviewDate ? suggestedInterviewDate : maxInterviewDate;
   const interviewTime = randomTime(10, 15);
   
   timeline.push({

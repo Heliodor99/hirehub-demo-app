@@ -17,7 +17,7 @@ const CandidateCompetencyChart: React.FC<CandidateCompetencyChartProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-sm p-4 ${className}`}>
+    <div className={`bg-white rounded-xl shadow-sm p-6 border border-gray-100 backdrop-blur-sm ${className}`}>
       <div className="flex flex-col space-y-2 mb-4">
         <h3 className="text-lg font-medium text-gray-900">{candidateName} - Skill Competency</h3>
         <p className="text-sm text-gray-500">
@@ -32,14 +32,14 @@ const CandidateCompetencyChart: React.FC<CandidateCompetencyChartProps> = ({
         animated={true}
       />
       
-      <div className="mt-4 grid grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {skills.map((skill) => (
-          <div key={`${candidateId}-${skill.name}`} className="flex justify-between items-center">
-            <span className="text-sm text-gray-700">{skill.name}</span>
-            <div className="flex items-center">
-              <div className="w-24 h-2 bg-gray-200 rounded-full mr-2">
+          <div key={`${candidateId}-${skill.name}`} className="flex justify-between items-center p-3 rounded-lg bg-white/80 border border-gray-100 shadow-sm">
+            <span className="text-sm font-medium text-gray-700">{skill.name}</span>
+            <div className="flex items-center gap-2">
+              <div className="w-24 h-3 bg-gray-100 rounded-full">
                 <div 
-                  className="h-full bg-purple-600 rounded-full" 
+                  className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500" 
                   style={{ width: `${(skill.proficiency / 10) * 100}%` }}
                 />
               </div>

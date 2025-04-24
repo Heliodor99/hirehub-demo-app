@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageCircle, FiFileText, FiClock, FiArrowLeft, FiUsers, FiVideo, FiChevronUp, FiChevronDown, FiLinkedin, FiMessageSquare } from 'react-icons/fi';
+import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageSquare, FiFileText, FiClock, FiArrowLeft, FiUsers, FiVideo, FiChevronUp, FiChevronDown, FiLinkedin } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
 import CandidateCompetencyChart from '@/components/CandidateCompetencyChart';
@@ -320,43 +320,43 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
           </div>
           
           {/* Candidate Header */}
-          <div className="bg-white rounded-lg shadow-md">
+          <div className="bg-white backdrop-blur-sm bg-white/90 rounded-xl shadow-lg border border-gray-100">
             <div className="p-6">
               <div className="flex justify-between items-start">
                 <div className="flex items-start space-x-4">
-                  <div className="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
-                    <FiUser className="h-6 w-6 text-gray-500" />
+                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center shadow-sm">
+                    <span className="text-xl font-bold text-primary-600">{candidate.name.split(' ').map(n => n[0]).join('')}</span>
                   </div>
                   <div>
                     <h1 className="text-2xl font-bold text-gray-900">{candidate.name}</h1>
                     <div className="mt-1 text-sm text-gray-500">
                       {candidate.currentTitle} at {candidate.currentCompany}
                     </div>
-                    <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                    <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center">
-                        <FiMail className="mr-1.5 h-4 w-4" />
+                        <FiMail className="mr-1.5 h-4 w-4 text-primary-500" />
                         {candidate.email}
                       </div>
                       <div className="flex items-center">
-                        <FiPhone className="mr-1.5 h-4 w-4" />
+                        <FiPhone className="mr-1.5 h-4 w-4 text-secondary-500" />
                         {candidate.phone}
                       </div>
                       <div className="flex items-center">
-                        <FiMapPin className="mr-1.5 h-4 w-4" />
+                        <FiMapPin className="mr-1.5 h-4 w-4 text-accent-500" />
                         {candidate.location}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <span className="px-4 py-1.5 rounded-full text-sm font-medium bg-primary-50 text-primary-600 border border-primary-100">
                     {candidate.stage}
                   </span>
                   <Link
                     href="/candidates/comparison"
-                    className="ml-3 inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    className="inline-flex items-center justify-center px-4 py-1.5 border border-gray-200 text-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm"
                   >
-                    <FiUsers className="mr-2 h-4 w-4" />
+                    <FiUsers className="mr-2 h-4 w-4 text-primary-500" />
                     Compare With Others
                   </Link>
                 </div>
@@ -364,22 +364,22 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
             </div>
 
             {/* Navigation Links */}
-            <div className="border-t border-gray-200 bg-white z-10 shadow-sm">
-              <nav className="flex space-x-2 px-4 overflow-x-auto border-b border-gray-200 bg-white" aria-label="Sections">
+            <div className="border-t border-gray-100 bg-white z-10">
+              <nav className="flex space-x-2 px-4 overflow-x-auto" aria-label="Sections">
                 {[
                   { id: 'profile', label: 'Profile', ref: profileRef, icon: <FiUser className="mr-1.5 h-4 w-4" /> },
                   { id: 'assessment', label: 'Assessment', ref: assessmentRef, icon: <FiCheckCircle className="mr-1.5 h-4 w-4" /> },
                   { id: 'resume', label: 'Resume', ref: resumeRef, icon: <FiFileText className="mr-1.5 h-4 w-4" /> },
                   { id: 'interviews', label: 'Interviews', ref: interviewsRef, icon: <FiCalendar className="mr-1.5 h-4 w-4" /> },
-                  { id: 'communication', label: 'Communication', ref: communicationRef, icon: <FiMessageCircle className="mr-1.5 h-4 w-4" /> }
+                  { id: 'communication', label: 'Communication', ref: communicationRef, icon: <FiMessageSquare className="mr-1.5 h-4 w-4" /> }
                 ].map((section) => (
                   <button
                     key={section.id}
                     onClick={() => scrollToSection(section.ref, section.id)}
                     className={`
-                      py-4 px-4 border-b-2 font-medium text-sm flex items-center whitespace-nowrap
+                      py-4 px-4 border-b-2 font-medium text-sm flex items-center whitespace-nowrap transition-all
                       ${activeSection === section.id
-                        ? 'border-primary-600 text-primary-600 bg-blue-50'
+                        ? 'border-primary-500 text-primary-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }
                     `}
@@ -387,7 +387,7 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
                     {section.icon}
                     {section.label}
                     {section.id === 'communication' && candidate.communicationTimeline && (
-                      <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                      <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded-full bg-primary-100 text-primary-800">
                         {candidate.communicationTimeline.length}
                       </span>
                     )}
@@ -403,92 +403,178 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
           {/* Left Column - Main content sections */}
           <div className="lg:col-span-2 space-y-8">
             {/* Profile Section */}
-            <div ref={profileRef} id="profile" className="section-container bg-white rounded-lg shadow-sm p-6">
+            <div ref={profileRef} id="profile" className="section-container bg-white rounded-xl shadow-sm p-6 border border-gray-100 backdrop-blur-sm">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Professional Summary</h2>
               
               {/* HirehubAI Summary Card */}
-              <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
-                <div className="flex items-center justify-between mb-4">
+              <div className="mb-6 bg-gradient-to-br from-white to-primary-50 rounded-xl p-6 border border-primary-100 backdrop-blur-sm">
+                <div className="flex items-center justify-between mb-6">
                   <h3 className="text-base font-semibold text-gray-900 flex items-center">
-                    <FiCheckCircle className="mr-2 h-5 w-5 text-primary-600" />
+                    <div className="flex items-center justify-center h-8 w-8 rounded-full bg-primary-100 mr-3">
+                      <FiCheckCircle className="h-4 w-4 text-primary-600" />
+                    </div>
                     HirehubAI Summary
                   </h3>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    aiSummary.overallFit >= 80 ? 'bg-green-100 text-green-800' :
-                    aiSummary.overallFit >= 70 ? 'bg-blue-100 text-blue-800' :
-                    aiSummary.overallFit >= 60 ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
+                  <span className={`px-4 py-1.5 rounded-full text-sm font-medium border shadow-sm ${
+                    aiSummary.overallFit >= 80 ? 'bg-green-50 text-green-700 border-green-200' :
+                    aiSummary.overallFit >= 70 ? 'bg-primary-50 text-primary-700 border-primary-200' :
+                    aiSummary.overallFit >= 60 ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                    'bg-red-50 text-red-700 border-red-200'
                   }`}>
                     {aiSummary.recommendation}
                   </span>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {/* Fit Scores */}
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm text-gray-600">Overall Fit</span>
-                        <span className="text-sm font-medium text-gray-900">{aiSummary.overallFit}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-primary-600 h-1.5 rounded-full" style={{ width: `${aiSummary.overallFit}%` }} />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-white/80 border border-gray-200 shadow-sm">
+                      <div className="flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-3">
+                          <svg className="w-20 h-20" viewBox="0 0 100 100">
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#E0EFFF" 
+                              strokeWidth="8"
+                            />
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#2B7BD3" 
+                              strokeWidth="8"
+                              strokeDasharray={`${aiSummary.overallFit * 2.83} 283`}
+                              strokeLinecap="round"
+                              transform="rotate(-90 50 50)"
+                            />
+                            <text 
+                              x="50" y="50" 
+                              dominantBaseline="middle" 
+                              textAnchor="middle" 
+                              fontSize="16" 
+                              fontWeight="bold"
+                              fill="#2B7BD3"
+                            >
+                              {Math.round(aiSummary.overallFit)}%
+                            </text>
+                          </svg>
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">Overall Fit</span>
                       </div>
                     </div>
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm text-gray-600">Skill Match</span>
-                        <span className="text-sm font-medium text-gray-900">{Math.round(aiSummary.skillMatch)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${aiSummary.skillMatch}%` }} />
+                    
+                    <div className="p-4 rounded-xl bg-white/80 border border-gray-200 shadow-sm">
+                      <div className="flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-3">
+                          <svg className="w-20 h-20" viewBox="0 0 100 100">
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#E6FDFB" 
+                              strokeWidth="8"
+                            />
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#2ECDC3" 
+                              strokeWidth="8"
+                              strokeDasharray={`${aiSummary.skillMatch * 2.83} 283`}
+                              strokeLinecap="round"
+                              transform="rotate(-90 50 50)"
+                            />
+                            <text 
+                              x="50" y="50" 
+                              dominantBaseline="middle" 
+                              textAnchor="middle" 
+                              fontSize="16" 
+                              fontWeight="bold"
+                              fill="#2ECDC3"
+                            >
+                              {Math.round(aiSummary.skillMatch)}%
+                            </text>
+                          </svg>
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">Skill Match</span>
                       </div>
                     </div>
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm text-gray-600">Experience</span>
-                        <span className="text-sm font-medium text-gray-900">{Math.round(aiSummary.experienceMatch)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${aiSummary.experienceMatch}%` }} />
+                    
+                    <div className="p-4 rounded-xl bg-white/80 border border-gray-200 shadow-sm">
+                      <div className="flex flex-col items-center">
+                        <div className="relative w-20 h-20 mb-3">
+                          <svg className="w-20 h-20" viewBox="0 0 100 100">
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#F5F0FF" 
+                              strokeWidth="8"
+                            />
+                            <circle 
+                              cx="50" cy="50" r="45" 
+                              fill="none" 
+                              stroke="#9B5CFF" 
+                              strokeWidth="8"
+                              strokeDasharray={`${aiSummary.experienceMatch * 2.83} 283`}
+                              strokeLinecap="round"
+                              transform="rotate(-90 50 50)"
+                            />
+                            <text 
+                              x="50" y="50" 
+                              dominantBaseline="middle" 
+                              textAnchor="middle" 
+                              fontSize="16" 
+                              fontWeight="bold"
+                              fill="#9B5CFF"
+                            >
+                              {Math.round(aiSummary.experienceMatch)}%
+                            </text>
+                          </svg>
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">Experience</span>
                       </div>
                     </div>
                   </div>
-
-                  {/* Key Strengths */}
-                  {aiSummary.keyStrengths.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-2">Key Strengths</h4>
-                      <ul className="space-y-1">
-                        {aiSummary.keyStrengths.map((strength: string, index: number) => (
-                          <li key={index} className="flex items-center gap-2 text-green-700">
-                            <FiCheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  
+                  {/* Strengths and Areas of Concern */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="rounded-xl bg-white/80 border border-gray-200 shadow-sm p-4">
+                      <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                        <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center mr-2">
+                          <FiCheckCircle className="h-3 w-3 text-primary-600" />
+                        </div>
+                        Key Strengths
+                      </h4>
+                      <ul className="space-y-2">
+                        {aiSummary.keyStrengths.map((strength, idx) => (
+                          <li key={idx} className="text-sm text-gray-600 flex items-start">
+                            <span className="inline-block w-4 h-4 mt-0.5 mr-2 rounded-full bg-green-100 flex-shrink-0"></span>
                             {strength}
                           </li>
                         ))}
                       </ul>
                     </div>
-                  )}
-
-                  {/* Areas of Concern */}
-                  {aiSummary.areasOfConcern.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-2">Areas of Consideration</h4>
-                      <ul className="space-y-1">
-                        {aiSummary.areasOfConcern.map((concern: string, index: number) => (
-                          <li key={index} className="flex items-center gap-2 text-amber-700">
-                            <FiX className="h-4 w-4 text-red-500 mr-2 mt-0.5 flex-shrink-0" />
+                    
+                    <div className="rounded-xl bg-white/80 border border-gray-200 shadow-sm p-4">
+                      <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                        <div className="w-5 h-5 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                          <FiX className="h-3 w-3 text-yellow-600" />
+                        </div>
+                        Areas of Concern
+                      </h4>
+                      <ul className="space-y-2">
+                        {aiSummary.areasOfConcern.map((concern, idx) => (
+                          <li key={idx} className="text-sm text-gray-600 flex items-start">
+                            <span className="inline-block w-4 h-4 mt-0.5 mr-2 rounded-full bg-yellow-100 flex-shrink-0"></span>
                             {concern}
                           </li>
                         ))}
                       </ul>
                     </div>
-                  )}
-
-                  {/* Recommendation */}
-                  <div className="mt-4 text-sm text-gray-600">
-                    <p className="font-medium text-gray-900">Recommendation:</p>
-                    <p className="mt-1">{aiSummary.reasonForRecommendation}</p>
+                  </div>
+                  
+                  {/* Recommendation Reason */}
+                  <div className="bg-white/80 rounded-xl border border-gray-200 shadow-sm p-4">
+                    <h4 className="text-sm font-medium text-gray-900 mb-2">Recommendation Reasoning</h4>
+                    <p className="text-sm text-gray-600">{aiSummary.reasonForRecommendation}</p>
                   </div>
                 </div>
               </div>
@@ -535,85 +621,12 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
 
             {/* Assessment Section */}
             <div ref={assessmentRef} id="assessment" className="section-container space-y-6">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">AI Assessment Summary</h2>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-green-600">Strengths</h3>
-                    <ul className="mt-2 space-y-1">
-                      {aiSummary.pros.map((pro: string, index: number) => (
-                        <li key={index} className="flex items-center gap-2 text-green-700">
-                          <FiCheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                          {pro}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-medium text-red-600">Areas for Consideration</h3>
-                    <ul className="mt-2 space-y-1">
-                      {aiSummary.cons.map((con: string, index: number) => (
-                        <li key={index} className="flex items-center gap-2 text-amber-700">
-                          <FiX className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                          {con}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900">Overall Fit Score</h3>
-                    <div className="mt-2 flex items-center">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-primary-600 h-2 rounded-full"
-                          style={{ width: `${aiSummary.overallFit}%` }}
-                        />
-                      </div>
-                      <span className="ml-3 text-sm font-medium text-gray-900">
-                        {aiSummary.overallFit}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Skill Competency Radar Chart */}
               <CandidateCompetencyChart 
                 candidateId={candidate.id}
                 candidateName={candidate.name}
                 skills={skillCompetencies}
               />
-
-              {candidate.assessment && (
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h2 className="text-lg font-medium text-gray-900 mb-4">Technical Assessment</h2>
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-900">Score</h3>
-                      <div className="mt-2 flex items-center">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-500 h-2 rounded-full"
-                            style={{ width: `${candidate.assessment.score}%` }}
-                          />
-                        </div>
-                        <span className="ml-3 text-sm font-medium text-gray-900">
-                          {candidate.assessment.score}%
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-900">Feedback</h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {candidate.assessment.feedback}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Resume Section */}
@@ -766,96 +779,14 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
 
             {/* Communication Section */}
             <div ref={communicationRef} id="communication" className="section-container bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <div className="px-6 py-4 border-b border-gray-200">
                 <div>
                   <h2 className="text-lg font-medium text-gray-900">Communication History</h2>
                   <p className="text-sm text-gray-500 mt-1">
                     {candidate.communicationTimeline?.length || 0} total messages across the recruitment process
                   </p>
                 </div>
-                <button
-                  onClick={handleRegenerateTimeline}
-                  disabled={isRegeneratingComm}
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-300"
-                >
-                  {isRegeneratingComm ? (
-                    <>
-                      <span className="mr-2">Regenerating...</span>
-                      <span className="animate-spin h-4 w-4 border-2 border-white border-opacity-50 border-t-transparent rounded-full"></span>
-                    </>
-                  ) : (
-                    'Refresh Timeline'
-                  )}
-                </button>
               </div>
-              
-              {/* Communication statistics */}
-              {candidate.communicationTimeline && candidate.communicationTimeline.length > 0 && (
-                <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiMail className="h-4 w-4 text-blue-500 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">Emails</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.filter(c => c.type === 'email').length}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiMessageSquare className="h-4 w-4 text-green-500 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">WhatsApp</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.filter(c => c.type === 'whatsapp').length}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiPhone className="h-4 w-4 text-yellow-500 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">Calls</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.filter(c => c.type === 'phone').length}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiLinkedin className="h-4 w-4 text-blue-600 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">LinkedIn</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.filter(c => c.type === 'linkedin').length}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiCalendar className="h-4 w-4 text-purple-500 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">Meetings</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.filter(c => ['calendar', 'interview'].includes(c.type)).length}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
-                      <div className="flex items-center">
-                        <FiClock className="h-4 w-4 text-gray-500 mr-2" />
-                        <span className="text-xs font-medium text-gray-500">Days Since First</span>
-                      </div>
-                      <span className="text-xl font-semibold text-gray-900">
-                        {candidate.communicationTimeline.length > 0 ? 
-                          Math.floor((new Date().getTime() - new Date(candidate.communicationTimeline[0].date).getTime()) / (1000 * 3600 * 24)) : 0}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
               
               <div className="p-6">
                 <CommunicationTimeline events={candidate.communicationTimeline || []} />
@@ -889,50 +820,83 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
             </div>
 
             {/* Timeline */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 backdrop-blur-sm">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Timeline</h2>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="flex items-center text-sm">
                   <div className="flex-shrink-0">
-                    <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <FiFileText className="h-4 w-4 text-green-600" />
+                    <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                      <FiFileText className="h-5 w-5 text-primary-600" />
                     </div>
                   </div>
-                  <div className="ml-3">
-                    <p className="font-medium text-gray-900">Application Submitted</p>
-                    <p className="text-gray-500">{formatDate(candidate.appliedDate)}</p>
+                  <div className="ml-4">
+                    <p className="font-medium text-gray-900">Applied</p>
+                    <p className="text-sm text-gray-500">{formatDate(candidate.appliedDate)}</p>
                   </div>
                 </div>
 
-                {candidate.assessment && (
+                {candidate.stage === 'Shortlisted' || 
+                 candidate.stage === 'Interviewed' || 
+                 candidate.stage === 'Offer Extended' || 
+                 candidate.stage === 'Hired' ? (
                   <div className="flex items-center text-sm">
                     <div className="flex-shrink-0">
-                      <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                        <FiCheckCircle className="h-4 w-4 text-blue-600" />
+                      <div className="h-10 w-10 rounded-full bg-secondary-100 flex items-center justify-center">
+                        <FiCheckCircle className="h-5 w-5 text-secondary-600" />
                       </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="font-medium text-gray-900">Assessment Completed</p>
-                      <p className="text-gray-500">Score: {candidate.assessment.score}%</p>
+                    <div className="ml-4">
+                      <p className="font-medium text-gray-900">Shortlisted</p>
+                      <p className="text-sm text-gray-500">{formatDate(candidate.lastUpdated || candidate.appliedDate)}</p>
                     </div>
                   </div>
-                )}
+                ) : null}
 
-                {candidate.interview && (
+                {candidate.interview && (candidate.stage === 'Interviewed' || 
+                                         candidate.stage === 'Offer Extended' || 
+                                         candidate.stage === 'Hired') ? (
                   <div className="flex items-center text-sm">
                     <div className="flex-shrink-0">
-                      <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
-                        <FiCalendar className="h-4 w-4 text-purple-600" />
+                      <div className="h-10 w-10 rounded-full bg-accent-100 flex items-center justify-center">
+                        <FiCalendar className="h-5 w-5 text-accent-600" />
                       </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="font-medium text-gray-900">{candidate.interview.type} Interview</p>
-                      <p className="text-gray-500">
-                        {candidate.interview.date} at {candidate.interview.time}
+                    <div className="ml-4">
+                      <p className="font-medium text-gray-900">Interview{candidate.interview.status === 'Completed' ? 'ed' : ''}</p>
+                      <p className="text-sm text-gray-500">
+                        {formatDate(candidate.interview.date)} {candidate.interview.time ? `at ${candidate.interview.time}` : ''}
                       </p>
                     </div>
                   </div>
-                )}
+                ) : null}
+
+                {candidate.stage === 'Offer Extended' || candidate.stage === 'Hired' ? (
+                  <div className="flex items-center text-sm">
+                    <div className="flex-shrink-0">
+                      <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                        <FiFileText className="h-5 w-5 text-green-600" />
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <p className="font-medium text-gray-900">Offer Extended</p>
+                      <p className="text-sm text-gray-500">{formatDate(candidate.lastUpdated || candidate.appliedDate)}</p>
+                    </div>
+                  </div>
+                ) : null}
+
+                {candidate.stage === 'Hired' ? (
+                  <div className="flex items-center text-sm">
+                    <div className="flex-shrink-0">
+                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                        <FiBriefcase className="h-5 w-5 text-blue-600" />
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <p className="font-medium text-gray-900">Hired</p>
+                      <p className="text-sm text-gray-500">{formatDate(candidate.lastUpdated || candidate.appliedDate)}</p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
