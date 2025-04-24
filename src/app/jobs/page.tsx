@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { FiPlus, FiSearch } from 'react-icons/fi';
+import { FiPlus, FiSearch, FiBriefcase, FiMapPin, FiUsers, FiCalendar } from 'react-icons/fi';
 import { jobs } from '@/data/jobs';
+import { candidates } from '@/data/candidates';
+import { useRouter } from 'next/navigation';
 
 export default function JobsPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -14,26 +17,49 @@ export default function JobsPage() {
     job.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Calculate candidate counts for each job
+  const candidateCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    
+    // Initialize all jobs with 0 counts
+    jobs.forEach(job => {
+      counts.set(job.id, 0);
+    });
+    
+    // Count candidates for each job
+    candidates.forEach(candidate => {
+      if (candidate.jobId) {
+        counts.set(candidate.jobId, (counts.get(candidate.jobId) || 0) + 1);
+      }
+    });
+    
+    return counts;
+  }, []);
+
+  const handleRowClick = (jobId: string) => {
+    router.push(`/jobs/${jobId}`);
+  };
+
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Jobs</h1>
+            <h1 className="text-2xl font-bold text-primary-600">Jobs</h1>
             <p className="mt-1 text-sm text-gray-500">
               Manage and track all your job postings
             </p>
           </div>
           <Link
             href="/jobs/new"
-            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-xl shadow-sm flex items-center gap-2 transition-colors"
           >
             <FiPlus className="h-4 w-4" />
             Post New Job
           </Link>
         </div>
 
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white/90 backdrop-blur-sm shadow-lg rounded-xl overflow-hidden border border-gray-100">
           <div className="p-4 border-b border-gray-200">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -41,7 +67,7 @@ export default function JobsPage() {
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl leading-5 bg-white/90 backdrop-blur-sm placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors"
                 placeholder="Search jobs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -53,69 +79,92 @@ export default function JobsPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Position
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Department
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Location
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Posted Date
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Applications
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Actions</span>
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Candidates
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white/80 divide-y divide-gray-200">
                 {filteredJobs.map((job) => (
-                  <tr key={job.id} className="hover:bg-gray-50">
+                  <tr 
+                    key={job.id} 
+                    className="hover:bg-gray-50 cursor-pointer transition-colors"
+                    onClick={() => handleRowClick(job.id)}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{job.title}</div>
+                      <div className="flex items-center space-x-3">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center shadow-sm">
+                          <FiBriefcase className="h-5 w-5 text-primary-600" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900 hover:text-primary-600 transition-colors">
+                            {job.title}
+                          </div>
+                          <div className="text-xs text-gray-500">{job.company}</div>
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{job.department}</div>
+                      <div className="text-sm text-gray-900 flex items-center">
+                        <span className="w-2 h-2 rounded-full bg-secondary-500 mr-2"></span>
+                        {job.department}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{job.location}</div>
+                      <div className="text-sm text-gray-900 flex items-center">
+                        <FiMapPin className="mr-2 h-3 w-3 text-accent-500" />
+                        {job.location}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{job.type}</div>
+                      <div className="text-sm text-gray-900 flex items-center">
+                        <FiCalendar className="mr-2 h-3 w-3 text-secondary-500" />
+                        {new Date(job.postedDate).toLocaleDateString()}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        job.status === 'Active' ? 'bg-green-100 text-green-800' :
-                        job.status === 'On Hold' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
+                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full border ${
+                        job.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' :
+                        job.status === 'Draft' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                        'bg-gray-50 text-gray-600 border-gray-200'
                       }`}>
                         {job.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {job.applications}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <Link
-                        href={`/jobs/${job.id}`}
-                        className="text-primary-600 hover:text-primary-900"
-                      >
-                        View
-                      </Link>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center text-sm text-gray-900">
+                        <FiUsers className="mr-2 h-3 w-3 text-primary-500" />
+                        <div className="flex items-center justify-center h-8 w-8 text-xs font-medium rounded-full bg-primary-50 text-primary-700 border border-primary-200">
+                          {candidateCounts.get(job.id) || 0}
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          
+          {filteredJobs.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No jobs found matching your search criteria.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
