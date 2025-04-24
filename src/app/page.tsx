@@ -73,9 +73,9 @@ export default function LoginPage() {
           </div>
           
           <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="email-address" className="block text-xs font-medium text-gray-700 mb-1">
                   Email address
                 </label>
                 <input
@@ -84,14 +84,14 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-200 rounded-xl text-gray-700 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="password" className="block text-xs font-medium text-gray-700 mb-1">
                   Password
                 </label>
                 <input
@@ -100,7 +100,7 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none block w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-200 rounded-xl text-gray-700 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -109,7 +109,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl">{error}</div>
+              <div className="bg-red-50 text-red-600 text-xs p-2 rounded-xl">{error}</div>
             )}
 
             <div className="flex items-center justify-between">
@@ -118,16 +118,16 @@ export default function LoginPage() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-3 w-3 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="remember-me" className="ml-2 block text-xs text-gray-700">
                   Remember me
                 </label>
               </div>
 
-              <div className="text-sm">
+              <div className="text-xs">
                 <a href="#" className="font-medium text-primary-500 hover:text-accent-500 transition-colors">
-                  Forgot your password?
+                  Forgot password?
                 </a>
               </div>
             </div>
@@ -135,27 +135,27 @@ export default function LoginPage() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-secondary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 shadow-lg"
+                className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-secondary-500 hover:to-accent-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 shadow-lg"
               >
                 Sign in
               </button>
             </div>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-50 text-gray-500">Or</span>
+                <span className="px-2 bg-gray-50 text-xs text-gray-500">Or</span>
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-4">
               <button
                 type="button"
-                className="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-all"
+                className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-xl shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-all"
                 onClick={() => router.push('/dashboard')}
               >
                 Request a Demo
@@ -163,8 +163,8 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-gray-500 mt-8">
-            By signing in, you agree to our <a href="#" className="text-primary-500">Terms of Service</a> and <a href="#" className="text-primary-500">Privacy Policy</a>
+          <p className="text-center text-xs text-gray-500 mt-4">
+            By signing in, you agree to our <a href="#" className="text-primary-500">Terms</a> and <a href="#" className="text-primary-500">Privacy Policy</a>
           </p>
         </div>
       </div>
