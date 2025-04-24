@@ -91,9 +91,16 @@ export default function CandidatesPage() {
 
     // Then sort by HireHub AI score (descending)
     return filtered.sort((a, b) => {
-      const scoreA = a.assessment?.score || 0;
-      const scoreB = b.assessment?.score || 0;
-      return scoreB - scoreA;
+      // If both candidates have scores, compare them
+      if (a.assessment?.score && b.assessment?.score) {
+        return b.assessment.score - a.assessment.score;
+      }
+      // If only candidate A has a score, it should come first
+      if (a.assessment?.score) return -1;
+      // If only candidate B has a score, it should come first
+      if (b.assessment?.score) return 1;
+      // If neither has a score, sort by application date (newest first)
+      return new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
     });
   }, [searchQuery, selectedJob, selectedStage, advancedFilters]);
 
@@ -324,7 +331,7 @@ export default function CandidatesPage() {
                   <input
                     type="number"
                     placeholder="Min"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.experience.min}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -334,7 +341,7 @@ export default function CandidatesPage() {
                   <input
                     type="number"
                     placeholder="Max"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.experience.max}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -349,7 +356,7 @@ export default function CandidatesPage() {
                 <input
                   type="text"
                   placeholder="Filter by location"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                   value={advancedFilters.location}
                   onChange={(e) => setAdvancedFilters({
                     ...advancedFilters,
@@ -362,7 +369,7 @@ export default function CandidatesPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Skills</label>
                 <select
                   multiple
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                   value={advancedFilters.skills}
                   onChange={(e) => setAdvancedFilters({
                     ...advancedFilters,
@@ -383,7 +390,7 @@ export default function CandidatesPage() {
                   <input
                     type="text"
                     placeholder="Degree"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.education.degree}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -393,7 +400,7 @@ export default function CandidatesPage() {
                   <input
                     type="text"
                     placeholder="Institution"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.education.institution}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -408,7 +415,7 @@ export default function CandidatesPage() {
                 <div className="space-y-2">
                   <input
                     type="date"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.appliedDate.start}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -417,7 +424,7 @@ export default function CandidatesPage() {
                   />
                   <input
                     type="date"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     value={advancedFilters.appliedDate.end}
                     onChange={(e) => setAdvancedFilters({
                       ...advancedFilters,
@@ -431,19 +438,19 @@ export default function CandidatesPage() {
         </div>
 
         {/* Pipeline Stages */}
-        <div className="mb-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-8 gap-4">
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {pipelineStages.map(stage => {
             const candidatesInStage = getCandidatesInStage(stage);
             
             // Define custom colors based on our brand palette
-            let stageColors = {
+            const stageColors = {
               outreached: 'bg-gray-50 text-gray-600 border-gray-200',
               applied: 'bg-primary-50 text-primary-700 border-primary-200',
               shortlisted: 'bg-secondary-50 text-secondary-700 border-secondary-200',
               interviewed: 'bg-accent-50 text-accent-700 border-accent-200',
-              rejected: 'bg-gray-50 text-gray-600 border-gray-200',
+              rejected: 'bg-gray-50 text-gray-600 border-gray-200', // Changed to gray
               offer_extended: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-              offer_rejected: 'bg-gray-50 text-gray-600 border-gray-200',
+              offer_rejected: 'bg-gray-50 text-gray-600 border-gray-200', // Changed to gray
               hired: 'bg-green-50 text-green-700 border-green-200',
             };
             
@@ -451,15 +458,15 @@ export default function CandidatesPage() {
               <button
                 key={stage.id}
                 onClick={() => setSelectedStage(selectedStage === stage.id ? null : stage.id)}
-                className={`p-4 rounded-xl backdrop-blur-sm shadow-sm border ${
+                className={`py-4 px-2 rounded-xl backdrop-blur-sm shadow-sm border ${
                   selectedStage === stage.id 
                     ? 'ring-2 ring-primary-500 border-primary-300' 
                     : 'border-gray-200'
                 } ${stageColors[stage.id as keyof typeof stageColors]} hover:shadow-md transition-all`}
               >
-                <div className="flex flex-col items-center justify-center space-y-2">
-                  <span className="text-lg font-bold">{candidatesInStage}</span>
-                  <h3 className="text-sm font-medium">{stage.name}</h3>
+                <div className="flex flex-col items-center justify-center text-center">
+                  <div className="text-xl font-bold mb-2">{candidatesInStage}</div>
+                  <div className="text-xs font-medium">{stage.name}</div>
                 </div>
               </button>
             );
