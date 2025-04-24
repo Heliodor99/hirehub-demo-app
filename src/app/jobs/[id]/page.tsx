@@ -5,6 +5,7 @@ import { FiBriefcase, FiMapPin, FiCalendar, FiUsers, FiDollarSign, FiChevronDown
 import { jobs, candidates } from '@/data/jobs';
 import { RecruitmentStage } from '@/types';
 import { getStageColor, formatStageName, pipelineStageGroups, getCandidatesByStageGroup } from '@/utils/recruitment';
+import Link from 'next/link';
 
 export default function JobDetailsPage({ params }: { params: { id: string } }) {
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
@@ -77,11 +78,20 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="mt-4 md:mt-0">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                job.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-              }`}>
-                {job.status}
-              </span>
+              <div className="flex space-x-3">
+                <Link
+                  href="/candidates/comparison"
+                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                >
+                  <FiUsers className="mr-2 h-4 w-4" />
+                  Compare Skills
+                </Link>
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  job.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {job.status}
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -23,6 +23,11 @@ export interface Job {
   benefits?: string[];
 }
 
+export interface Skill {
+  name: string;
+  proficiency: number;
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -32,7 +37,7 @@ export interface Candidate {
   currentCompany: string;
   location: string;
   experience: number;
-  skills: string[];
+  skills: Skill[] | string[]; // Support both formats for backward compatibility
   education: Education[];
   resume: string;
   source: string;
@@ -41,6 +46,7 @@ export interface Candidate {
   jobId: string;
   notes?: string;
   assessment?: Assessment;
+  skillCompetencies?: Skill[]; // Optional dedicated field for skill competencies
 }
 
 export interface Task {
@@ -202,4 +208,5 @@ export interface Assessment {
   score: number;
   feedback: string;
   completed: boolean;
+  competencies?: Skill[]; // Add optional competencies field to assessment
 } 

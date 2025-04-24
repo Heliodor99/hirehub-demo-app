@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { FiSearch, FiUser, FiUserPlus, FiX, FiFilter, FiChevronDown, FiChevronRight, FiBarChart2, FiBriefcase, FiMail, FiPhone, FiCalendar, FiClock, FiChevronLeft, FiList } from 'react-icons/fi';
+import { FiSearch, FiUser, FiUserPlus, FiX, FiFilter, FiChevronDown, FiChevronRight, FiBarChart2, FiBriefcase, FiMail, FiPhone, FiCalendar, FiClock, FiChevronLeft, FiList, FiUsers } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
 import { RecruitmentStage, Candidate } from '@/types';
@@ -176,6 +176,13 @@ export default function CandidatesPage() {
             </p>
           </div>
           <div className="flex gap-4">
+            <Link
+              href="/candidates/comparison"
+              className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md border-gray-300 text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <FiUsers className="mr-2 h-4 w-4" />
+              Compare Skills
+            </Link>
             <button
               onClick={() => setView(view === 'list' ? 'calendar' : 'list')}
               className={`inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md ${

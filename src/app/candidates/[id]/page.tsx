@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageCircle, FiFileText, FiClock, FiArrowLeft } from 'react-icons/fi';
+import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageCircle, FiFileText, FiClock, FiArrowLeft, FiUsers } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
+import CandidateCompetencyChart from '@/components/CandidateCompetencyChart';
+import { Skill } from '@/types';
 
 export default function CandidateDetailsPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState('profile');
@@ -53,6 +55,15 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
     }
   ];
 
+  // Generate mock skill competencies if they don't exist
+  const skillCompetencies: Skill[] = candidate.skillCompetencies || (Array.isArray(candidate.skills) && typeof candidate.skills[0] === 'string' 
+    ? (candidate.skills as string[]).map(skill => ({
+        name: skill,
+        proficiency: Math.floor(Math.random() * 5) + 5 // Random score between 5-10
+      }))
+    : (candidate.skills as Skill[])
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -100,6 +111,13 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
                 <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                   {candidate.stage}
                 </span>
+                <Link
+                  href="/candidates/comparison"
+                  className="ml-3 inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                >
+                  <FiUsers className="mr-2 h-4 w-4" />
+                  Compare With Others
+                </Link>
               </div>
             </div>
           </div>
@@ -241,6 +259,13 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
                     </div>
                   </div>
                 </div>
+
+                {/* Skill Competency Radar Chart */}
+                <CandidateCompetencyChart 
+                  candidateId={candidate.id}
+                  candidateName={candidate.name}
+                  skills={skillCompetencies}
+                />
 
                 {candidate.assessment && (
                   <div className="bg-white rounded-lg shadow-sm p-6">
