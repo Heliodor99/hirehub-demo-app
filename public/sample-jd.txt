@@ -1,0 +1,40 @@
+Senior Full Stack Developer
+
+About the Role:
+We are seeking a talented Senior Full Stack Developer to join our growing engineering team. The ideal candidate will have strong experience in both frontend and backend development, with a focus on building scalable web applications.
+
+Requirements:
+- 5+ years of experience in full stack development
+- Strong proficiency in React.js, Node.js, and TypeScript
+- Experience with cloud platforms (AWS/GCP/Azure)
+- Knowledge of database design and optimization
+- Excellent problem-solving and communication skills
+
+Responsibilities:
+- Design and implement new features across the entire stack
+- Write clean, maintainable, and efficient code
+- Collaborate with cross-functional teams
+- Mentor junior developers
+- Participate in code reviews and technical discussions
+
+Skills:
+- React.js
+- Node.js
+- TypeScript
+- MongoDB
+- AWS
+- Docker
+- GraphQL
+- REST APIs
+
+Benefits:
+- Competitive salary ($120,000 - $160,000)
+- Remote work options
+- Health insurance
+- 401(k) matching
+- Professional development budget
+- Flexible PTO
+
+Location: San Francisco, CA (Hybrid)
+Department: Engineering
+Employment Type: Full-time 

@@ -19,7 +19,7 @@ export default function ReportsPage() {
     
     // Interview Rate (candidates in interview stage or beyond / total candidates)
     const interviewedCandidates = candidates.filter(c => 
-      [RecruitmentStage.INTERVIEW_SCHEDULED, RecruitmentStage.FEEDBACK_DONE, RecruitmentStage.HIRED].includes(c.stage)
+      [RecruitmentStage.SHORTLISTED, RecruitmentStage.INTERVIEWED, RecruitmentStage.HIRED].includes(c.stage)
     ).length;
     const interviewRate = Math.round((interviewedCandidates / totalApplications) * 100);
     
@@ -99,14 +99,12 @@ export default function ReportsPage() {
     
     const colors = {
       [RecruitmentStage.APPLIED]: 'bg-blue-400',
-      [RecruitmentStage.RESUME_SHORTLISTED]: 'bg-blue-500',
-      [RecruitmentStage.ASSESSMENT_SENT]: 'bg-yellow-500',
-      [RecruitmentStage.INTERVIEW_SCHEDULED]: 'bg-purple-500',
-      [RecruitmentStage.FEEDBACK_DONE]: 'bg-purple-600',
-      [RecruitmentStage.HIRED]: 'bg-green-500',
+      [RecruitmentStage.SHORTLISTED]: 'bg-blue-500',
+      [RecruitmentStage.INTERVIEWED]: 'bg-purple-500',
       [RecruitmentStage.REJECTED]: 'bg-red-500',
-      [RecruitmentStage.OUTREACHED]: 'bg-gray-500',
-      [RecruitmentStage.ENGAGED]: 'bg-indigo-400',
+      [RecruitmentStage.OFFER_EXTENDED]: 'bg-yellow-500',
+      [RecruitmentStage.OFFER_REJECTED]: 'bg-orange-500',
+      [RecruitmentStage.HIRED]: 'bg-green-500'
     };
     
     return Object.entries(stageCount)
