@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageCircle, FiFileText, FiClock, FiArrowLeft, FiUsers, FiVideo, FiChevronUp, FiChevronDown } from 'react-icons/fi';
+import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCircle, FiX, FiMessageCircle, FiFileText, FiClock, FiArrowLeft, FiUsers, FiVideo, FiChevronUp, FiChevronDown, FiLinkedin, FiMessageSquare } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
 import CandidateCompetencyChart from '@/components/CandidateCompetencyChart';
 import { Skill, RecruitmentStage, Candidate, Job } from '@/types';
 import { CommunicationTimeline } from '@/components/CommunicationTimeline';
+import { generateCommunicationTimeline } from '@/utils/communication';
 
 interface AISummary {
   overallFit: number;
@@ -37,7 +38,7 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   const headerRef = useRef<HTMLDivElement>(null);
 
   const candidate = candidates.find(c => c.id === params.id);
-  const job = jobs.find(j => j.id === candidate?.jobId);
+  const job = jobs.find(j => j.id === candidate?.jobId) || jobs[0];
 
   if (!candidate || !job) {
     return <div>Candidate not found</div>;
@@ -56,68 +57,8 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   };
 
   // Generate communication timeline if it doesn't exist
-  if (!candidate.communicationTimeline) {
-    candidate.communicationTimeline = [
-      {
-        id: '1',
-        type: 'system',
-        date: formatDate(candidate.appliedDate),
-        time: '09:00 AM',
-        channel: 'Application Portal',
-        subject: 'Application Submitted',
-        content: `Applied for ${job.title} position`,
-        direction: 'system',
-        status: 'completed'
-      },
-      {
-        id: '2',
-        type: 'email',
-        date: formatDate(new Date(new Date(candidate.appliedDate).getTime() + 24 * 60 * 60 * 1000).toISOString()),
-        time: '10:00 AM',
-        channel: 'Email',
-        subject: 'Application Received',
-        content: 'Thank you for your application. Our team will review it and get back to you soon.',
-        direction: 'outbound',
-        status: 'sent'
-      }
-    ];
-
-    // Add assessment event if it exists
-    if (candidate.assessment) {
-      candidate.communicationTimeline.push({
-        id: '3',
-        type: 'assessment',
-        date: formatDate(new Date(new Date(candidate.appliedDate).getTime() + 3 * 24 * 60 * 60 * 1000).toISOString()),
-        time: '02:00 PM',
-        channel: 'Assessment Platform',
-        subject: 'Technical Assessment Completed',
-        content: `Completed technical assessment with a score of ${candidate.assessment.score}%`,
-        direction: 'system',
-        status: 'completed',
-        metadata: {
-          score: candidate.assessment.score
-        }
-      });
-    }
-
-    // Add interview event if it exists
-    if (candidate.interview) {
-      candidate.communicationTimeline.push({
-        id: '4',
-        type: 'interview',
-        date: formatDate(candidate.interview.date),
-        time: candidate.interview.time,
-        channel: 'Video Call',
-        subject: `${candidate.interview.type} Interview`,
-        content: 'Interview conducted with the hiring team.',
-        direction: 'system',
-        status: 'completed',
-        metadata: {
-          duration: '45 minutes',
-          meetLink: 'https://meet.google.com/abc-defg-hij'
-        }
-      });
-    }
+  if (!candidate.communicationTimeline || candidate.communicationTimeline.length === 0) {
+    candidate.communicationTimeline = generateCommunicationTimeline(candidate, job);
   }
 
   // Generate AI summary based on all available candidate data
@@ -337,6 +278,17 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
     });
   }, [candidate.skills, candidate.skillCompetencies]);
 
+  // Add useState for communication regeneration
+  const [isRegeneratingComm, setIsRegeneratingComm] = useState(false);
+
+  // Add a function to handle regeneration
+  const handleRegenerateTimeline = () => {
+    setIsRegeneratingComm(true);
+    // Regenerate communication timeline
+    candidate.communicationTimeline = generateCommunicationTimeline(candidate, job);
+    setIsRegeneratingComm(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <style jsx global>{`
@@ -434,6 +386,11 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
                   >
                     {section.icon}
                     {section.label}
+                    {section.id === 'communication' && candidate.communicationTimeline && (
+                      <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                        {candidate.communicationTimeline.length}
+                      </span>
+                    )}
                   </button>
                 ))}
               </nav>
@@ -809,112 +766,99 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
 
             {/* Communication Section */}
             <div ref={communicationRef} id="communication" className="section-container bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-medium text-gray-900">Communication History</h2>
+              <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <div>
+                  <h2 className="text-lg font-medium text-gray-900">Communication History</h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {candidate.communicationTimeline?.length || 0} total messages across the recruitment process
+                  </p>
+                </div>
+                <button
+                  onClick={handleRegenerateTimeline}
+                  disabled={isRegeneratingComm}
+                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-300"
+                >
+                  {isRegeneratingComm ? (
+                    <>
+                      <span className="mr-2">Regenerating...</span>
+                      <span className="animate-spin h-4 w-4 border-2 border-white border-opacity-50 border-t-transparent rounded-full"></span>
+                    </>
+                  ) : (
+                    'Refresh Timeline'
+                  )}
+                </button>
               </div>
-              <div className="p-6">
-                <div className="flow-root">
-                  <ul role="list" className="-mb-8">
-                    {candidate.communicationTimeline?.map((event, eventIdx) => (
-                      <li key={event.id}>
-                        <div className="relative pb-8">
-                          {eventIdx !== (candidate.communicationTimeline?.length ?? 0) - 1 ? (
-                            <span
-                              className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200"
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          <div className="relative flex items-start space-x-3">
-                            <div className="relative">
-                              <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                                event.direction === 'inbound' 
-                                  ? 'bg-blue-100' 
-                                  : event.direction === 'outbound'
-                                  ? 'bg-green-100'
-                                  : 'bg-gray-100'
-                              }`}>
-                                {event.type === 'email' && <FiMail className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'phone' && <FiPhone className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'calendar' && <FiCalendar className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'assessment' && <FiCheckCircle className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'interview' && <FiUsers className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'system' && <FiClock className="h-5 w-5 text-gray-600" />}
+              
+              {/* Communication statistics */}
+              {candidate.communicationTimeline && candidate.communicationTimeline.length > 0 && (
+                <div className="px-6 py-3 border-b border-gray-200 bg-gray-50">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiMail className="h-4 w-4 text-blue-500 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">Emails</span>
                       </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.filter(c => c.type === 'email').length}
+                      </span>
                     </div>
-                            <div className="min-w-0 flex-1">
-                              <div>
-                                <div className="text-sm">
-                                  <span className="font-medium text-gray-900">
-                                    {event.subject}
-                                  </span>
-                                </div>
-                                <p className="mt-0.5 text-sm text-gray-500">
-                                  {event.date} at {event.time} via {event.channel}
-                                </p>
-                              </div>
-                              <div className="mt-2 text-sm text-gray-700">
-                                <p className="whitespace-pre-line">{event.content}</p>
-                        </div>
-                              {event.attachments && event.attachments.length > 0 && (
-                                <div className="mt-2">
-                                  <div className="flex space-x-2">
-                                    {event.attachments.map((attachment, index) => (
-                                      <span
-                                        key={index}
-                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
-                                      >
-                                        <FiFileText className="mr-1 h-4 w-4" />
-                                        {attachment.name} ({attachment.size})
-                                      </span>
-                                    ))}
-                        </div>
+                    
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiMessageSquare className="h-4 w-4 text-green-500 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">WhatsApp</span>
                       </div>
-                              )}
-                              {event.metadata && (
-                                <div className="mt-2 text-sm">
-                                  {event.metadata.duration && (
-                                    <span className="inline-flex items-center mr-3 text-gray-500">
-                                      <FiClock className="mr-1 h-4 w-4" />
-                                      Duration: {event.metadata.duration}
-                                    </span>
-                                  )}
-                                  {event.metadata.score && (
-                                    <span className="inline-flex items-center mr-3 text-gray-500">
-                                      <FiCheckCircle className="mr-1 h-4 w-4" />
-                                      Score: {event.metadata.score}%
-                                    </span>
-                                  )}
-                                  {event.metadata.meetLink && (
-                                    <a
-                                      href={event.metadata.meetLink}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center text-primary-600 hover:text-primary-700"
-                                    >
-                                      <FiVideo className="mr-1 h-4 w-4" />
-                                      Join Meeting
-                                    </a>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-shrink-0 self-center">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                event.direction === 'inbound' 
-                                  ? 'bg-blue-100 text-blue-800' 
-                                  : event.direction === 'outbound'
-                                  ? 'bg-green-100 text-green-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              }`}>
-                                {event.direction === 'inbound' ? 'Received' : event.direction === 'outbound' ? 'Sent' : 'System'}
-                              </span>
-                            </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.filter(c => c.type === 'whatsapp').length}
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiPhone className="h-4 w-4 text-yellow-500 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">Calls</span>
+                      </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.filter(c => c.type === 'phone').length}
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiLinkedin className="h-4 w-4 text-blue-600 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">LinkedIn</span>
+                      </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.filter(c => c.type === 'linkedin').length}
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiCalendar className="h-4 w-4 text-purple-500 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">Meetings</span>
+                      </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.filter(c => ['calendar', 'interview'].includes(c.type)).length}
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-100 shadow-sm">
+                      <div className="flex items-center">
+                        <FiClock className="h-4 w-4 text-gray-500 mr-2" />
+                        <span className="text-xs font-medium text-gray-500">Days Since First</span>
+                      </div>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {candidate.communicationTimeline.length > 0 ? 
+                          Math.floor((new Date().getTime() - new Date(candidate.communicationTimeline[0].date).getTime()) / (1000 * 3600 * 24)) : 0}
+                      </span>
                     </div>
                   </div>
-                      </li>
-                ))}
-                  </ul>
                 </div>
+              )}
+              
+              <div className="p-6">
+                <CommunicationTimeline events={candidate.communicationTimeline || []} />
               </div>
             </div>
           </div>

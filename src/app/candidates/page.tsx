@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { FiSearch, FiUser, FiUserPlus, FiX, FiFilter, FiChevronDown, FiChevronRight, FiBarChart2, FiBriefcase, FiMail, FiPhone, FiCalendar, FiClock, FiChevronLeft, FiList, FiUsers } from 'react-icons/fi';
+import { FiSearch, FiUser, FiUserPlus, FiX, FiFilter, FiChevronDown, FiChevronRight, FiBarChart2, FiBriefcase, FiMail, FiPhone, FiCalendar, FiClock, FiChevronLeft, FiList, FiUsers, FiMessageSquare } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
 import { RecruitmentStage, Candidate } from '@/types';
@@ -35,7 +35,8 @@ export default function CandidatesPage() {
   });
 
   const filteredCandidates = useMemo(() => {
-    return candidates.filter(candidate => {
+    // First filter candidates based on criteria
+    const filtered = candidates.filter(candidate => {
       // Basic search
       const matchesSearch = 
         candidate.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -86,6 +87,13 @@ export default function CandidatesPage() {
       return matchesSearch && matchesJob && matchesStage && 
         matchesExperience && matchesLocation && matchesSkills && 
         matchesEducation && matchesAppliedDate;
+    });
+
+    // Then sort by HireHub AI score (descending)
+    return filtered.sort((a, b) => {
+      const scoreA = a.assessment?.score || 0;
+      const scoreB = b.assessment?.score || 0;
+      return scoreB - scoreA;
     });
   }, [searchQuery, selectedJob, selectedStage, advancedFilters]);
 
@@ -451,23 +459,23 @@ export default function CandidatesPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Candidate
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Position
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Contact
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Stage
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Applied Date
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Assessment
+                  <th className="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    HireHub AI Score
                   </th>
                 </tr>
               </thead>
@@ -479,7 +487,7 @@ export default function CandidatesPage() {
                       key={candidate.id}
                       className="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
                             <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
@@ -497,31 +505,56 @@ export default function CandidatesPage() {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{job?.title}</div>
                         <div className="text-sm text-gray-500">{candidate.currentTitle}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{candidate.email}</div>
                         <div className="text-sm text-gray-500">{candidate.phone}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           getStageColor(candidate.stage)
                         }`}>
                           {formatStageName(candidate.stage)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                         {new Date(candidate.appliedDate).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {candidate.assessment?.score && (
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        {getMatchPercentage(candidate) && (
                           <div className="flex items-center">
-                            <FiBarChart2 className="h-5 w-5 text-gray-400 mr-2" />
-                            <span className="text-sm font-medium text-gray-900">
-                              {candidate.assessment.score}%
-                            </span>
+                            {(() => {
+                              const score = getMatchPercentage(candidate);
+                              let colorClass = '';
+                              
+                              if (score && score >= 90) {
+                                colorClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                              } else if (score && score >= 80) {
+                                colorClass = 'bg-green-100 text-green-800 border-green-300';
+                              } else if (score && score >= 70) {
+                                colorClass = 'bg-blue-100 text-blue-800 border-blue-300';
+                              } else if (score && score >= 60) {
+                                colorClass = 'bg-yellow-100 text-yellow-800 border-yellow-300';
+                              } else {
+                                colorClass = 'bg-gray-100 text-gray-800 border-gray-300';
+                              }
+                              
+                              return (
+                                <>
+                                  <span className={`inline-flex items-center justify-center h-10 w-10 font-medium rounded-full border ${colorClass}`}>
+                                    {score}%
+                                  </span>
+                                  {candidate.assessment?.feedback && (
+                                    <div className="ml-2" title={candidate.assessment.feedback}>
+                                      <FiMessageSquare className="h-4 w-4 text-gray-400" />
+                                    </div>
+                                  )}
+                                </>
+                              );
+                            })()}
                           </div>
                         )}
                       </td>
