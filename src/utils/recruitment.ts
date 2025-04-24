@@ -3,6 +3,7 @@ import { RecruitmentStage, Candidate } from '@/types';
 // Standard color mapping for recruitment stages
 export const getStageColor = (stage: RecruitmentStage): string => {
   const colors: Record<RecruitmentStage, string> = {
+    [RecruitmentStage.OUTREACHED]: 'bg-gray-100 text-gray-800',
     [RecruitmentStage.APPLIED]: 'bg-blue-100 text-blue-800',
     [RecruitmentStage.SHORTLISTED]: 'bg-green-100 text-green-800',
     [RecruitmentStage.INTERVIEWED]: 'bg-purple-100 text-purple-800',
@@ -16,46 +17,52 @@ export const getStageColor = (stage: RecruitmentStage): string => {
 
 // Pipeline stages matching recruitment stages exactly
 export const pipelineStageGroups = [
-  { 
-    id: 'applied', 
-    name: 'Applied', 
-    color: 'bg-blue-100 text-blue-800', 
+  {
+    id: 'outreached',
+    name: 'Outreached',
+    color: 'bg-gray-100 text-gray-800',
+    stages: [RecruitmentStage.OUTREACHED]
+  },
+  {
+    id: 'applied',
+    name: 'Applied',
+    color: 'bg-blue-100 text-blue-800',
     stages: [RecruitmentStage.APPLIED]
   },
-  { 
-    id: 'shortlisted', 
-    name: 'Shortlisted', 
-    color: 'bg-green-100 text-green-800', 
+  {
+    id: 'shortlisted',
+    name: 'Shortlisted',
+    color: 'bg-green-100 text-green-800',
     stages: [RecruitmentStage.SHORTLISTED]
   },
-  { 
-    id: 'interviewed', 
-    name: 'Interviewed', 
-    color: 'bg-purple-100 text-purple-800', 
+  {
+    id: 'interviewed',
+    name: 'Interviewed',
+    color: 'bg-purple-100 text-purple-800',
     stages: [RecruitmentStage.INTERVIEWED]
   },
-  { 
-    id: 'rejected', 
-    name: 'Rejected', 
-    color: 'bg-red-100 text-red-800', 
+  {
+    id: 'rejected',
+    name: 'Rejected',
+    color: 'bg-red-100 text-red-800',
     stages: [RecruitmentStage.REJECTED]
   },
-  { 
-    id: 'offer_extended', 
-    name: 'Offer Extended', 
-    color: 'bg-yellow-100 text-yellow-800', 
+  {
+    id: 'offer_extended',
+    name: 'Offer Extended',
+    color: 'bg-yellow-100 text-yellow-800',
     stages: [RecruitmentStage.OFFER_EXTENDED]
   },
-  { 
-    id: 'offer_rejected', 
-    name: 'Offer Rejected', 
-    color: 'bg-orange-100 text-orange-800', 
+  {
+    id: 'offer_rejected',
+    name: 'Offer Rejected',
+    color: 'bg-orange-100 text-orange-800',
     stages: [RecruitmentStage.OFFER_REJECTED]
   },
-  { 
-    id: 'hired', 
-    name: 'Hired', 
-    color: 'bg-emerald-100 text-emerald-800', 
+  {
+    id: 'hired',
+    name: 'Hired',
+    color: 'bg-emerald-100 text-emerald-800',
     stages: [RecruitmentStage.HIRED]
   }
 ];

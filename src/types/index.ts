@@ -212,6 +212,7 @@ export interface Company {
 }
 
 export enum RecruitmentStage {
+  OUTREACHED = 'Outreached',
   APPLIED = 'Applied',
   SHORTLISTED = 'Shortlisted',
   INTERVIEWED = 'Interviewed',

@@ -93,6 +93,12 @@ export default function CandidatesPage() {
   const pipelineStages = useMemo(() => {
     return [
       { 
+        id: 'outreached', 
+        name: 'Outreached', 
+        color: 'bg-gray-100 text-gray-800', 
+        stages: [RecruitmentStage.OUTREACHED]
+      },
+      { 
         id: 'applied', 
         name: 'Applied', 
         color: 'bg-blue-100 text-blue-800', 

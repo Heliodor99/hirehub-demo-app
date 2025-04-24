@@ -53,6 +53,7 @@ export const colors = {
 
   // Stage Colors
   stages: {
+    [RecruitmentStage.OUTREACHED]: '#6B7280',
     [RecruitmentStage.APPLIED]: '#3B82F6',
     [RecruitmentStage.SHORTLISTED]: '#10B981',
     [RecruitmentStage.INTERVIEWED]: '#8B5CF6',
