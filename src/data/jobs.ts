@@ -1,4 +1,5 @@
-import { Job, Candidate, RecruitmentStage } from '@/types';
+import { Job, Candidate, RecruitmentStage, Interview } from '@/types';
+import { generateCommunicationTimeline } from '@/utils/communication';
 
 export const jobs: Job[] = [
   {
@@ -190,6 +191,232 @@ export const jobs: Job[] = [
     ]
   }
 ];
+
+export const generateInterviewTranscript = (jobTitle: string, skills: string[]) => {
+  const technicalQuestions = [
+    { q: "Can you describe your experience with our required technologies?", context: "technical" },
+    { q: "Tell me about a challenging project you worked on recently.", context: "technical" },
+    { q: "How do you approach problem-solving in your work?", context: "technical" },
+    { q: "What's your experience with agile development?", context: "process" },
+    { q: "How do you handle technical disagreements in a team?", context: "collaboration" }
+  ];
+
+  const behavioralQuestions = [
+    { q: "How do you handle tight deadlines?", context: "stress" },
+    { q: "Tell me about a time you had to learn a new technology quickly.", context: "learning" },
+    { q: "How do you prioritize your work?", context: "organization" },
+    { q: "Describe a situation where you had to work with a difficult team member.", context: "collaboration" },
+    { q: "What's your approach to giving and receiving feedback?", context: "communication" }
+  ];
+
+  const transcript = [];
+  const startTime = new Date();
+  startTime.setHours(10, 0, 0);
+
+  // Introduction
+  transcript.push({
+    timestamp: formatTime(startTime),
+    speaker: "Interviewer" as const,
+    content: `Hello! Thank you for joining us today. We're excited to discuss the ${jobTitle} position with you.`
+  });
+
+  transcript.push({
+    timestamp: formatTime(addMinutes(startTime, 1)),
+    speaker: "Candidate" as const,
+    content: "Thank you for having me. I'm very excited about this opportunity."
+  });
+
+  // Technical questions
+  for (const question of technicalQuestions) {
+    startTime.setMinutes(startTime.getMinutes() + 5);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Interviewer" as const,
+      content: question.q
+    });
+
+    // Generate detailed response based on context
+    startTime.setMinutes(startTime.getMinutes() + 2);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Candidate" as const,
+      content: generateDetailedResponse(question.context, skills)
+    });
+
+    // Follow-up question
+    startTime.setMinutes(startTime.getMinutes() + 3);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Interviewer" as const,
+      content: generateFollowUpQuestion(question.context)
+    });
+
+    // Follow-up response
+    startTime.setMinutes(startTime.getMinutes() + 2);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Candidate" as const,
+      content: generateFollowUpResponse(question.context, skills)
+    });
+  }
+
+  // Behavioral questions
+  for (const question of behavioralQuestions) {
+    startTime.setMinutes(startTime.getMinutes() + 5);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Interviewer" as const,
+      content: question.q
+    });
+
+    startTime.setMinutes(startTime.getMinutes() + 3);
+    transcript.push({
+      timestamp: formatTime(startTime),
+      speaker: "Candidate" as const,
+      content: generateBehavioralResponse(question.context)
+    });
+  }
+
+  // Closing
+  startTime.setMinutes(startTime.getMinutes() + 5);
+  transcript.push({
+    timestamp: formatTime(startTime),
+    speaker: "Interviewer" as const,
+    content: "Thank you for your time today. Do you have any questions for us?"
+  });
+
+  startTime.setMinutes(startTime.getMinutes() + 2);
+  transcript.push({
+    timestamp: formatTime(startTime),
+    speaker: "Candidate" as const,
+    content: "Yes, I'd like to know more about the team structure and development processes. Also, what are the next steps in the interview process?"
+  });
+
+  startTime.setMinutes(startTime.getMinutes() + 3);
+  transcript.push({
+    timestamp: formatTime(startTime),
+    speaker: "Interviewer" as const,
+    content: "Great questions! Let me address those..."
+  });
+
+  return transcript;
+};
+
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+};
+
+const addMinutes = (date: Date, minutes: number) => {
+  const newDate = new Date(date);
+  newDate.setMinutes(newDate.getMinutes() + minutes);
+  return newDate;
+};
+
+const generateDetailedResponse = (context: string, skills: string[]) => {
+  const responses = {
+    technical: `In my current role, I've extensively used ${skills.slice(0, 3).join(', ')}. For example, I recently built a scalable application that processed large amounts of data using ${skills[0]}. We implemented efficient algorithms and optimized the performance using ${skills[1]}.`,
+    process: "In my experience with agile development, I've worked in two-week sprints, participated in daily stand-ups, and regularly contributed to sprint planning and retrospectives. This has helped us maintain a steady velocity and continuously improve our processes.",
+    collaboration: "I believe in open communication and collaborative problem-solving. In my current team, we use code reviews and pair programming to share knowledge and maintain code quality. This has significantly reduced bugs in production and improved team knowledge sharing.",
+  };
+  return responses[context as keyof typeof responses] || responses.technical;
+};
+
+const generateFollowUpQuestion = (context: string) => {
+  const questions = {
+    technical: "Can you elaborate on how you handled scalability challenges in that project?",
+    process: "How do you handle situations where the sprint commitments are at risk?",
+    collaboration: "What strategies do you use to ensure effective code reviews?",
+  };
+  return questions[context as keyof typeof questions] || questions.technical;
+};
+
+const generateFollowUpResponse = (context: string, skills: string[]) => {
+  const responses = {
+    technical: `To address scalability, we implemented caching using ${skills[2]} and optimized our database queries. This resulted in a 40% improvement in response times.`,
+    process: "When sprint commitments are at risk, I immediately communicate with the team and stakeholders. We then prioritize critical features and, if necessary, move less critical items to the next sprint.",
+    collaboration: "For code reviews, I follow a checklist that covers code quality, performance, security, and test coverage. I also make sure to provide constructive feedback and explain my reasoning clearly.",
+  };
+  return responses[context as keyof typeof responses] || responses.technical;
+};
+
+const generateBehavioralResponse = (context: string) => {
+  const responses = {
+    stress: "I maintain a prioritized task list and communicate early with stakeholders when deadlines might be affected. Recently, we had a critical release with a tight deadline. I broke down the work into smaller tasks, delegated effectively, and we delivered on time without compromising quality.",
+    learning: "When we adopted a new framework, I dedicated extra hours to learning through documentation and online courses. I also created a knowledge-sharing session for the team, which helped everyone get up to speed quickly.",
+    organization: "I use a combination of tools like JIRA and personal task lists. I prioritize based on business impact and dependencies, and I regularly review and adjust priorities with my team lead.",
+    collaboration: "I once worked with a team member who had a very different coding style. Instead of creating conflict, I initiated a discussion about establishing team-wide coding standards. This led to better collaboration and more consistent code.",
+    communication: "I believe in regular, constructive feedback. I always start with positive observations, then discuss areas for improvement with specific examples. I also actively seek feedback for my own work and use it to improve.",
+  };
+  return responses[context as keyof typeof responses] || responses.stress;
+};
+
+const generateAIAssessment = (transcript: Interview['transcript'], jobSkills: string[]) => {
+  // Analyze the transcript and generate scores
+  const technicalScore = Math.floor(Math.random() * 20 + 80); // 80-100
+  const communicationScore = Math.floor(Math.random() * 20 + 80);
+  const problemSolvingScore = Math.floor(Math.random() * 20 + 80);
+  const culturalFitScore = Math.floor(Math.random() * 20 + 80);
+
+  return {
+    overallScore: Math.floor((technicalScore + communicationScore + problemSolvingScore + culturalFitScore) / 4),
+    categoryScores: {
+      technical: technicalScore,
+      communication: communicationScore,
+      problemSolving: problemSolvingScore,
+      culturalFit: culturalFitScore,
+    },
+    strengths: [
+      `Strong technical knowledge in ${jobSkills.slice(0, 2).join(' and ')}`,
+      'Clear and articulate communication',
+      'Structured problem-solving approach',
+      'Good cultural alignment',
+    ],
+    areasForImprovement: [
+      'Could provide more specific examples in some responses',
+      'Consider discussing more about testing methodologies',
+      'Could elaborate more on system design considerations',
+    ],
+    recommendations: [
+      'Candidate shows strong potential for the role',
+      'Technical skills align well with requirements',
+      'Would work well in a collaborative team environment',
+    ],
+  };
+};
+
+const generateInterviewData = (candidate: Candidate, job: Job): Interview | undefined => {
+  if (candidate.stage !== RecruitmentStage.INTERVIEWED && 
+      candidate.stage !== RecruitmentStage.OFFER_EXTENDED && 
+      candidate.stage !== RecruitmentStage.HIRED) {
+    return undefined;
+  }
+
+  const jobSkills = job.skills || [];
+  const transcript = generateInterviewTranscript(job.title, jobSkills);
+  const aiAssessment = generateAIAssessment(transcript, jobSkills);
+
+  return {
+    id: parseInt(candidate.id),
+    candidate: {
+      name: candidate.name,
+      position: job.title
+    },
+    date: new Date(new Date(candidate.appliedDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    time: '10:00 AM',
+    type: 'Technical',
+    status: 'Completed',
+    interviewers: [job.hiringManager, job.recruiter],
+    location: 'Virtual/Zoom',
+    transcript,
+    aiAssessment,
+    humanFeedback: {
+      score: Math.min(100, Math.max(0, aiAssessment.overallScore + Math.floor(Math.random() * 10 - 5))),
+      notes: `${candidate.name} demonstrated strong technical skills and good problem-solving abilities. Their experience with ${jobSkills.slice(0, 2).join(' and ')} was particularly impressive.`,
+      nextSteps: candidate.stage === RecruitmentStage.INTERVIEWED ? 'Schedule follow-up interview' : 'Proceed with offer discussion',
+      decision: candidate.stage === RecruitmentStage.INTERVIEWED ? 'Further Evaluation' : 'Hire'
+    }
+  };
+};
 
 export const candidates: Candidate[] = [
   {
@@ -660,16 +887,16 @@ export const candidates: Candidate[] = [
       },
       {
         degree: 'B.Com',
-        institution: 'St. Xavier\'s College, Mumbai',
+        institution: "St. Xavier's College, Mumbai",
         year: 2014
       }
     ],
-    resume: 'https://example.com/resumes/ishita-patel.pdf',
+    resume: 'https://example.com/ishita-resume',
     source: 'LinkedIn',
     appliedDate: '2024-03-10',
     stage: RecruitmentStage.INTERVIEWED,
     jobId: '2',
-    notes: 'Strong background in growth and analytics',
+    notes: 'Strong background in product growth and analytics. Looking for next growth opportunity.',
     assessment: {
       score: 90,
       feedback: 'Excellent understanding of product metrics and user acquisition',
@@ -6302,7 +6529,17 @@ export const candidates: Candidate[] = [
       completed: false
     }
   }
-];
+].map(candidate => {
+  const job = jobs.find(j => j.id === candidate.jobId);
+  if (!job) return candidate;
+
+  const interview = generateInterviewData(candidate, job);
+  
+  return {
+    ...candidate,
+    interview
+  };
+});
 
 export const getStageFromString = (stage: string): RecruitmentStage => {
   switch (stage) {

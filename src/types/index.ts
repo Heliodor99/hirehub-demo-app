@@ -28,6 +28,28 @@ export interface Skill {
   proficiency: number;
 }
 
+export interface CommunicationEvent {
+  id: string;
+  date: string;
+  time: string;
+  type: 'email' | 'phone' | 'whatsapp' | 'linkedin' | 'system' | 'calendar' | 'assessment' | 'interview';
+  channel: string;
+  subject: string;
+  content: string;
+  direction: 'inbound' | 'outbound' | 'system';
+  status: 'sent' | 'delivered' | 'read' | 'completed' | 'scheduled';
+  sender?: string;
+  recipient?: string;
+  attachments?: Array<{
+    name: string;
+    type: string;
+    size: string;
+  }>;
+  metadata?: {
+    [key: string]: any;
+  };
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -49,6 +71,7 @@ export interface Candidate {
   skillCompetencies?: Skill[]; // Optional dedicated field for skill competencies
   interview?: Interview; // Add interview property
   lastUpdated?: string; // Add lastUpdated property
+  communicationTimeline?: CommunicationEvent[];
 }
 
 export interface Task {

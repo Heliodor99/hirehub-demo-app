@@ -1,6 +1,109 @@
 import { Candidate, RecruitmentStage } from '@/types';
 
+const divyaKrishnan: Candidate = {
+  id: '6',
+  name: 'Divya Krishnan',
+  email: 'divya.krishnan@gmail.com',
+  phone: '+91-32190-89005',
+  currentTitle: 'React Developer',
+  currentCompany: 'AppFront Technologies',
+  location: 'Hyderabad, Telangana',
+  experience: 5,
+  skills: [
+    { name: 'React', proficiency: 5 },
+    { name: 'TypeScript', proficiency: 4 },
+    { name: 'JavaScript', proficiency: 5 },
+    { name: 'HTML/CSS', proficiency: 5 },
+    { name: 'Redux', proficiency: 4 },
+    { name: 'Next.js', proficiency: 4 }
+  ],
+  education: [
+    {
+      degree: 'B.Tech in Computer Science',
+      institution: 'NIT Warangal',
+      year: 2019
+    }
+  ],
+  resume: 'https://example.com/divya-krishnan-resume',
+  source: 'LinkedIn',
+  appliedDate: '2024-03-08',
+  stage: RecruitmentStage.INTERVIEWED,
+  jobId: '1',
+  notes: 'Strong frontend development background with excellent React expertise.',
+  assessment: {
+    score: 89,
+    feedback: 'Excellent code quality and test coverage practices',
+    completed: true
+  },
+  interview: {
+    id: 4,
+    candidate: {
+      name: 'Divya Krishnan',
+      position: 'Senior Frontend Developer'
+    },
+    date: '2024-03-20',
+    time: '2:30 PM',
+    type: 'Technical',
+    status: 'Completed',
+    interviewers: ['Rajesh Kumar', 'Sneha Reddy'],
+    location: 'Virtual/Zoom',
+    transcript: [
+      {
+        timestamp: '2:30 PM',
+        speaker: 'Interviewer',
+        content: 'Could you explain your experience with React performance optimization?'
+      },
+      {
+        timestamp: '2:33 PM',
+        speaker: 'Candidate',
+        content: 'In my current role at AppFront, I have implemented several performance optimizations including code splitting, lazy loading, and memoization. For example, we had a complex dashboard that was causing performance issues. I implemented React.memo for expensive components, used useMemo for complex calculations, and set up dynamic imports for different dashboard sections. This reduced the initial load time by 40% and improved overall performance significantly.'
+      },
+      {
+        timestamp: '2:38 PM',
+        speaker: 'Interviewer',
+        content: 'How do you handle state management in large React applications?'
+      },
+      {
+        timestamp: '2:40 PM',
+        speaker: 'Candidate',
+        content: 'I follow a hybrid approach to state management. For local component state, I use useState and useReducer hooks. For global application state, I primarily use Redux with Redux Toolkit to reduce boilerplate. I also implement context API for sharing theme, authentication, and other cross-cutting concerns. This approach helps maintain a clear separation of concerns and makes the application more maintainable.'
+      }
+    ],
+    aiAssessment: {
+      overallScore: 92,
+      categoryScores: {
+        technical: 94,
+        communication: 90,
+        problemSolving: 92,
+        culturalFit: 88
+      },
+      strengths: [
+        'Deep understanding of React ecosystem',
+        'Strong focus on performance optimization',
+        'Excellent problem-solving skills',
+        'Clear technical communication'
+      ],
+      areasForImprovement: [
+        'Could expand knowledge of backend integration patterns',
+        'More experience with micro-frontend architectures needed'
+      ],
+      recommendations: [
+        'Strong candidate for senior frontend role',
+        'Consider for technical leadership track'
+      ]
+    },
+    humanFeedback: {
+      score: 4.7,
+      notes: 'Excellent technical skills and great cultural fit. Shows strong potential for technical leadership.',
+      nextSteps: 'Schedule system design round',
+      decision: 'Further Evaluation'
+    }
+  },
+  lastUpdated: '2024-03-20'
+};
+
 export const candidates: Candidate[] = [
+  divyaKrishnan,
   {
     id: '1',
     name: 'Sarah Johnson',
@@ -56,7 +159,17 @@ export const candidates: Candidate[] = [
         {
           timestamp: '10:02 AM',
           speaker: 'Candidate',
-          content: 'I have led the development and implementation of design systems at TechSolutions...'
+          content: 'I have led the development and implementation of design systems at TechSolutions. Our team created a comprehensive component library that improved design consistency and development speed by 60%. We implemented atomic design principles and established clear documentation standards.'
+        },
+        {
+          timestamp: '10:05 AM',
+          speaker: 'Interviewer',
+          content: 'How do you approach user research and testing in your design process?'
+        },
+        {
+          timestamp: '10:07 AM',
+          speaker: 'Candidate',
+          content: 'I follow a user-centered design approach. We start with user interviews and surveys to understand pain points, create prototypes, and conduct usability testing with real users. This iterative process helps us validate design decisions and improve the user experience based on actual feedback.'
         }
       ],
       aiAssessment: {
@@ -180,7 +293,17 @@ export const candidates: Candidate[] = [
         {
           timestamp: '2:03 PM',
           speaker: 'Candidate',
-          content: 'At TechInnovate, I led the transition from a monolithic to microservices architecture...'
+          content: 'At TechInnovate, I led the transition from a monolithic to microservices architecture. We broke down our application into smaller, independent services that communicate through well-defined APIs. This improved our deployment flexibility and allowed teams to work independently on different services.'
+        },
+        {
+          timestamp: '2:06 PM',
+          speaker: 'Interviewer',
+          content: 'How do you handle data consistency across microservices?'
+        },
+        {
+          timestamp: '2:09 PM',
+          speaker: 'Candidate',
+          content: 'We implement eventual consistency using event-driven architecture. Each service maintains its own database, and we use message queues for asynchronous communication. This ensures data consistency while maintaining service independence.'
         }
       ],
       aiAssessment: {
@@ -302,7 +425,17 @@ export const candidates: Candidate[] = [
         {
           timestamp: '11:03 AM',
           speaker: 'Candidate',
-          content: 'At TechCorp, we faced a critical decision regarding our product roadmap...'
+          content: 'At TechCorp, we faced a critical decision regarding our product roadmap. We had competing priorities between launching new features and improving platform stability. I conducted extensive user research, analyzed metrics, and collaborated with stakeholders to prioritize platform stability first. This decision led to a 40% reduction in customer complaints and improved user retention.'
+        },
+        {
+          timestamp: '11:06 AM',
+          speaker: 'Interviewer',
+          content: 'How do you prioritize features in your product backlog?'
+        },
+        {
+          timestamp: '11:09 AM',
+          speaker: 'Candidate',
+          content: 'I use a combination of quantitative and qualitative data. We score features based on business value, user impact, and implementation effort. I also consider user feedback, market trends, and strategic alignment. This helps us make data-driven decisions while keeping user needs at the forefront.'
         }
       ],
       aiAssessment: {
