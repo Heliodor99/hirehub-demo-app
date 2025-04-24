@@ -1,18 +1,38 @@
 'use client';
 
-import { useState } from 'react';
-import { FiBriefcase, FiMapPin, FiCalendar, FiUsers, FiChevronDown, FiChevronUp, FiSearch } from 'react-icons/fi';
-import { jobs, candidates } from '@/data/jobs';
-import { RecruitmentStage } from '@/types';
+import { useState, useEffect } from 'react';
+import { FiBriefcase, FiMapPin, FiCalendar, FiUsers, FiChevronDown, FiChevronUp, FiSearch, FiArrowLeft } from 'react-icons/fi';
+import { jobs as initialJobs, candidates } from '@/data/jobs';
+import { RecruitmentStage, Job } from '@/types';
 import { getStageColor, formatStageName, pipelineStageGroups, getCandidatesByStageGroup } from '@/utils/recruitment';
 import Link from 'next/link';
+import { Card, CardHeader, CardBody, Button, Badge, Input, Avatar, SectionHeading, Divider } from '@/components/DesignSystem';
 
 export default function JobDetailsPage({ params }: { params: { id: string } }) {
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
+  const [job, setJob] = useState<Job | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   
-  const job = jobs.find(j => j.id === params.id);
+  // Load job data including from localStorage
+  useEffect(() => {
+    // First check if the job is in the initial jobs data
+    let foundJob = initialJobs.find(j => j.id === params.id);
+    
+    // If not found in initial data, check localStorage
+    if (!foundJob && typeof window !== 'undefined') {
+      const addedJobsJSON = localStorage.getItem('addedJobs');
+      if (addedJobsJSON) {
+        const addedJobs = JSON.parse(addedJobsJSON);
+        foundJob = addedJobs.find((j: Job) => j.id === params.id);
+      }
+    }
+    
+    setJob(foundJob);
+    setIsLoading(false);
+  }, [params.id]);
+
   const jobCandidates = candidates.filter(c => c.jobId === params.id);
 
   // Filter candidates based on search query and selected stage
@@ -27,14 +47,37 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
     return matchesSearch && matchesStage;
   });
 
+  if (isLoading) {
+    return (
+      <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto">
+          <Card className="p-12 text-center">
+            <div className="flex flex-col items-center justify-center text-gray-500">
+              <div className="animate-spin h-10 w-10 border-4 border-primary-500 border-t-transparent rounded-full mb-4"></div>
+              <h3 className="text-lg font-medium mb-1">Loading job details...</h3>
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   if (!job) {
     return (
-      <div className="p-6">
+      <div className="p-6 bg-gray-50 min-h-screen">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center py-12">
-            <h1 className="text-2xl font-bold text-gray-900">Job Not Found</h1>
-            <p className="mt-2 text-gray-600">The job you're looking for doesn't exist or has been removed.</p>
-          </div>
+          <Card className="p-12 text-center">
+            <div className="flex flex-col items-center justify-center text-gray-500">
+              <FiBriefcase className="h-12 w-12 mb-4 text-gray-300" />
+              <h3 className="text-lg font-medium mb-1">Job Not Found</h3>
+              <p className="text-sm">The job you're looking for doesn't exist or has been removed.</p>
+              <Link href="/jobs">
+                <Button variant="primary" className="mt-6">
+                  Return to Jobs
+                </Button>
+              </Link>
+            </div>
+          </Card>
         </div>
       </div>
     );
@@ -44,269 +87,148 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
   const stageCounts = Object.values(RecruitmentStage).reduce((acc, stage) => {
     acc[stage] = jobCandidates.filter(c => c.stage === stage).length;
     return acc;
-  }, {} as Record<RecruitmentStage, number>);
+  }, {} as Record<string, number>);
 
-  const formatStageDisplay = (stage: RecruitmentStage) => {
+  const formatStageDisplay = (stage: string) => {
     return stage
       .split('_')
-      .map(word => word.charAt(0) + word.slice(1).toLowerCase())
+      .map((word: string) => word.charAt(0) + word.slice(1).toLowerCase())
       .join(' ');
   };
 
   return (
-    <div className="p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Job Header */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
-              <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <FiBriefcase className="mr-1.5 h-4 w-4" />
-                  {job.company}
-                </div>
-                <div className="flex items-center">
-                  <FiMapPin className="mr-1.5 h-4 w-4" />
-                  {job.location}
-                </div>
-                <div className="flex items-center">
-                  <FiCalendar className="mr-1.5 h-4 w-4" />
-                  Posted {new Date(job.postedDate).toLocaleDateString()}
-                </div>
-                <div className="flex items-center">
-                  <FiUsers className="mr-1.5 h-4 w-4" />
-                  {jobCandidates.length} Candidates
-                </div>
-                <div className="flex items-center">
-                  ₹{job.salary.min.toLocaleString()} - ₹{job.salary.max.toLocaleString()}
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 md:mt-0">
-              <div className="flex space-x-3">
-                <Link
-                  href="/candidates/comparison"
-                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <FiUsers className="mr-2 h-4 w-4" />
-                  Compare Skills
-                </Link>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  job.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                }`}>
-                  {job.status}
-                </span>
-              </div>
-            </div>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Page Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link href="/jobs" className="mr-4 text-gray-600 hover:text-primary-600 transition-colors">
+              <FiArrowLeft className="h-6 w-6" />
+            </Link>
+            <SectionHeading>
+              {job.title}
+            </SectionHeading>
           </div>
+          <Badge variant={job.status === 'Active' ? 'success' : 'warning'}>
+            {job.status}
+          </Badge>
         </div>
 
-        <div className="space-y-6">
-          {/* Main Content - Two Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column - Job Description */}
-            <div className="lg:col-span-2">
-              <div className="bg-white shadow rounded-lg p-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-4">Job Description</h2>
-                  <div className="prose max-w-none">
-                    <p className="text-gray-600">{job.description}</p>
+        {/* Job Header */}
+        <Card>
+          <CardBody className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-primary-50 text-primary-600">
+                    <FiBriefcase className="h-5 w-5" />
                   </div>
-
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-2">Requirements</h3>
-                    <ul className="list-disc list-inside text-gray-600 space-y-2">
-                      {job.requirements.map((req, index) => (
-                        <li key={index}>{req}</li>
-                      ))}
-                    </ul>
+                  <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+                  <div className="flex items-center text-gray-600">
+                    <FiBriefcase className="mr-2 h-4 w-4 text-primary-500" />
+                    <span>{job.company}</span>
                   </div>
-
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-2">Required Skills</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {job.skills?.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex items-center text-gray-600">
+                    <FiMapPin className="mr-2 h-4 w-4 text-purple-500" />
+                    <span>{job.location}</span>
                   </div>
-
-                  <button
-                    onClick={() => setShowAdditionalInfo(!showAdditionalInfo)}
-                    className="mt-6 flex items-center text-primary-600 hover:text-primary-700"
-                  >
-                    {showAdditionalInfo ? (
-                      <>
-                        <FiChevronUp className="mr-2 h-4 w-4" />
-                        Show Less
-                      </>
-                    ) : (
-                      <>
-                        <FiChevronDown className="mr-2 h-4 w-4" />
-                        Show More
-                      </>
-                    )}
-                  </button>
-
-                  {showAdditionalInfo && (
-                    <div className="mt-6 space-y-6">
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Benefits</h3>
-                        <ul className="list-disc list-inside text-gray-600 space-y-2">
-                          {job.benefits?.map((benefit, index) => (
-                            <li key={index}>{benefit}</li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Hiring Team</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-sm text-gray-500">Hiring Manager</p>
-                            <p className="font-medium">{job.hiringManager}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Recruiter</p>
-                            <p className="font-medium">{job.recruiter}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <div className="flex items-center text-gray-600">
+                    <FiCalendar className="mr-2 h-4 w-4 text-teal-500" />
+                    <span>Posted {new Date(job.postedDate).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <FiUsers className="mr-2 h-4 w-4 text-purple-500" />
+                    <span>{jobCandidates.length} Candidates</span>
+                  </div>
                 </div>
               </div>
             </div>
+          </CardBody>
+        </Card>
 
-            {/* Right Column - Pipeline Overview */}
-            <div className="lg:col-span-1">
-              <div className="bg-white shadow rounded-lg p-6 sticky" style={{ top: '170px' }}>
-                <h2 className="text-xl font-semibold mb-4">Pipeline Overview</h2>
-                <div className="space-y-4">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Job Details */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card>
+              <CardHeader>
+                <h2 className="text-lg font-semibold text-gray-900">Job Description</h2>
+              </CardHeader>
+              <CardBody className="p-6">
+                <p className="text-gray-700 mb-6">{job.description}</p>
+                
+                <h3 className="text-md font-semibold text-gray-900 mb-3">Requirements</h3>
+                <ul className="list-disc pl-5 mb-6 space-y-1">
+                  {job.requirements.map((req, index) => (
+                    <li key={index} className="text-gray-700">{req}</li>
+                  ))}
+                </ul>
+                
+                <h3 className="text-md font-semibold text-gray-900 mb-3">Responsibilities</h3>
+                <ul className="list-disc pl-5 mb-6 space-y-1">
+                  {job.responsibilities.map((resp, index) => (
+                    <li key={index} className="text-gray-700">{resp}</li>
+                  ))}
+                </ul>
+                
+                <Divider />
+                
+                <div className="pt-4">
+                  <h3 className="text-md font-semibold text-gray-900 mb-3">Skills</h3>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {job.skills.map((skill, index) => (
+                      <span key={index} className="px-3 py-1 bg-primary-50 text-primary-700 rounded-full text-sm">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <h3 className="text-md font-semibold text-gray-900 mb-3">Benefits</h3>
+                  <ul className="list-disc pl-5 space-y-1">
+                    {job.benefits.map((benefit, index) => (
+                      <li key={index} className="text-gray-700">{benefit}</li>
+                    ))}
+                  </ul>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+          
+          {/* Right Column - Pipeline */}
+          <div className="lg:col-span-1">
+            <Card className="sticky top-4">
+              <CardHeader>
+                <h2 className="text-lg font-semibold text-gray-900">Recruitment Pipeline</h2>
+              </CardHeader>
+              <CardBody className="p-0">
+                <div className="divide-y divide-gray-200">
                   {[
+                    RecruitmentStage.OUTREACHED,
                     RecruitmentStage.APPLIED,
                     RecruitmentStage.SHORTLISTED,
                     RecruitmentStage.INTERVIEWED,
                     RecruitmentStage.OFFER_EXTENDED,
-                    RecruitmentStage.HIRED,
-                    RecruitmentStage.REJECTED,
-                    RecruitmentStage.OFFER_REJECTED
+                    RecruitmentStage.HIRED
                   ].map((stage) => (
-                    <div key={stage} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">
-                          {formatStageDisplay(stage)}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {stageCounts[stage]} candidates
-                        </span>
+                    <div 
+                      key={stage}
+                      className={`flex items-center justify-between p-4 ${selectedStage === stage ? 'bg-primary-50' : ''}`}
+                      onClick={() => setSelectedStage(selectedStage === stage ? null : stage)}
+                    >
+                      <div className="flex items-center">
+                        <div className={`w-3 h-3 rounded-full mr-3 ${getStageColor(stage)}`}></div>
+                        <span className="text-gray-900">{formatStageDisplay(stage)}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full ${getStageColor(stage)}`}
-                          style={{
-                            width: `${(stageCounts[stage] / (jobCandidates.length || 1)) * 100}%`
-                          }}
-                        />
-                      </div>
+                      <span className="px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                        {stageCounts[stage] || 0}
+                      </span>
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Candidates Section */}
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Candidates</h2>
-            
-            {/* Search and Filters */}
-            <div className="mb-6 space-y-4">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiSearch className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  placeholder="Search candidates..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-
-              {/* Stage Filters */}
-              <div className="flex flex-wrap gap-2">
-                {pipelineStageGroups.map((group) => {
-                  const candidatesInGroup = getCandidatesByStageGroup(jobCandidates, group.id);
-                  return (
-                    <button
-                      key={group.id}
-                      onClick={() => setSelectedStage(selectedStage === group.id ? null : group.id)}
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        selectedStage === group.id
-                          ? 'ring-2 ring-primary-500'
-                          : 'hover:shadow-md'
-                      } ${group.color}`}
-                    >
-                      {group.name} ({candidatesInGroup.length})
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Candidates List */}
-            <div className="space-y-4">
-              {filteredCandidates.map(candidate => (
-                <div key={candidate.id} className="border-b border-gray-200 pb-4 last:border-0">
-                  <div className="flex justify-between items-start">
-                    <div className="group relative">
-                      <div className="flex items-center space-x-1 cursor-pointer">
-                        <Link href={`/candidates/${candidate.id}`} className="font-medium text-gray-900 hover:text-primary-600">
-                          {candidate.name}
-                        </Link>
-                        <FiChevronDown className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block z-10">
-                        <div className="py-1">
-                          <Link
-                            href={`/candidates/${candidate.id}`}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            View Profile
-                          </Link>
-                          <a
-                            href={candidate.resume}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            View Resume
-                          </a>
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-500">{candidate.currentTitle}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                      getStageColor(candidate.stage)
-                    }`}>
-                      {formatStageName(candidate.stage)}
-                    </span>
-                  </div>
-                  <div className="mt-2 text-sm text-gray-500">
-                    <p>Source: {candidate.source}</p>
-                    <p>Applied: {new Date(candidate.appliedDate).toLocaleDateString()}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+              </CardBody>
+            </Card>
           </div>
         </div>
       </div>

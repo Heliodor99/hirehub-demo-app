@@ -3,54 +3,6 @@ import { generateCommunicationTimeline } from '@/utils/communication';
 
 export const jobs: Job[] = [
   {
-    id: '1',
-    title: 'Senior Frontend Developer',
-    company: 'TechCorp India',
-    location: 'Bangalore, Karnataka',
-    department: 'Engineering',
-    description: 'We are looking for an experienced Frontend Developer to join our team...',
-    requirements: [
-      '5+ years of experience in frontend development',
-      'Strong proficiency in React and TypeScript',
-      'Experience with modern frontend build tools',
-      'Bachelor\'s degree in Computer Science or related field'
-    ],
-    responsibilities: [
-      'Develop and maintain frontend applications',
-      'Collaborate with design and backend teams',
-      'Write clean, maintainable code',
-      'Participate in code reviews'
-    ],
-    salary: {
-      min: 1800000,
-      max: 2800000,
-      currency: 'INR'
-    },
-    postedDate: '2024-03-01',
-    status: 'Active',
-    hiringManager: 'Rajesh Sharma',
-    recruiter: 'Priya Patel',
-    pipeline: {
-      stages: [
-        RecruitmentStage.OUTREACHED,
-        RecruitmentStage.APPLIED,
-        RecruitmentStage.SHORTLISTED,
-        RecruitmentStage.INTERVIEWED,
-        RecruitmentStage.OFFER_EXTENDED,
-        RecruitmentStage.HIRED,
-        RecruitmentStage.REJECTED,
-        RecruitmentStage.OFFER_REJECTED
-      ]
-    },
-    skills: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Redux'],
-    benefits: [
-      'Health insurance',
-      'Provident fund',
-      'Flexible work hours',
-      'Remote work options'
-    ]
-  },
-  {
     id: '2',
     title: 'Product Manager',
     company: 'InnovateTech Solutions',
@@ -77,7 +29,7 @@ export const jobs: Job[] = [
     postedDate: '2024-03-05',
     status: 'Active',
     hiringManager: 'Vikram Mehta',
-    recruiter: 'Anjali Singh',
+    recruiter: "Hirehub",
     pipeline: {
       stages: [
         RecruitmentStage.OUTREACHED,
@@ -125,7 +77,7 @@ export const jobs: Job[] = [
     postedDate: '2024-03-10',
     status: 'Active',
     hiringManager: 'Aditya Verma',
-    recruiter: 'Neha Gupta',
+    recruiter: "Hirehub",
     pipeline: {
       stages: [
         RecruitmentStage.OUTREACHED,
@@ -173,7 +125,7 @@ export const jobs: Job[] = [
     postedDate: '2024-03-15',
     status: 'Active',
     hiringManager: 'Sameer Joshi',
-    recruiter: 'Divya Malhotra',
+    recruiter: "Hirehub",
     pipeline: {
       stages: [
         RecruitmentStage.APPLIED,
@@ -404,15 +356,13 @@ const generateInterviewData = (candidate: Candidate, job: Job): Interview | unde
 
   return {
     id: parseInt(candidate.id),
-    candidate: {
-      name: candidate.name,
-      position: job.title
-    },
+    candidateId: candidate.id,
+    jobId: job.id,
     date: new Date(new Date(candidate.appliedDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     time: '10:00 AM',
     type: 'Technical',
     status: 'Completed',
-    interviewers: [job.hiringManager, job.recruiter],
+    interviewers: [job.hiringManager, job.recruiter].filter(Boolean),
     location: 'Virtual/Zoom',
     transcript,
     aiAssessment,
@@ -530,7 +480,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/neha-gupta.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/neha-gupta.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-03',
     stage: RecruitmentStage.APPLIED,
@@ -559,7 +509,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/resumes/rahul-khanna.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/rahul-khanna.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-07',
     stage: RecruitmentStage.OUTREACHED,
@@ -646,7 +596,7 @@ export const candidates: Candidate[] = [
         year: 2017
       }
     ],
-    resume: 'https://example.com/resumes/priya-mehta.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/priya-mehta.pdf',
     source: 'Referral',
     appliedDate: '2024-03-04',
     stage: RecruitmentStage.OUTREACHED,
@@ -680,7 +630,7 @@ export const candidates: Candidate[] = [
         year: 2015
       }
     ],
-    resume: 'https://example.com/resumes/aditya-verma.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/aditya-verma.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-08',
     stage: RecruitmentStage.APPLIED,
@@ -709,7 +659,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/sanya-agarwal.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/sanya-agarwal.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-14',
     stage: RecruitmentStage.OUTREACHED,
@@ -772,7 +722,7 @@ export const candidates: Candidate[] = [
         year: 2017
       }
     ],
-    resume: 'https://example.com/resumes/pooja-iyer.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/pooja-iyer.pdf',
     source: 'Referral',
     appliedDate: '2024-03-09',
     stage: RecruitmentStage.OUTREACHED,
@@ -835,7 +785,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/deepika-joshi.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/deepika-joshi.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-17',
     stage: RecruitmentStage.OUTREACHED,
@@ -898,7 +848,7 @@ export const candidates: Candidate[] = [
         year: 2014
       }
     ],
-    resume: 'https://example.com/ishita-resume',
+    resume: 'https://resumes.hirehub.ai/ishita-resume',
     source: 'LinkedIn',
     appliedDate: '2024-03-10',
     stage: RecruitmentStage.INTERVIEWED,
@@ -927,7 +877,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/varun-mathur.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/varun-mathur.pdf',
     source: 'Referral',
     appliedDate: '2024-03-15',
     stage: RecruitmentStage.APPLIED,
@@ -956,7 +906,7 @@ export const candidates: Candidate[] = [
         year: 2016
       }
     ],
-    resume: 'https://example.com/resumes/arnav-choudhary.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/arnav-choudhary.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-18',
     stage: RecruitmentStage.OUTREACHED,
@@ -1014,7 +964,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/sandeep-kumar.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/sandeep-kumar.pdf',
     source: 'Naukri',
     appliedDate: '2024-03-11',
     stage: RecruitmentStage.APPLIED,
@@ -1072,7 +1022,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/ravi-shankar.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/ravi-shankar.pdf',
     source: 'Referral',
     appliedDate: '2024-03-19',
     stage: RecruitmentStage.APPLIED,
@@ -1101,7 +1051,7 @@ export const candidates: Candidate[] = [
         year: 2021
       }
     ],
-    resume: 'https://example.com/resumes/shreya-banerjee.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/shreya-banerjee.pdf',
     source: 'Naukri',
     appliedDate: '2024-03-07',
     stage: RecruitmentStage.APPLIED,
@@ -1130,7 +1080,7 @@ export const candidates: Candidate[] = [
         year: 2022
       }
     ],
-    resume: 'https://example.com/resumes/karthik-subramanian.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/karthik-subramanian.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-12',
     stage: RecruitmentStage.OUTREACHED,
@@ -1188,7 +1138,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/vivek-nair.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/vivek-nair.pdf',
     source: 'Naukri',
     appliedDate: '2024-03-20',
     stage: RecruitmentStage.OUTREACHED,
@@ -1217,7 +1167,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/divya-krishnan.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/divya-krishnan.pdf',
     source: 'Referral',
     appliedDate: '2024-03-08',
     stage: RecruitmentStage.INTERVIEWED,
@@ -1275,7 +1225,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/ritu-agarwal.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/ritu-agarwal.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-18',
     stage: RecruitmentStage.OUTREACHED,
@@ -1304,7 +1254,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/resumes/gaurav-saxena.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/gaurav-saxena.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-21',
     stage: RecruitmentStage.OUTREACHED,
@@ -1367,7 +1317,7 @@ export const candidates: Candidate[] = [
         year: 2015
       }
     ],
-    resume: 'https://example.com/resumes/nisha-thakur.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/nisha-thakur.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-14',
     stage: RecruitmentStage.APPLIED,
@@ -1425,7 +1375,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/kavita-sharma.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/kavita-sharma.pdf',
     source: 'Referral',
     appliedDate: '2024-03-22',
     stage: RecruitmentStage.OUTREACHED,
@@ -1454,7 +1404,7 @@ export const candidates: Candidate[] = [
         year: 2016
       }
     ],
-    resume: 'https://example.com/resumes/vikas-goyal.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/vikas-goyal.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-10',
     stage: RecruitmentStage.OUTREACHED,
@@ -1470,7 +1420,7 @@ export const candidates: Candidate[] = [
     id: '36',
     name: 'Shikha Bajaj',
     email: 'bajaj.shikha83@outlook.com',
-    phone: 'Not provided',
+    phone: '+91 87098 38321',
     currentTitle: 'Product Manager',
     currentCompany: 'UserFirst India',
     location: 'Pune, Maharashtra',
@@ -1512,7 +1462,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/deepak-bhatt.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/deepak-bhatt.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-20',
     stage: RecruitmentStage.INTERVIEWED,
@@ -1541,7 +1491,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/neelam-patel.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/neelam-patel.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-23',
     stage: RecruitmentStage.APPLIED,
@@ -1599,7 +1549,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/anita-reddy.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/anita-reddy.pdf',
     source: 'Referral',
     appliedDate: '2024-03-16',
     stage: RecruitmentStage.OUTREACHED,
@@ -1628,7 +1578,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/resumes/prakash-jain.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/prakash-jain.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-21',
     stage: RecruitmentStage.OUTREACHED,
@@ -1686,7 +1636,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/varun-chadha.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/varun-chadha.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-12',
     stage: RecruitmentStage.INTERVIEWED,
@@ -1749,7 +1699,7 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://example.com/resumes/arjun-nambiar.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/arjun-nambiar.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-22',
     stage: RecruitmentStage.OUTREACHED,
@@ -1778,7 +1728,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/resumes/sonali-joshi.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/sonali-joshi.pdf',
     source: 'Naukri',
     appliedDate: '2024-03-25',
     stage: RecruitmentStage.OUTREACHED,
@@ -1836,7 +1786,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/leela-prasad.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/leela-prasad.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-18',
     stage: RecruitmentStage.OUTREACHED,
@@ -1865,7 +1815,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/resumes/kunal-malhotra.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/kunal-malhotra.pdf',
     source: 'Referral',
     appliedDate: '2024-03-23',
     stage: RecruitmentStage.OUTREACHED,
@@ -1952,7 +1902,7 @@ export const candidates: Candidate[] = [
         year: 2017
       }
     ],
-    resume: 'https://example.com/resumes/shalini-gupta.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/shalini-gupta.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-19',
     stage: RecruitmentStage.INTERVIEWED,
@@ -1981,7 +1931,7 @@ export const candidates: Candidate[] = [
         year: 2021
       }
     ],
-    resume: 'https://example.com/resumes/vineet-sharma.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/vineet-sharma.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-24',
     stage: RecruitmentStage.APPLIED,
@@ -2039,7 +1989,7 @@ export const candidates: Candidate[] = [
         year: 2016
       }
     ],
-    resume: 'https://example.com/resumes/rahul-mehra.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/rahul-mehra.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-15',
     stage: RecruitmentStage.OUTREACHED,
@@ -2068,7 +2018,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/resumes/kavya-menon.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/kavya-menon.pdf',
     source: 'Naukri',
     appliedDate: '2024-03-20',
     stage: RecruitmentStage.OUTREACHED,
@@ -2084,7 +2034,7 @@ export const candidates: Candidate[] = [
     id: '57',
     name: 'Akash Bhatia',
     email: 'akash_2017@gmail.com',
-    phone: '991-3210-9855',
+    phone: '+91 92727 69585',
     currentTitle: 'Research Scientist',
     currentCompany: 'Microsoft Research India',
     location: 'Bangalore, Karnataka',
@@ -2131,7 +2081,7 @@ export const candidates: Candidate[] = [
         year: 2016
       }
     ],
-    resume: 'https://example.com/resumes/sneha-kapoor.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/sneha-kapoor.pdf',
     source: 'Company Website',
     appliedDate: '2024-03-28',
     stage: RecruitmentStage.OUTREACHED,
@@ -2160,7 +2110,7 @@ export const candidates: Candidate[] = [
         year: 2021
       }
     ],
-    resume: 'https://example.com/resumes/vikrant-khanna.pdf',
+    resume: 'https://resumes.hirehub.ai/resumes/vikrant-khanna.pdf',
     source: 'LinkedIn',
     appliedDate: '2024-03-16',
     stage: RecruitmentStage.APPLIED,
@@ -2433,7 +2383,7 @@ export const candidates: Candidate[] = [
     id: '68',
     name: 'Kamal Vora',
     email: 'k_vora@outlook.com',
-    phone: 'Please email first',
+    phone: '+91 76591 07222',
     currentTitle: 'Site Reliability Engineer',
     currentCompany: 'upGrad',
     location: 'Pune, Maharashtra',
@@ -3024,7 +2974,7 @@ export const candidates: Candidate[] = [
     id: '87',
     name: 'Neha Bhatnagar',
     email: 'n.bhatnagar1991@outlook.com',
-    phone: 'Contact only via email initially',
+    phone: '+91 78067 78312',
     currentTitle: 'Senior Data Scientist',
     currentCompany: 'American Express',
     location: 'Gurgaon, Haryana',
@@ -3266,7 +3216,7 @@ export const candidates: Candidate[] = [
     id: '95',
     name: 'Abdul Rahman',
     email: 'ar1992@gmail.co.in',
-    phone: '#######990',
+    phone: '+91 76138 23578',
     currentTitle: 'Senior Machine Learning Engineer',
     currentCompany: 'Flipkart',
     location: 'Bangalore',
@@ -3324,7 +3274,7 @@ export const candidates: Candidate[] = [
     id: '97',
     name: 'Trisha Mukherjee',
     email: 'trisha.ui@outlook.com',
-    phone: '♪♪♪-♪♪♪-♪♪♪♪',
+    phone: '+91 95767 55077',
     currentTitle: 'Frontend Team Lead',
     currentCompany: 'MoEngage',
     location: 'Hyderabad',
@@ -3353,7 +3303,7 @@ export const candidates: Candidate[] = [
     id: '98',
     name: 'Vishal Sharma',
     email: 'v.sharma@ola.com',
-    phone: '*Redacted*',
+    phone: '+91 60515 97655',
     currentTitle: 'Product Manager - Payments',
     currentCompany: 'Ola',
     location: 'Bangalore',
@@ -3421,7 +3371,7 @@ export const candidates: Candidate[] = [
     id: '100',
     name: 'Sunita Patel',
     email: 'sunita.devops@protonmail.com',
-    phone: 'Available on request',
+    phone: '+91 87830 48479',
     currentTitle: 'DevOps Manager',
     currentCompany: 'Intuit India',
     location: 'Bangalore',
@@ -6548,7 +6498,7 @@ export const candidates: Candidate[] = [
   };
 });
 
-export const getStageFromString = (stage: string): RecruitmentStage => {
+export const getStageFromString = (stage: string): typeof RecruitmentStage[keyof typeof RecruitmentStage] => {
   if (stage.toLowerCase() === 'outreached') {
     return RecruitmentStage.OUTREACHED;
   }

@@ -1,0 +1,943 @@
+{
+  "1": [
+    {
+      "id": "1-out-1",
+      "date": "2025-03-24",
+      "time": "14:19",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Opportunity: Senior Frontend Developer at TechCorp India",
+      "content": "Hi Sarah Johnson,\n\nI'm Priya Patel from TechCorp India. We're looking for a Senior Frontend Developer and your profile caught my attention. Based on your experience at TechSolutions Inc., I think you'd be a great fit for our team.\n\nWould you be interested in learning more about this opportunity?\n\nBest regards,\nPriya Patel",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Priya Patel",
+      "recipient": "sarah.johnson@example.com"
+    },
+    {
+      "id": "1-out-2",
+      "date": "2025-03-25",
+      "time": "09:35",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Re: Opportunity: Senior Frontend Developer at TechCorp India",
+      "content": "Hi Priya Patel,\n\nThank you for reaching out. I'm definitely interested in learning more about the Senior Frontend Developer position at TechCorp India.\n\nI'm currently looking for new opportunities that match my skills in relevant areas.\n\nCould you share more details about the role?\n\nBest regards,\nSarah Johnson",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "sarah.johnson@example.com",
+      "recipient": "Priya Patel"
+    },
+    {
+      "id": "1-app-1",
+      "date": "2025-03-27",
+      "time": "12:26",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Senior Frontend Developer Position - Application Submitted",
+      "content": "Dear Priya Patel,\n\nAfter our conversation, I'm excited to formally apply for the Senior Frontend Developer position at TechCorp India.\n\nI've attached my resume and a cover letter detailing my relevant experience.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nBest regards,\nSarah Johnson",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "sarah.johnson@example.com",
+      "recipient": "Priya Patel",
+      "attachments": [
+        {
+          "name": "Resume.pdf",
+          "size": "350 KB"
+        },
+        {
+          "name": "Cover_Letter.pdf",
+          "size": "210 KB"
+        }
+      ]
+    },
+    {
+      "id": "1-app-2",
+      "date": "2025-03-28",
+      "time": "16:25",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Application Received: Senior Frontend Developer",
+      "content": "Dear Sarah Johnson,\n\nThank you for applying for the Senior Frontend Developer position at TechCorp India.\n\nWe have received your application and our team will review it shortly. We appreciate your interest in joining our team.\n\nBest regards,\nPriya Patel",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Priya Patel",
+      "recipient": "sarah.johnson@example.com"
+    },
+    {
+      "id": "1-short-1",
+      "date": "2025-03-31",
+      "time": "09:46",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Shortlisted for Senior Frontend Developer Position",
+      "content": "Dear Sarah Johnson,\n\nI'm pleased to inform you that after reviewing your application, our team would like to move forward with your candidacy for the Senior Frontend Developer position.\n\nAs the next step, we'd like to invite you to complete a technical assessment to better understand your skills.\n\nThe assessment will focus on relevant technical areas and should take approximately 90 minutes to complete.\n\nPlease use the link below to access the assessment, which should be completed within the next 3 days.\n\n[Assessment Link]\n\nIf you have any questions, please don't hesitate to contact me.\n\nBest regards,\nPriya Patel",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Priya Patel",
+      "recipient": "sarah.johnson@example.com"
+    },
+    {
+      "id": "1-short-2",
+      "date": "2025-04-01",
+      "time": "18:01",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Shortlisted for Senior Frontend Developer Position",
+      "content": "Hi Priya Patel,\n\nThank you for the update. I'm excited to move forward in the process.\n\nI'll complete the technical assessment within the timeframe provided.\n\nBest regards,\nSarah Johnson",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "sarah.johnson@example.com",
+      "recipient": "Priya Patel"
+    },
+    {
+      "id": "1-short-3",
+      "date": "2025-04-03",
+      "time": "17:20",
+      "type": "assessment",
+      "channel": "Assessment Platform",
+      "subject": "📊 Technical Assessment Completed",
+      "content": "Sarah Johnson has completed the technical assessment for the Senior Frontend Developer position.\n\nScore: 85%\nCompletion Time: 82 minutes",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "score": 85,
+        "duration": "82 minutes",
+        "completedSections": [
+          "Technical Knowledge",
+          "Problem Solving",
+          "Coding Challenge"
+        ]
+      }
+    },
+    {
+      "id": "1-int-1",
+      "date": "2025-04-05",
+      "time": "09:14",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Interview Invitation for Senior Frontend Developer Position",
+      "content": "Dear Sarah Johnson,\n\nBased on your strong performance on the technical assessment, we'd like to invite you for an interview for the Senior Frontend Developer position.\n\nInterview Details:\nDate: 2025-04-10\nTime: 10:00 AM IST\nFormat: Virtual via Zoom\nExpected Duration: 60 minutes\n\nYou'll be meeting with Rajesh Sharma (Hiring Manager) and one of our senior team members.\n\nPlease confirm if this time works for you. If not, please suggest a few alternative times that would be suitable.\n\nBest regards,\nPriya Patel",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Priya Patel",
+      "recipient": "sarah.johnson@example.com"
+    },
+    {
+      "id": "1-int-2",
+      "date": "2025-04-06",
+      "time": "13:30",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Interview Invitation for Senior Frontend Developer Position",
+      "content": "Hi Priya Patel,\n\nThank you for the interview invitation. I'm pleased to confirm my availability on 2025-04-10 at 10:00 AM IST.\n\nI'm looking forward to discussing the role in more detail and meeting the team.\n\nBest regards,\nSarah Johnson",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "sarah.johnson@example.com",
+      "recipient": "Priya Patel"
+    },
+    {
+      "id": "1-int-3",
+      "date": "2025-04-06",
+      "time": "09:28",
+      "type": "calendar",
+      "channel": "Google Calendar",
+      "subject": "📅 Interview: Sarah Johnson - Senior Frontend Developer",
+      "content": "Technical Interview with Rajesh Sharma\n\nTime: 2025-04-10 10:00 AM - 11:00 AM IST\nLocation: Zoom (link below)\n\nZoom Meeting ID: 123 456 789\nPasscode: 654321\nLink: https://zoom.us/j/123456789",
+      "direction": "outbound",
+      "status": "scheduled",
+      "sender": "Priya Patel",
+      "recipient": "sarah.johnson@example.com",
+      "metadata": {
+        "meetLink": "https://zoom.us/j/123456789",
+        "duration": "60 minutes",
+        "attendees": [
+          "sarah.johnson@example.com",
+          "Rajesh Sharma",
+          "Senior Team Member"
+        ]
+      }
+    },
+    {
+      "id": "1-int-4",
+      "date": "2025-04-10",
+      "time": "11:10",
+      "type": "interview",
+      "channel": "Zoom",
+      "subject": "🎥 Technical Interview Completed",
+      "content": "Technical interview conducted with detailed evaluation. Candidate demonstrated strong problem-solving skills and relevant experience.",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "duration": "70 minutes",
+        "interviewer": "Rajesh Sharma",
+        "overallScore": 88
+      }
+    },
+    {
+      "id": "1-int-5",
+      "date": "2025-04-11",
+      "time": "11:20",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Thank You - Senior Frontend Developer Interview",
+      "content": "Dear Rajesh Sharma,\n\nThank you for taking the time to interview me yesterday for the Senior Frontend Developer position. I enjoyed our conversation and learning more about the role and the company.\n\nThe projects you mentioned align well with my experience, and I'm excited about the possibility of contributing to your team.\n\nI look forward to hearing about the next steps in the process.\n\nBest regards,\nSarah Johnson",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "sarah.johnson@example.com",
+      "recipient": "Rajesh Sharma"
+    }
+  ],
+  "2": [
+    {
+      "id": "2-out-1",
+      "date": "2025-03-24",
+      "time": "11:32",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Opportunity: Product Manager at InnovateTech Solutions",
+      "content": "Hi Raj Sharma,\n\nI'm Anjali Singh from InnovateTech Solutions. We're looking for a Product Manager and your profile caught my attention. Based on your experience at GlobalTech Solutions, I think you'd be a great fit for our team.\n\nWould you be interested in learning more about this opportunity?\n\nBest regards,\nAnjali Singh",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Anjali Singh",
+      "recipient": "raj.sharma@example.com"
+    },
+    {
+      "id": "2-out-2",
+      "date": "2025-03-25",
+      "time": "19:25",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Re: Opportunity: Product Manager at InnovateTech Solutions",
+      "content": "Hi Anjali Singh,\n\nThank you for reaching out. I'm definitely interested in learning more about the Product Manager position at InnovateTech Solutions.\n\nI'm currently looking for new opportunities that match my skills in relevant areas.\n\nCould you share more details about the role?\n\nBest regards,\nRaj Sharma",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "raj.sharma@example.com",
+      "recipient": "Anjali Singh"
+    },
+    {
+      "id": "2-app-1",
+      "date": "2025-03-27",
+      "time": "16:05",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Product Manager Position - Application Submitted",
+      "content": "Dear Anjali Singh,\n\nAfter our conversation, I'm excited to formally apply for the Product Manager position at InnovateTech Solutions.\n\nI've attached my resume and a cover letter detailing my relevant experience.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nBest regards,\nRaj Sharma",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "raj.sharma@example.com",
+      "recipient": "Anjali Singh",
+      "attachments": [
+        {
+          "name": "Resume.pdf",
+          "size": "350 KB"
+        },
+        {
+          "name": "Cover_Letter.pdf",
+          "size": "210 KB"
+        }
+      ]
+    },
+    {
+      "id": "2-app-2",
+      "date": "2025-03-28",
+      "time": "13:10",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Application Received: Product Manager",
+      "content": "Dear Raj Sharma,\n\nThank you for applying for the Product Manager position at InnovateTech Solutions.\n\nWe have received your application and our team will review it shortly. We appreciate your interest in joining our team.\n\nBest regards,\nAnjali Singh",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Anjali Singh",
+      "recipient": "raj.sharma@example.com"
+    },
+    {
+      "id": "2-short-1",
+      "date": "2025-03-31",
+      "time": "19:23",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Shortlisted for Product Manager Position",
+      "content": "Dear Raj Sharma,\n\nI'm pleased to inform you that after reviewing your application, our team would like to move forward with your candidacy for the Product Manager position.\n\nAs the next step, we'd like to invite you to complete a technical assessment to better understand your skills.\n\nThe assessment will focus on relevant technical areas and should take approximately 90 minutes to complete.\n\nPlease use the link below to access the assessment, which should be completed within the next 3 days.\n\n[Assessment Link]\n\nIf you have any questions, please don't hesitate to contact me.\n\nBest regards,\nAnjali Singh",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Anjali Singh",
+      "recipient": "raj.sharma@example.com"
+    },
+    {
+      "id": "2-short-2",
+      "date": "2025-04-01",
+      "time": "15:21",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Shortlisted for Product Manager Position",
+      "content": "Hi Anjali Singh,\n\nThank you for the update. I'm excited to move forward in the process.\n\nI'll complete the technical assessment within the timeframe provided.\n\nBest regards,\nRaj Sharma",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "raj.sharma@example.com",
+      "recipient": "Anjali Singh"
+    },
+    {
+      "id": "2-short-3",
+      "date": "2025-04-03",
+      "time": "19:13",
+      "type": "assessment",
+      "channel": "Assessment Platform",
+      "subject": "📊 Technical Assessment Completed",
+      "content": "Raj Sharma has completed the technical assessment for the Product Manager position.\n\nScore: 85%\nCompletion Time: 82 minutes",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "score": 85,
+        "duration": "82 minutes",
+        "completedSections": [
+          "Technical Knowledge",
+          "Problem Solving",
+          "Coding Challenge"
+        ]
+      }
+    }
+  ],
+  "3": [
+    {
+      "id": "3-out-1",
+      "date": "2025-03-24",
+      "time": "17:46",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Opportunity: Data Scientist at DataInsights India",
+      "content": "Hi Amit Patel,\n\nI'm Neha Gupta from DataInsights India. We're looking for a Data Scientist and your profile caught my attention. Based on your experience at TechInnovate, I think you'd be a great fit for our team.\n\nWould you be interested in learning more about this opportunity?\n\nBest regards,\nNeha Gupta",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com"
+    },
+    {
+      "id": "3-out-2",
+      "date": "2025-03-25",
+      "time": "09:26",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Opportunity: Data Scientist at DataInsights India",
+      "content": "Hi Neha Gupta,\n\nThank you for reaching out. I'm definitely interested in learning more about the Data Scientist position at DataInsights India.\n\nI'm currently looking for new opportunities that match my skills in relevant areas.\n\nCould you share more details about the role?\n\nBest regards,\nAmit Patel",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "amit.patel@example.com",
+      "recipient": "Neha Gupta"
+    },
+    {
+      "id": "3-app-1",
+      "date": "2025-03-27",
+      "time": "17:50",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Data Scientist Position - Application Submitted",
+      "content": "Dear Neha Gupta,\n\nAfter our conversation, I'm excited to formally apply for the Data Scientist position at DataInsights India.\n\nI've attached my resume and a cover letter detailing my relevant experience.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nBest regards,\nAmit Patel",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "amit.patel@example.com",
+      "recipient": "Neha Gupta",
+      "attachments": [
+        {
+          "name": "Resume.pdf",
+          "size": "350 KB"
+        },
+        {
+          "name": "Cover_Letter.pdf",
+          "size": "210 KB"
+        }
+      ]
+    },
+    {
+      "id": "3-app-2",
+      "date": "2025-03-28",
+      "time": "11:15",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Application Received: Data Scientist",
+      "content": "Dear Amit Patel,\n\nThank you for applying for the Data Scientist position at DataInsights India.\n\nWe have received your application and our team will review it shortly. We appreciate your interest in joining our team.\n\nBest regards,\nNeha Gupta",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com"
+    },
+    {
+      "id": "3-short-1",
+      "date": "2025-03-31",
+      "time": "14:10",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Shortlisted for Data Scientist Position",
+      "content": "Dear Amit Patel,\n\nI'm pleased to inform you that after reviewing your application, our team would like to move forward with your candidacy for the Data Scientist position.\n\nAs the next step, we'd like to invite you to complete a technical assessment to better understand your skills.\n\nThe assessment will focus on relevant technical areas and should take approximately 90 minutes to complete.\n\nPlease use the link below to access the assessment, which should be completed within the next 3 days.\n\n[Assessment Link]\n\nIf you have any questions, please don't hesitate to contact me.\n\nBest regards,\nNeha Gupta",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com"
+    },
+    {
+      "id": "3-short-2",
+      "date": "2025-04-01",
+      "time": "17:29",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Shortlisted for Data Scientist Position",
+      "content": "Hi Neha Gupta,\n\nThank you for the update. I'm excited to move forward in the process.\n\nI'll complete the technical assessment within the timeframe provided.\n\nBest regards,\nAmit Patel",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "amit.patel@example.com",
+      "recipient": "Neha Gupta"
+    },
+    {
+      "id": "3-short-3",
+      "date": "2025-04-03",
+      "time": "16:15",
+      "type": "assessment",
+      "channel": "Assessment Platform",
+      "subject": "📊 Technical Assessment Completed",
+      "content": "Amit Patel has completed the technical assessment for the Data Scientist position.\n\nScore: 85%\nCompletion Time: 82 minutes",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "score": 85,
+        "duration": "82 minutes",
+        "completedSections": [
+          "Technical Knowledge",
+          "Problem Solving",
+          "Coding Challenge"
+        ]
+      }
+    },
+    {
+      "id": "3-int-1",
+      "date": "2025-04-05",
+      "time": "16:15",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Interview Invitation for Data Scientist Position",
+      "content": "Dear Amit Patel,\n\nBased on your strong performance on the technical assessment, we'd like to invite you for an interview for the Data Scientist position.\n\nInterview Details:\nDate: 2025-04-10\nTime: 10:00 AM IST\nFormat: Virtual via Zoom\nExpected Duration: 60 minutes\n\nYou'll be meeting with Aditya Verma (Hiring Manager) and one of our senior team members.\n\nPlease confirm if this time works for you. If not, please suggest a few alternative times that would be suitable.\n\nBest regards,\nNeha Gupta",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com"
+    },
+    {
+      "id": "3-int-2",
+      "date": "2025-04-06",
+      "time": "17:37",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Interview Invitation for Data Scientist Position",
+      "content": "Hi Neha Gupta,\n\nThank you for the interview invitation. I'm pleased to confirm my availability on 2025-04-10 at 10:00 AM IST.\n\nI'm looking forward to discussing the role in more detail and meeting the team.\n\nBest regards,\nAmit Patel",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "amit.patel@example.com",
+      "recipient": "Neha Gupta"
+    },
+    {
+      "id": "3-int-3",
+      "date": "2025-04-06",
+      "time": "11:48",
+      "type": "calendar",
+      "channel": "Google Calendar",
+      "subject": "📅 Interview: Amit Patel - Data Scientist",
+      "content": "Technical Interview with Aditya Verma\n\nTime: 2025-04-10 10:00 AM - 11:00 AM IST\nLocation: Zoom (link below)\n\nZoom Meeting ID: 123 456 789\nPasscode: 654321\nLink: https://zoom.us/j/123456789",
+      "direction": "outbound",
+      "status": "scheduled",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com",
+      "metadata": {
+        "meetLink": "https://zoom.us/j/123456789",
+        "duration": "60 minutes",
+        "attendees": [
+          "amit.patel@example.com",
+          "Aditya Verma",
+          "Senior Team Member"
+        ]
+      }
+    },
+    {
+      "id": "3-int-4",
+      "date": "2025-04-10",
+      "time": "11:10",
+      "type": "interview",
+      "channel": "Zoom",
+      "subject": "🎥 Technical Interview Completed",
+      "content": "Technical interview conducted with detailed evaluation. Candidate demonstrated strong problem-solving skills and relevant experience.",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "duration": "70 minutes",
+        "interviewer": "Aditya Verma",
+        "overallScore": 88
+      }
+    },
+    {
+      "id": "3-int-5",
+      "date": "2025-04-11",
+      "time": "15:20",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Thank You - Data Scientist Interview",
+      "content": "Dear Aditya Verma,\n\nThank you for taking the time to interview me yesterday for the Data Scientist position. I enjoyed our conversation and learning more about the role and the company.\n\nThe projects you mentioned align well with my experience, and I'm excited about the possibility of contributing to your team.\n\nI look forward to hearing about the next steps in the process.\n\nBest regards,\nAmit Patel",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "amit.patel@example.com",
+      "recipient": "Aditya Verma"
+    },
+    {
+      "id": "3-offer-1",
+      "date": "2025-04-14",
+      "time": "12:01",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Offer Letter: Data Scientist at DataInsights India",
+      "content": "Dear Amit Patel,\n\nI am delighted to inform you that we would like to offer you the position of Data Scientist at DataInsights India.\n\nPlease find attached the formal offer letter with all the details, including:\n- Annual salary: INR 2700000\n- Start date: 2025-05-14\n- Benefits package\n\nWe're excited about the possibility of you joining our team and look forward to your response within the next 5 business days.\n\nIf you have any questions or would like to discuss any aspect of the offer, please don't hesitate to reach out.\n\nBest regards,\nNeha Gupta",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Neha Gupta",
+      "recipient": "amit.patel@example.com",
+      "attachments": [
+        {
+          "name": "Offer_Letter.pdf",
+          "size": "425 KB"
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "id": "4-out-1",
+      "date": "2025-03-24",
+      "time": "19:03",
+      "type": "linkedin",
+      "channel": "LinkedIn",
+      "subject": "💼 Opportunity: DevOps Engineer at CloudSystems India",
+      "content": "Hi Priya Gupta,\n\nI'm Divya Malhotra from CloudSystems India. We're looking for a DevOps Engineer and your profile caught my attention. Based on your experience at AI Labs, I think you'd be a great fit for our team.\n\nWould you be interested in learning more about this opportunity?\n\nBest regards,\nDivya Malhotra",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com"
+    },
+    {
+      "id": "4-out-2",
+      "date": "2025-03-25",
+      "time": "13:24",
+      "type": "linkedin",
+      "channel": "LinkedIn",
+      "subject": "💼 Re: Opportunity: DevOps Engineer at CloudSystems India",
+      "content": "Hi Divya Malhotra,\n\nThank you for reaching out. I'm definitely interested in learning more about the DevOps Engineer position at CloudSystems India.\n\nI'm currently looking for new opportunities that match my skills in relevant areas.\n\nCould you share more details about the role?\n\nBest regards,\nPriya Gupta",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "priya.gupta@example.com",
+      "recipient": "Divya Malhotra"
+    },
+    {
+      "id": "4-app-1",
+      "date": "2025-03-27",
+      "time": "12:30",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 DevOps Engineer Position - Application Submitted",
+      "content": "Dear Divya Malhotra,\n\nAfter our conversation, I'm excited to formally apply for the DevOps Engineer position at CloudSystems India.\n\nI've attached my resume and a cover letter detailing my relevant experience.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nBest regards,\nPriya Gupta",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "priya.gupta@example.com",
+      "recipient": "Divya Malhotra",
+      "attachments": [
+        {
+          "name": "Resume.pdf",
+          "size": "350 KB"
+        },
+        {
+          "name": "Cover_Letter.pdf",
+          "size": "210 KB"
+        }
+      ]
+    },
+    {
+      "id": "4-app-2",
+      "date": "2025-03-28",
+      "time": "13:29",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Application Received: DevOps Engineer",
+      "content": "Dear Priya Gupta,\n\nThank you for applying for the DevOps Engineer position at CloudSystems India.\n\nWe have received your application and our team will review it shortly. We appreciate your interest in joining our team.\n\nBest regards,\nDivya Malhotra",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com"
+    },
+    {
+      "id": "4-short-1",
+      "date": "2025-03-31",
+      "time": "16:44",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Shortlisted for DevOps Engineer Position",
+      "content": "Dear Priya Gupta,\n\nI'm pleased to inform you that after reviewing your application, our team would like to move forward with your candidacy for the DevOps Engineer position.\n\nAs the next step, we'd like to invite you to complete a technical assessment to better understand your skills.\n\nThe assessment will focus on relevant technical areas and should take approximately 90 minutes to complete.\n\nPlease use the link below to access the assessment, which should be completed within the next 3 days.\n\n[Assessment Link]\n\nIf you have any questions, please don't hesitate to contact me.\n\nBest regards,\nDivya Malhotra",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com"
+    },
+    {
+      "id": "4-short-2",
+      "date": "2025-04-01",
+      "time": "15:23",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Shortlisted for DevOps Engineer Position",
+      "content": "Hi Divya Malhotra,\n\nThank you for the update. I'm excited to move forward in the process.\n\nI'll complete the technical assessment within the timeframe provided.\n\nBest regards,\nPriya Gupta",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "priya.gupta@example.com",
+      "recipient": "Divya Malhotra"
+    },
+    {
+      "id": "4-short-3",
+      "date": "2025-04-03",
+      "time": "17:35",
+      "type": "assessment",
+      "channel": "Assessment Platform",
+      "subject": "📊 Technical Assessment Completed",
+      "content": "Priya Gupta has completed the technical assessment for the DevOps Engineer position.\n\nScore: 85%\nCompletion Time: 82 minutes",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "score": 85,
+        "duration": "82 minutes",
+        "completedSections": [
+          "Technical Knowledge",
+          "Problem Solving",
+          "Coding Challenge"
+        ]
+      }
+    },
+    {
+      "id": "4-int-1",
+      "date": "2025-04-05",
+      "time": "14:28",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Interview Invitation for DevOps Engineer Position",
+      "content": "Dear Priya Gupta,\n\nBased on your strong performance on the technical assessment, we'd like to invite you for an interview for the DevOps Engineer position.\n\nInterview Details:\nDate: 2025-04-10\nTime: 10:00 AM IST\nFormat: Virtual via Zoom\nExpected Duration: 60 minutes\n\nYou'll be meeting with Sameer Joshi (Hiring Manager) and one of our senior team members.\n\nPlease confirm if this time works for you. If not, please suggest a few alternative times that would be suitable.\n\nBest regards,\nDivya Malhotra",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com"
+    },
+    {
+      "id": "4-int-2",
+      "date": "2025-04-06",
+      "time": "16:25",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Interview Invitation for DevOps Engineer Position",
+      "content": "Hi Divya Malhotra,\n\nThank you for the interview invitation. I'm pleased to confirm my availability on 2025-04-10 at 10:00 AM IST.\n\nI'm looking forward to discussing the role in more detail and meeting the team.\n\nBest regards,\nPriya Gupta",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "priya.gupta@example.com",
+      "recipient": "Divya Malhotra"
+    },
+    {
+      "id": "4-int-3",
+      "date": "2025-04-06",
+      "time": "17:01",
+      "type": "calendar",
+      "channel": "Google Calendar",
+      "subject": "📅 Interview: Priya Gupta - DevOps Engineer",
+      "content": "Technical Interview with Sameer Joshi\n\nTime: 2025-04-10 10:00 AM - 11:00 AM IST\nLocation: Zoom (link below)\n\nZoom Meeting ID: 123 456 789\nPasscode: 654321\nLink: https://zoom.us/j/123456789",
+      "direction": "outbound",
+      "status": "scheduled",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com",
+      "metadata": {
+        "meetLink": "https://zoom.us/j/123456789",
+        "duration": "60 minutes",
+        "attendees": [
+          "priya.gupta@example.com",
+          "Sameer Joshi",
+          "Senior Team Member"
+        ]
+      }
+    },
+    {
+      "id": "4-int-4",
+      "date": "2025-04-10",
+      "time": "11:10",
+      "type": "interview",
+      "channel": "Zoom",
+      "subject": "🎥 Technical Interview Completed",
+      "content": "Technical interview conducted with detailed evaluation. Candidate demonstrated strong problem-solving skills and relevant experience.",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "duration": "70 minutes",
+        "interviewer": "Sameer Joshi",
+        "overallScore": 88
+      }
+    },
+    {
+      "id": "4-int-5",
+      "date": "2025-04-11",
+      "time": "16:08",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Thank You - DevOps Engineer Interview",
+      "content": "Dear Sameer Joshi,\n\nThank you for taking the time to interview me yesterday for the DevOps Engineer position. I enjoyed our conversation and learning more about the role and the company.\n\nThe projects you mentioned align well with my experience, and I'm excited about the possibility of contributing to your team.\n\nI look forward to hearing about the next steps in the process.\n\nBest regards,\nPriya Gupta",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "priya.gupta@example.com",
+      "recipient": "Sameer Joshi"
+    },
+    {
+      "id": "4-offer-1",
+      "date": "2025-04-14",
+      "time": "11:07",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Offer Letter: DevOps Engineer at CloudSystems India",
+      "content": "Dear Priya Gupta,\n\nI am delighted to inform you that we would like to offer you the position of DevOps Engineer at CloudSystems India.\n\nPlease find attached the formal offer letter with all the details, including:\n- Annual salary: INR 2600000\n- Start date: 2025-05-14\n- Benefits package\n\nWe're excited about the possibility of you joining our team and look forward to your response within the next 5 business days.\n\nIf you have any questions or would like to discuss any aspect of the offer, please don't hesitate to reach out.\n\nBest regards,\nDivya Malhotra",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Divya Malhotra",
+      "recipient": "priya.gupta@example.com",
+      "attachments": [
+        {
+          "name": "Offer_Letter.pdf",
+          "size": "425 KB"
+        }
+      ]
+    }
+  ],
+  "5": [
+    {
+      "id": "5-out-1",
+      "date": "2025-03-24",
+      "time": "16:26",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Opportunity: UX Designer at DesignHub",
+      "content": "Hi Vikram Malhotra,\n\nI'm Rahul Verma from DesignHub. We're looking for a UX Designer and your profile caught my attention. Based on your experience at TechCorp, I think you'd be a great fit for our team.\n\nWould you be interested in learning more about this opportunity?\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com"
+    },
+    {
+      "id": "5-out-2",
+      "date": "2025-03-25",
+      "time": "17:46",
+      "type": "whatsapp",
+      "channel": "WhatsApp",
+      "subject": "📱 Re: Opportunity: UX Designer at DesignHub",
+      "content": "Hi Rahul Verma,\n\nThank you for reaching out. I'm definitely interested in learning more about the UX Designer position at DesignHub.\n\nI'm currently looking for new opportunities that match my skills in relevant areas.\n\nCould you share more details about the role?\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Rahul Verma"
+    },
+    {
+      "id": "5-app-1",
+      "date": "2025-03-27",
+      "time": "13:11",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 UX Designer Position - Application Submitted",
+      "content": "Dear Rahul Verma,\n\nAfter our conversation, I'm excited to formally apply for the UX Designer position at DesignHub.\n\nI've attached my resume and a cover letter detailing my relevant experience.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Rahul Verma",
+      "attachments": [
+        {
+          "name": "Resume.pdf",
+          "size": "350 KB"
+        },
+        {
+          "name": "Cover_Letter.pdf",
+          "size": "210 KB"
+        }
+      ]
+    },
+    {
+      "id": "5-app-2",
+      "date": "2025-03-28",
+      "time": "13:01",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Application Received: UX Designer",
+      "content": "Dear Vikram Malhotra,\n\nThank you for applying for the UX Designer position at DesignHub.\n\nWe have received your application and our team will review it shortly. We appreciate your interest in joining our team.\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com"
+    },
+    {
+      "id": "5-short-1",
+      "date": "2025-03-31",
+      "time": "11:56",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Shortlisted for UX Designer Position",
+      "content": "Dear Vikram Malhotra,\n\nI'm pleased to inform you that after reviewing your application, our team would like to move forward with your candidacy for the UX Designer position.\n\nAs the next step, we'd like to invite you to complete a technical assessment to better understand your skills.\n\nThe assessment will focus on relevant technical areas and should take approximately 90 minutes to complete.\n\nPlease use the link below to access the assessment, which should be completed within the next 3 days.\n\n[Assessment Link]\n\nIf you have any questions, please don't hesitate to contact me.\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com"
+    },
+    {
+      "id": "5-short-2",
+      "date": "2025-04-01",
+      "time": "11:29",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Shortlisted for UX Designer Position",
+      "content": "Hi Rahul Verma,\n\nThank you for the update. I'm excited to move forward in the process.\n\nI'll complete the technical assessment within the timeframe provided.\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Rahul Verma"
+    },
+    {
+      "id": "5-short-3",
+      "date": "2025-04-03",
+      "time": "11:48",
+      "type": "assessment",
+      "channel": "Assessment Platform",
+      "subject": "📊 Technical Assessment Completed",
+      "content": "Vikram Malhotra has completed the technical assessment for the UX Designer position.\n\nScore: 85%\nCompletion Time: 82 minutes",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "score": 85,
+        "duration": "82 minutes",
+        "completedSections": [
+          "Technical Knowledge",
+          "Problem Solving",
+          "Coding Challenge"
+        ]
+      }
+    },
+    {
+      "id": "5-int-1",
+      "date": "2025-04-05",
+      "time": "17:41",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Interview Invitation for UX Designer Position",
+      "content": "Dear Vikram Malhotra,\n\nBased on your strong performance on the technical assessment, we'd like to invite you for an interview for the UX Designer position.\n\nInterview Details:\nDate: 2025-04-10\nTime: 10:00 AM IST\nFormat: Virtual via Zoom\nExpected Duration: 60 minutes\n\nYou'll be meeting with Nisha Patel (Hiring Manager) and one of our senior team members.\n\nPlease confirm if this time works for you. If not, please suggest a few alternative times that would be suitable.\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com"
+    },
+    {
+      "id": "5-int-2",
+      "date": "2025-04-06",
+      "time": "19:42",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Interview Invitation for UX Designer Position",
+      "content": "Hi Rahul Verma,\n\nThank you for the interview invitation. I'm pleased to confirm my availability on 2025-04-10 at 10:00 AM IST.\n\nI'm looking forward to discussing the role in more detail and meeting the team.\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Rahul Verma"
+    },
+    {
+      "id": "5-int-3",
+      "date": "2025-04-06",
+      "time": "14:44",
+      "type": "calendar",
+      "channel": "Google Calendar",
+      "subject": "📅 Interview: Vikram Malhotra - UX Designer",
+      "content": "Technical Interview with Nisha Patel\n\nTime: 2025-04-10 10:00 AM - 11:00 AM IST\nLocation: Zoom (link below)\n\nZoom Meeting ID: 123 456 789\nPasscode: 654321\nLink: https://zoom.us/j/123456789",
+      "direction": "outbound",
+      "status": "scheduled",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com",
+      "metadata": {
+        "meetLink": "https://zoom.us/j/123456789",
+        "duration": "60 minutes",
+        "attendees": [
+          "vikram.m@example.com",
+          "Nisha Patel",
+          "Senior Team Member"
+        ]
+      }
+    },
+    {
+      "id": "5-int-4",
+      "date": "2025-04-10",
+      "time": "11:10",
+      "type": "interview",
+      "channel": "Zoom",
+      "subject": "🎥 Technical Interview Completed",
+      "content": "Technical interview conducted with detailed evaluation. Candidate demonstrated strong problem-solving skills and relevant experience.",
+      "direction": "system",
+      "status": "completed",
+      "metadata": {
+        "duration": "70 minutes",
+        "interviewer": "Nisha Patel",
+        "overallScore": 88
+      }
+    },
+    {
+      "id": "5-int-5",
+      "date": "2025-04-11",
+      "time": "09:05",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Thank You - UX Designer Interview",
+      "content": "Dear Nisha Patel,\n\nThank you for taking the time to interview me yesterday for the UX Designer position. I enjoyed our conversation and learning more about the role and the company.\n\nThe projects you mentioned align well with my experience, and I'm excited about the possibility of contributing to your team.\n\nI look forward to hearing about the next steps in the process.\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Nisha Patel"
+    },
+    {
+      "id": "5-offer-1",
+      "date": "2025-04-14",
+      "time": "18:47",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Offer Letter: UX Designer at DesignHub",
+      "content": "Dear Vikram Malhotra,\n\nI am delighted to inform you that we would like to offer you the position of UX Designer at DesignHub.\n\nPlease find attached the formal offer letter with all the details, including:\n- Annual salary: INR 2400000\n- Start date: 2025-05-14\n- Benefits package\n\nWe're excited about the possibility of you joining our team and look forward to your response within the next 5 business days.\n\nIf you have any questions or would like to discuss any aspect of the offer, please don't hesitate to reach out.\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com",
+      "attachments": [
+        {
+          "name": "Offer_Letter.pdf",
+          "size": "425 KB"
+        }
+      ]
+    },
+    {
+      "id": "5-decline-1",
+      "date": "2025-04-17",
+      "time": "13:56",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Offer Letter: UX Designer at DesignHub",
+      "content": "Dear Rahul Verma,\n\nThank you for the offer for the UX Designer position at DesignHub.\n\nAfter careful consideration, I've decided to decline the offer as I've accepted another position that better aligns with my current career goals.\n\nI sincerely appreciate the time you and your team invested throughout the interview process. It was a pleasure learning about DesignHub and the exciting work you're doing.\n\nThank you again for your consideration, and I wish you and the team continued success.\n\nBest regards,\nVikram Malhotra",
+      "direction": "inbound",
+      "status": "read",
+      "sender": "vikram.m@example.com",
+      "recipient": "Rahul Verma"
+    },
+    {
+      "id": "5-decline-2",
+      "date": "2025-04-18",
+      "time": "10:10",
+      "type": "email",
+      "channel": "Email",
+      "subject": "📧 Re: Offer Letter: UX Designer at DesignHub",
+      "content": "Dear Vikram Malhotra,\n\nThank you for letting us know about your decision. While we're disappointed that you won't be joining our team, we understand that you need to make the best decision for your career.\n\nWe appreciate your consideration and the time you spent with us during the interview process. Should your circumstances change in the future, please don't hesitate to reach out.\n\nWe wish you all the best in your new role.\n\nBest regards,\nRahul Verma",
+      "direction": "outbound",
+      "status": "sent",
+      "sender": "Rahul Verma",
+      "recipient": "vikram.m@example.com"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ const divyaKrishnan: Candidate = {
   id: '6',
   name: 'Divya Krishnan',
   email: 'divya.krishnan@gmail.com',
-  phone: '+91-32190-89005',
+  phone: '+91 69898 46071',
   currentTitle: 'React Developer',
   currentCompany: 'AppFront Technologies',
   location: 'Hyderabad, Telangana',
@@ -24,7 +24,7 @@ const divyaKrishnan: Candidate = {
       year: 2019
     }
   ],
-  resume: 'https://example.com/divya-krishnan-resume',
+  resume: 'https://resumes.hirehub.ai/divya-krishnan-resume',
   source: 'LinkedIn',
   appliedDate: '2024-03-08',
   stage: RecruitmentStage.INTERVIEWED,
@@ -107,8 +107,8 @@ export const candidates: Candidate[] = [
   {
     id: '1',
     name: 'Sarah Johnson',
-    email: 'sarah.johnson@example.com',
-    phone: '+91 9876543210',
+    email: 'sarah.johnson@techcorp.com',
+    phone: '+91 93816 80585',
     currentTitle: 'Senior UI/UX Designer',
     currentCompany: 'TechSolutions Inc.',
     location: 'Bangalore',
@@ -127,7 +127,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/sarah-johnson-resume',
+    resume: 'https://resumes.hirehub.ai/sarah-johnson-resume',
     source: 'LinkedIn',
     appliedDate: '2024-03-05',
     stage: RecruitmentStage.INTERVIEWED,
@@ -205,8 +205,8 @@ export const candidates: Candidate[] = [
   {
     id: '2',
     name: 'Raj Sharma',
-    email: 'raj.sharma@example.com',
-    phone: '+91 9876543211',
+    email: 'raj.sharma@techcorp.com',
+    phone: '+91 94350 01145',
     currentTitle: 'Sales Manager',
     currentCompany: 'GlobalTech Solutions',
     location: 'Mumbai',
@@ -225,7 +225,7 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://example.com/raj-sharma-resume',
+    resume: 'https://resumes.hirehub.ai/raj-sharma-resume',
     source: 'Internal Referral',
     appliedDate: '2024-03-08',
     stage: RecruitmentStage.SHORTLISTED,
@@ -241,8 +241,8 @@ export const candidates: Candidate[] = [
   {
     id: '3',
     name: 'Amit Patel',
-    email: 'amit.patel@example.com',
-    phone: '+91 9876543212',
+    email: 'amit.patel@techcorp.com',
+    phone: '+91 65562 55153',
     currentTitle: 'Senior Full Stack Developer',
     currentCompany: 'TechInnovate',
     location: 'Gurgaon',
@@ -261,7 +261,7 @@ export const candidates: Candidate[] = [
         year: 2018
       }
     ],
-    resume: 'https://example.com/amit-patel-resume',
+    resume: 'https://resumes.hirehub.ai/amit-patel-resume',
     source: 'Naukri.com',
     appliedDate: '2024-03-12',
     stage: RecruitmentStage.OFFER_EXTENDED,
@@ -339,8 +339,8 @@ export const candidates: Candidate[] = [
   {
     id: '4',
     name: 'Priya Gupta',
-    email: 'priya.gupta@example.com',
-    phone: '+91 9876543213',
+    email: 'priya.gupta@techcorp.com',
+    phone: '+91 84497 37775',
     currentTitle: 'AI Research Intern',
     currentCompany: 'AI Labs',
     location: 'Remote',
@@ -358,7 +358,7 @@ export const candidates: Candidate[] = [
         year: 2023
       }
     ],
-    resume: 'https://example.com/priya-gupta-resume',
+    resume: 'https://resumes.hirehub.ai/priya-gupta-resume',
     source: 'University Placement',
     appliedDate: '2024-03-01',
     stage: RecruitmentStage.REJECTED,
@@ -374,8 +374,8 @@ export const candidates: Candidate[] = [
   {
     id: '5',
     name: 'Vikram Malhotra',
-    email: 'vikram.m@example.com',
-    phone: '+91 9876543214',
+    email: 'vikram.m@techcorp.com',
+    phone: '+91 99967 10895',
     currentTitle: 'Product Manager',
     currentCompany: 'TechCorp',
     location: 'Bangalore',
@@ -393,7 +393,7 @@ export const candidates: Candidate[] = [
         year: 2016
       }
     ],
-    resume: 'https://example.com/vikram-resume',
+    resume: 'https://resumes.hirehub.ai/vikram-resume',
     source: 'LinkedIn',
     appliedDate: '2024-02-28',
     stage: RecruitmentStage.OFFER_REJECTED,

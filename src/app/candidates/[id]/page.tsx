@@ -5,8 +5,14 @@ import { FiUser, FiBriefcase, FiMail, FiPhone, FiMapPin, FiCalendar, FiCheckCirc
 import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
 import CandidateCompetencyChart from '@/components/CandidateCompetencyChart';
-import { Skill, RecruitmentStage, Candidate, Job } from '@/types';
+import { Candidate, Job, RecruitmentStage } from '@/types';
 import { CommunicationTimeline } from '@/components/CommunicationTimeline';
+import { generateCommunicationTimeline } from '@/utils/communication';
+
+interface Skill {
+  name: string;
+  proficiency: number;
+}
 
 interface AISummary {
   overallFit: number;
@@ -25,6 +31,11 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   const [activeSection, setActiveSection] = useState('profile');
   const [showFullTranscript, setShowFullTranscript] = useState(false);
   const [fromPage, setFromPage] = useState<'list' | 'job' | null>(null);
+  const [debug, setDebug] = useState<{ candidateIds: string[], attemptedId: string, error: string | null }>({ 
+    candidateIds: [], 
+    attemptedId: '', 
+    error: null 
+  });
   
   // Refs for each section
   const profileRef = useRef<HTMLDivElement>(null);
@@ -36,11 +47,57 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   // Ref for the sticky header to get its actual height
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const candidate = candidates.find(c => c.id === params.id);
+  // Debug information
+  useEffect(() => {
+    setDebug({
+      candidateIds: candidates.map(c => String(c.id)),
+      attemptedId: params.id,
+      error: null
+    });
+  }, [params.id]);
+
+  // Find candidate with more robust ID matching - handle both string and number IDs
+  const candidate = candidates.find(c => 
+    String(c.id) === String(params.id)
+  );
   const job = jobs.find(j => j.id === candidate?.jobId);
 
   if (!candidate || !job) {
-    return <div>Candidate not found</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Candidate not found</h1>
+          <p className="mb-4">We couldn't find a candidate with ID: {params.id}</p>
+          
+          <div className="bg-gray-100 p-4 rounded-lg mb-4">
+            <h2 className="font-semibold mb-2">Debug Information:</h2>
+            <p className="text-sm text-gray-600">Attempted ID: {debug.attemptedId}</p>
+            <p className="text-sm text-gray-600 mb-2">Available candidate IDs: {debug.candidateIds.length}</p>
+            
+            <details className="text-sm text-gray-600">
+              <summary className="cursor-pointer">Show available IDs</summary>
+              <div className="mt-2 max-h-40 overflow-y-auto">
+                {debug.candidateIds.map(id => (
+                  <div key={id} className="mb-1">
+                    <Link href={`/candidates/${id}?from=list`} className="text-blue-600 hover:underline">
+                      ID: {id}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </div>
+          
+          <Link
+            href="/candidates"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none"
+          >
+            <FiArrowLeft className="mr-2 h-4 w-4" />
+            Return to Candidates List
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   // Format a date safely
@@ -56,68 +113,8 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   };
 
   // Generate communication timeline if it doesn't exist
-  if (!candidate.communicationTimeline) {
-    candidate.communicationTimeline = [
-      {
-        id: '1',
-        type: 'system',
-        date: formatDate(candidate.appliedDate),
-        time: '09:00 AM',
-        channel: 'Application Portal',
-        subject: 'Application Submitted',
-        content: `Applied for ${job.title} position`,
-        direction: 'system',
-        status: 'completed'
-      },
-      {
-        id: '2',
-        type: 'email',
-        date: formatDate(new Date(new Date(candidate.appliedDate).getTime() + 24 * 60 * 60 * 1000).toISOString()),
-        time: '10:00 AM',
-        channel: 'Email',
-        subject: 'Application Received',
-        content: 'Thank you for your application. Our team will review it and get back to you soon.',
-        direction: 'outbound',
-        status: 'sent'
-      }
-    ];
-
-    // Add assessment event if it exists
-    if (candidate.assessment) {
-      candidate.communicationTimeline.push({
-        id: '3',
-        type: 'assessment',
-        date: formatDate(new Date(new Date(candidate.appliedDate).getTime() + 3 * 24 * 60 * 60 * 1000).toISOString()),
-        time: '02:00 PM',
-        channel: 'Assessment Platform',
-        subject: 'Technical Assessment Completed',
-        content: `Completed technical assessment with a score of ${candidate.assessment.score}%`,
-        direction: 'system',
-        status: 'completed',
-        metadata: {
-          score: candidate.assessment.score
-        }
-      });
-    }
-
-    // Add interview event if it exists
-    if (candidate.interview) {
-      candidate.communicationTimeline.push({
-        id: '4',
-        type: 'interview',
-        date: formatDate(candidate.interview.date),
-        time: candidate.interview.time,
-        channel: 'Video Call',
-        subject: `${candidate.interview.type} Interview`,
-        content: 'Interview conducted with the hiring team.',
-        direction: 'system',
-        status: 'completed',
-        metadata: {
-          duration: '45 minutes',
-          meetLink: 'https://meet.google.com/abc-defg-hij'
-        }
-      });
-    }
+  if (!candidate.communicationTimeline || candidate.communicationTimeline.length < 5) {
+    candidate.communicationTimeline = generateCommunicationTimeline(candidate, job);
   }
 
   // Generate AI summary based on all available candidate data
@@ -240,13 +237,10 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   ];
 
   // Generate mock skill competencies if they don't exist
-  const skillCompetencies: Skill[] = candidate.skillCompetencies || (Array.isArray(candidate.skills) && typeof candidate.skills[0] === 'string' 
-    ? (candidate.skills as string[]).map(skill => ({
-        name: skill,
-        proficiency: Math.floor(Math.random() * 5) + 5 // Random score between 5-10
-      }))
-    : (candidate.skills as Skill[])
-  );
+  const skillCompetencies = candidate.skills.map(skill => ({
+    name: typeof skill === 'string' ? skill : skill.name,
+    proficiency: Math.floor(Math.random() * 5) + 5 // Random score between 5-10
+  }));
 
   // Function to get the actual header height
   const getHeaderHeight = (): number => {
@@ -809,112 +803,23 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
 
             {/* Communication Section */}
             <div ref={communicationRef} id="communication" className="section-container bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-medium text-gray-900">Communication History</h2>
+              <div className="px-4 py-3 border-b border-gray-200">
+                <h2 className="text-base font-medium text-gray-900">Communication History</h2>
               </div>
-              <div className="p-6">
-                <div className="flow-root">
-                  <ul role="list" className="-mb-8">
-                    {candidate.communicationTimeline?.map((event, eventIdx) => (
-                      <li key={event.id}>
-                        <div className="relative pb-8">
-                          {eventIdx !== (candidate.communicationTimeline?.length ?? 0) - 1 ? (
-                            <span
-                              className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200"
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          <div className="relative flex items-start space-x-3">
-                            <div className="relative">
-                              <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                                event.direction === 'inbound' 
-                                  ? 'bg-blue-100' 
-                                  : event.direction === 'outbound'
-                                  ? 'bg-green-100'
-                                  : 'bg-gray-100'
-                              }`}>
-                                {event.type === 'email' && <FiMail className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'phone' && <FiPhone className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'calendar' && <FiCalendar className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'assessment' && <FiCheckCircle className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'interview' && <FiUsers className="h-5 w-5 text-gray-600" />}
-                                {event.type === 'system' && <FiClock className="h-5 w-5 text-gray-600" />}
-                      </div>
-                    </div>
-                            <div className="min-w-0 flex-1">
-                              <div>
-                                <div className="text-sm">
-                                  <span className="font-medium text-gray-900">
-                                    {event.subject}
-                                  </span>
-                                </div>
-                                <p className="mt-0.5 text-sm text-gray-500">
-                                  {event.date} at {event.time} via {event.channel}
-                                </p>
-                              </div>
-                              <div className="mt-2 text-sm text-gray-700">
-                                <p className="whitespace-pre-line">{event.content}</p>
-                        </div>
-                              {event.attachments && event.attachments.length > 0 && (
-                                <div className="mt-2">
-                                  <div className="flex space-x-2">
-                                    {event.attachments.map((attachment, index) => (
-                                      <span
-                                        key={index}
-                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
-                                      >
-                                        <FiFileText className="mr-1 h-4 w-4" />
-                                        {attachment.name} ({attachment.size})
-                                      </span>
-                                    ))}
-                        </div>
-                      </div>
-                              )}
-                              {event.metadata && (
-                                <div className="mt-2 text-sm">
-                                  {event.metadata.duration && (
-                                    <span className="inline-flex items-center mr-3 text-gray-500">
-                                      <FiClock className="mr-1 h-4 w-4" />
-                                      Duration: {event.metadata.duration}
-                                    </span>
-                                  )}
-                                  {event.metadata.score && (
-                                    <span className="inline-flex items-center mr-3 text-gray-500">
-                                      <FiCheckCircle className="mr-1 h-4 w-4" />
-                                      Score: {event.metadata.score}%
-                                    </span>
-                                  )}
-                                  {event.metadata.meetLink && (
-                                    <a
-                                      href={event.metadata.meetLink}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center text-primary-600 hover:text-primary-700"
-                                    >
-                                      <FiVideo className="mr-1 h-4 w-4" />
-                                      Join Meeting
-                                    </a>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-shrink-0 self-center">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                event.direction === 'inbound' 
-                                  ? 'bg-blue-100 text-blue-800' 
-                                  : event.direction === 'outbound'
-                                  ? 'bg-green-100 text-green-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              }`}>
-                                {event.direction === 'inbound' ? 'Received' : event.direction === 'outbound' ? 'Sent' : 'System'}
-                              </span>
-                            </div>
-                    </div>
+              <div className="p-4">
+                {candidate.communicationTimeline && candidate.communicationTimeline.length > 0 ? (
+                  <div className="space-y-4">
+                    <CommunicationTimeline 
+                      events={candidate.communicationTimeline} 
+                      onEventClick={(event) => console.log('Event clicked:', event.id)}
+                      onReply={(event) => console.log('Reply to:', event.id)}
+                    />
                   </div>
-                      </li>
-                ))}
-                  </ul>
-                </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-xs text-gray-500">No communication history available</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -946,49 +851,124 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
 
             {/* Timeline */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Timeline</h2>
-              <div className="space-y-4">
-                <div className="flex items-center text-sm">
-                  <div className="flex-shrink-0">
-                    <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <FiFileText className="h-4 w-4 text-green-600" />
-                    </div>
-                  </div>
-                  <div className="ml-3">
-                    <p className="font-medium text-gray-900">Application Submitted</p>
-                    <p className="text-gray-500">{formatDate(candidate.appliedDate)}</p>
-                  </div>
-                </div>
-
-                {candidate.assessment && (
-                  <div className="flex items-center text-sm">
-                    <div className="flex-shrink-0">
-                      <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                        <FiCheckCircle className="h-4 w-4 text-blue-600" />
+              <h2 className="text-base font-medium text-gray-900 mb-4">Recruitment Timeline</h2>
+              <div className="relative pl-3 border-l border-gray-200">
+                {/* Outreach Stage - Always show for candidates who were recruited */}
+                {candidate.source === 'Recruiter' && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-blue-50 flex items-center justify-center">
+                        <FiMessageCircle className="h-3 w-3 text-blue-500" />
                       </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="font-medium text-gray-900">Assessment Completed</p>
-                      <p className="text-gray-500">Score: {candidate.assessment.score}%</p>
-                    </div>
-                  </div>
-                )}
-
-                {candidate.interview && (
-                  <div className="flex items-center text-sm">
-                    <div className="flex-shrink-0">
-                      <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
-                        <FiCalendar className="h-4 w-4 text-purple-600" />
-                      </div>
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium text-gray-900">{candidate.interview.type} Interview</p>
-                      <p className="text-gray-500">
-                        {candidate.interview.date} at {candidate.interview.time}
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Outreached</h3>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(candidate.appliedDate ? new Date(new Date(candidate.appliedDate).setDate(new Date(candidate.appliedDate).getDate() - 5)).toISOString() : undefined)}
                       </p>
                     </div>
                   </div>
                 )}
+                
+                {/* Application Stage - Show for all candidates except those who are only outreached */}
+                {candidate.stage !== RecruitmentStage.OUTREACHED && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-green-50 flex items-center justify-center">
+                        <FiFileText className="h-3 w-3 text-green-500" />
+                      </div>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Application Submitted</h3>
+                      <p className="text-xs text-gray-500">{formatDate(candidate.appliedDate)}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Shortlisted Stage */}
+                {[RecruitmentStage.SHORTLISTED, RecruitmentStage.INTERVIEWED, RecruitmentStage.REJECTED, 
+                   RecruitmentStage.OFFER_EXTENDED, RecruitmentStage.OFFER_REJECTED, RecruitmentStage.HIRED].includes(candidate.stage) && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-indigo-50 flex items-center justify-center">
+                        <FiCheckCircle className="h-3 w-3 text-indigo-500" />
+                      </div>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Shortlisted</h3>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(candidate.appliedDate ? new Date(new Date(candidate.appliedDate).setDate(new Date(candidate.appliedDate).getDate() + 2)).toISOString() : undefined)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Interview Stage - Only show for candidates who've been interviewed or further */}
+                {[RecruitmentStage.INTERVIEWED, RecruitmentStage.REJECTED, 
+                   RecruitmentStage.OFFER_EXTENDED, RecruitmentStage.OFFER_REJECTED, 
+                   RecruitmentStage.HIRED].includes(candidate.stage) && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-purple-50 flex items-center justify-center">
+                        <FiCalendar className="h-3 w-3 text-purple-500" />
+                      </div>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Interviewed</h3>
+                      <p className="text-xs text-gray-500">
+                        {candidate.interview?.date || formatDate(candidate.appliedDate ? new Date(new Date(candidate.appliedDate).setDate(new Date(candidate.appliedDate).getDate() + 7)).toISOString() : undefined)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Offer Stage */}
+                {[RecruitmentStage.OFFER_EXTENDED, RecruitmentStage.OFFER_REJECTED, 
+                  RecruitmentStage.HIRED].includes(candidate.stage) && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-yellow-50 flex items-center justify-center">
+                        <FiBriefcase className="h-3 w-3 text-yellow-500" />
+                      </div>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Offer Extended</h3>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(candidate.interview?.date ? new Date(new Date(candidate.interview.date).setDate(new Date(candidate.interview.date).getDate() + 4)).toISOString() : undefined)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hired Stage */}
+                {candidate.stage === RecruitmentStage.HIRED && (
+                  <div className="mb-4 relative">
+                    <div className="absolute -left-2.5 mt-1">
+                      <div className="h-5 w-5 rounded-full bg-green-50 flex items-center justify-center">
+                        <FiCheckCircle className="h-3 w-3 text-green-500" />
+                      </div>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-sm font-medium text-gray-900">Hired</h3>
+                      <p className="text-xs text-gray-500">
+                        {formatDate(candidate.interview?.date ? new Date(new Date(candidate.interview.date).setDate(new Date(candidate.interview.date).getDate() + 7)).toISOString() : undefined)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Current Stage Indicator - Always shown */}
+                <div className="relative">
+                  <div className="absolute -left-2.5 mt-1">
+                    <div className="h-5 w-5 rounded-full bg-blue-500 flex items-center justify-center">
+                      <div className="h-2 w-2 rounded-full bg-white"></div>
+                    </div>
+                  </div>
+                  <div className="ml-5">
+                    <h3 className="text-sm font-medium text-blue-600">Current Stage: {candidate.stage}</h3>
+                    <p className="text-xs text-gray-500">Updated today</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
