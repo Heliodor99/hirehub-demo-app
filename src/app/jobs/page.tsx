@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { FiPlus, FiSearch, FiBriefcase, FiMapPin, FiUsers, FiCalendar } from 'react-icons/fi';
-import { jobs } from '@/data/jobs';
-import { candidates } from '@/data/candidates';
+import { jobs, getCandidateCountForJob } from '@/data/jobs';
 import { useRouter } from 'next/navigation';
 
 export default function JobsPage() {
@@ -16,25 +15,6 @@ export default function JobsPage() {
     job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
     job.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  // Calculate candidate counts for each job
-  const candidateCounts = useMemo(() => {
-    const counts = new Map<string, number>();
-    
-    // Initialize all jobs with 0 counts
-    jobs.forEach(job => {
-      counts.set(job.id, 0);
-    });
-    
-    // Count candidates for each job
-    candidates.forEach(candidate => {
-      if (candidate.jobId) {
-        counts.set(candidate.jobId, (counts.get(candidate.jobId) || 0) + 1);
-      }
-    });
-    
-    return counts;
-  }, []);
 
   const handleRowClick = (jobId: string) => {
     router.push(`/jobs/${jobId}`);
@@ -150,7 +130,7 @@ export default function JobsPage() {
                       <div className="flex items-center text-sm text-gray-900">
                         <FiUsers className="mr-2 h-3 w-3 text-primary-500" />
                         <div className="flex items-center justify-center h-8 w-8 text-xs font-medium rounded-full bg-primary-50 text-primary-700 border border-primary-200">
-                          {candidateCounts.get(job.id) || 0}
+                          {getCandidateCountForJob(job.id)}
                         </div>
                       </div>
                     </td>
