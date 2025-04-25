@@ -25,7 +25,7 @@ export const jobs: Job[] = [
       max: 2800000,
       currency: 'INR'
     },
-    postedDate: '2024-03-01',
+    postedDate: '2025-03-01',
     status: 'Active',
     hiringManager: 'Rajesh Sharma',
     recruiter: 'Priya Patel',
@@ -72,7 +72,7 @@ export const jobs: Job[] = [
       max: 2500000,
       currency: 'INR'
     },
-    postedDate: '2024-03-05',
+    postedDate: '2025-03-05',
     status: 'Active',
     hiringManager: 'Vikram Mehta',
     recruiter: 'Anjali Singh',
@@ -117,7 +117,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://arjunpatel.dev/resume',
     source: 'LinkedIn',
-    appliedDate: '2024-01-15',
+    appliedDate: '2025-01-15',
     stage: RecruitmentStage.SHORTLISTED,
     jobId: '1',
     notes: 'Strong technical skills and good communication',

@@ -1,5 +1,4 @@
-import { Job, Candidate, RecruitmentStage, Interview } from '@/types';
-import { generateCommunicationTimeline } from '@/utils/communication';
+import { Job, Candidate, RecruitmentStage } from '@/types';
 
 export const jobs: Job[] = [
   {
@@ -26,20 +25,19 @@ export const jobs: Job[] = [
       max: 2800000,
       currency: 'INR'
     },
-    postedDate: '2025-04-09',
+    postedDate: '2024-03-01',
     status: 'Active',
     hiringManager: 'Rajesh Sharma',
     recruiter: 'Priya Patel',
     pipeline: {
       stages: [
-        RecruitmentStage.OUTREACHED,
         RecruitmentStage.APPLIED,
-        RecruitmentStage.SHORTLISTED,
-        RecruitmentStage.INTERVIEWED,
-        RecruitmentStage.OFFER_EXTENDED,
+        RecruitmentStage.RESUME_SHORTLISTED,
+        RecruitmentStage.ASSESSMENT_SENT,
+        RecruitmentStage.INTERVIEW_SCHEDULED,
+        RecruitmentStage.FEEDBACK_DONE,
         RecruitmentStage.HIRED,
-        RecruitmentStage.REJECTED,
-        RecruitmentStage.OFFER_REJECTED
+        RecruitmentStage.REJECTED
       ]
     },
     skills: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Redux'],
@@ -74,20 +72,18 @@ export const jobs: Job[] = [
       max: 2500000,
       currency: 'INR'
     },
-    postedDate: '2025-03-20',
+    postedDate: '2024-03-05',
     status: 'Active',
     hiringManager: 'Vikram Mehta',
     recruiter: 'Anjali Singh',
     pipeline: {
       stages: [
-        RecruitmentStage.OUTREACHED,
         RecruitmentStage.APPLIED,
-        RecruitmentStage.SHORTLISTED,
-        RecruitmentStage.INTERVIEWED,
-        RecruitmentStage.OFFER_EXTENDED,
+        RecruitmentStage.RESUME_SHORTLISTED,
+        RecruitmentStage.INTERVIEW_SCHEDULED,
+        RecruitmentStage.FEEDBACK_DONE,
         RecruitmentStage.HIRED,
-        RecruitmentStage.REJECTED,
-        RecruitmentStage.OFFER_REJECTED
+        RecruitmentStage.REJECTED
       ]
     },
     skills: ['Product Management', 'Agile', 'JIRA', 'User Research', 'Data Analysis'],
@@ -122,20 +118,19 @@ export const jobs: Job[] = [
       max: 2700000,
       currency: 'INR'
     },
-    postedDate: '2025-03-08',
+    postedDate: '2024-03-10',
     status: 'Active',
     hiringManager: 'Aditya Verma',
     recruiter: 'Neha Gupta',
     pipeline: {
       stages: [
-        RecruitmentStage.OUTREACHED,
         RecruitmentStage.APPLIED,
-        RecruitmentStage.SHORTLISTED,
-        RecruitmentStage.INTERVIEWED,
-        RecruitmentStage.OFFER_EXTENDED,
+        RecruitmentStage.RESUME_SHORTLISTED,
+        RecruitmentStage.ASSESSMENT_SENT,
+        RecruitmentStage.INTERVIEW_SCHEDULED,
+        RecruitmentStage.FEEDBACK_DONE,
         RecruitmentStage.HIRED,
-        RecruitmentStage.REJECTED,
-        RecruitmentStage.OFFER_REJECTED
+        RecruitmentStage.REJECTED
       ]
     },
     skills: ['Python', 'Machine Learning', 'Data Analysis', 'SQL', 'TensorFlow'],
@@ -170,19 +165,19 @@ export const jobs: Job[] = [
       max: 2600000,
       currency: 'INR'
     },
-    postedDate: '2025-04-06',
+    postedDate: '2024-03-15',
     status: 'Active',
     hiringManager: 'Sameer Joshi',
     recruiter: 'Divya Malhotra',
     pipeline: {
       stages: [
         RecruitmentStage.APPLIED,
-        RecruitmentStage.SHORTLISTED,
-        RecruitmentStage.INTERVIEWED,
-        RecruitmentStage.OFFER_EXTENDED,
+        RecruitmentStage.RESUME_SHORTLISTED,
+        RecruitmentStage.ASSESSMENT_SENT,
+        RecruitmentStage.INTERVIEW_SCHEDULED,
+        RecruitmentStage.FEEDBACK_DONE,
         RecruitmentStage.HIRED,
-        RecruitmentStage.REJECTED,
-        RecruitmentStage.OFFER_REJECTED
+        RecruitmentStage.REJECTED
       ]
     },
     skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Python', 'Terraform', 'Linux'],
@@ -194,236 +189,6 @@ export const jobs: Job[] = [
     ]
   }
 ];
-
-export const generateInterviewTranscript = (jobTitle: string, skills: string[]) => {
-  const technicalQuestions = [
-    { q: "Can you describe your experience with our required technologies?", context: "technical" },
-    { q: "Tell me about a challenging project you worked on recently.", context: "technical" },
-    { q: "How do you approach problem-solving in your work?", context: "technical" },
-    { q: "What's your experience with agile development?", context: "process" },
-    { q: "How do you handle technical disagreements in a team?", context: "collaboration" }
-  ];
-
-  const behavioralQuestions = [
-    { q: "How do you handle tight deadlines?", context: "stress" },
-    { q: "Tell me about a time you had to learn a new technology quickly.", context: "learning" },
-    { q: "How do you prioritize your work?", context: "organization" },
-    { q: "Describe a situation where you had to work with a difficult team member.", context: "collaboration" },
-    { q: "What's your approach to giving and receiving feedback?", context: "communication" }
-  ];
-
-  const transcript = [];
-  const startTime = new Date();
-  startTime.setHours(10, 0, 0);
-
-  // Introduction
-  transcript.push({
-    timestamp: formatTime(startTime),
-    speaker: "Interviewer" as const,
-    content: `Hello! Thank you for joining us today. We're excited to discuss the ${jobTitle} position with you.`
-  });
-
-  transcript.push({
-    timestamp: formatTime(addMinutes(startTime, 1)),
-    speaker: "Candidate" as const,
-    content: "Thank you for having me. I'm very excited about this opportunity."
-  });
-
-  // Technical questions
-  for (const question of technicalQuestions) {
-    startTime.setMinutes(startTime.getMinutes() + 5);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Interviewer" as const,
-      content: question.q
-    });
-
-    // Generate detailed response based on context
-    startTime.setMinutes(startTime.getMinutes() + 2);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Candidate" as const,
-      content: generateDetailedResponse(question.context, skills)
-    });
-
-    // Follow-up question
-    startTime.setMinutes(startTime.getMinutes() + 3);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Interviewer" as const,
-      content: generateFollowUpQuestion(question.context)
-    });
-
-    // Follow-up response
-    startTime.setMinutes(startTime.getMinutes() + 2);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Candidate" as const,
-      content: generateFollowUpResponse(question.context, skills)
-    });
-  }
-
-  // Behavioral questions
-  for (const question of behavioralQuestions) {
-    startTime.setMinutes(startTime.getMinutes() + 5);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Interviewer" as const,
-      content: question.q
-    });
-
-    startTime.setMinutes(startTime.getMinutes() + 3);
-    transcript.push({
-      timestamp: formatTime(startTime),
-      speaker: "Candidate" as const,
-      content: generateBehavioralResponse(question.context)
-    });
-  }
-
-  // Closing
-  startTime.setMinutes(startTime.getMinutes() + 5);
-  transcript.push({
-    timestamp: formatTime(startTime),
-    speaker: "Interviewer" as const,
-    content: "Thank you for your time today. Do you have any questions for us?"
-  });
-
-  startTime.setMinutes(startTime.getMinutes() + 2);
-  transcript.push({
-    timestamp: formatTime(startTime),
-    speaker: "Candidate" as const,
-    content: "Yes, I'd like to know more about the team structure and development processes. Also, what are the next steps in the interview process?"
-  });
-
-  startTime.setMinutes(startTime.getMinutes() + 3);
-  transcript.push({
-    timestamp: formatTime(startTime),
-    speaker: "Interviewer" as const,
-    content: "Great questions! Let me address those..."
-  });
-
-  return transcript;
-};
-
-const formatTime = (date: Date) => {
-  return date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
-};
-
-const addMinutes = (date: Date, minutes: number) => {
-  const newDate = new Date(date);
-  newDate.setMinutes(newDate.getMinutes() + minutes);
-  return newDate;
-};
-
-const generateDetailedResponse = (context: string, skills: string[]) => {
-  const responses = {
-    technical: `In my current role, I've extensively used ${skills.slice(0, 3).join(', ')}. For example, I recently built a scalable application that processed large amounts of data using ${skills[0]}. We implemented efficient algorithms and optimized the performance using ${skills[1]}.`,
-    process: "In my experience with agile development, I've worked in two-week sprints, participated in daily stand-ups, and regularly contributed to sprint planning and retrospectives. This has helped us maintain a steady velocity and continuously improve our processes.",
-    collaboration: "I believe in open communication and collaborative problem-solving. In my current team, we use code reviews and pair programming to share knowledge and maintain code quality. This has significantly reduced bugs in production and improved team knowledge sharing.",
-  };
-  return responses[context as keyof typeof responses] || responses.technical;
-};
-
-const generateFollowUpQuestion = (context: string) => {
-  const questions = {
-    technical: "Can you elaborate on how you handled scalability challenges in that project?",
-    process: "How do you handle situations where the sprint commitments are at risk?",
-    collaboration: "What strategies do you use to ensure effective code reviews?",
-  };
-  return questions[context as keyof typeof questions] || questions.technical;
-};
-
-const generateFollowUpResponse = (context: string, skills: string[]) => {
-  const responses = {
-    technical: `To address scalability, we implemented caching using ${skills[2]} and optimized our database queries. This resulted in a 40% improvement in response times.`,
-    process: "When sprint commitments are at risk, I immediately communicate with the team and stakeholders. We then prioritize critical features and, if necessary, move less critical items to the next sprint.",
-    collaboration: "For code reviews, I follow a checklist that covers code quality, performance, security, and test coverage. I also make sure to provide constructive feedback and explain my reasoning clearly.",
-  };
-  return responses[context as keyof typeof responses] || responses.technical;
-};
-
-const generateBehavioralResponse = (context: string) => {
-  const responses = {
-    stress: "I maintain a prioritized task list and communicate early with stakeholders when deadlines might be affected. Recently, we had a critical release with a tight deadline. I broke down the work into smaller tasks, delegated effectively, and we delivered on time without compromising quality.",
-    learning: "When we adopted a new framework, I dedicated extra hours to learning through documentation and online courses. I also created a knowledge-sharing session for the team, which helped everyone get up to speed quickly.",
-    organization: "I use a combination of tools like JIRA and personal task lists. I prioritize based on business impact and dependencies, and I regularly review and adjust priorities with my team lead.",
-    collaboration: "I once worked with a team member who had a very different coding style. Instead of creating conflict, I initiated a discussion about establishing team-wide coding standards. This led to better collaboration and more consistent code.",
-    communication: "I believe in regular, constructive feedback. I always start with positive observations, then discuss areas for improvement with specific examples. I also actively seek feedback for my own work and use it to improve.",
-  };
-  return responses[context as keyof typeof responses] || responses.stress;
-};
-
-const generateAIAssessment = (transcript: Interview['transcript'], jobSkills: string[]) => {
-  // Analyze the transcript and generate scores
-  const technicalScore = Math.floor(Math.random() * 20 + 80); // 80-100
-  const communicationScore = Math.floor(Math.random() * 20 + 80);
-  const problemSolvingScore = Math.floor(Math.random() * 20 + 80);
-  const culturalFitScore = Math.floor(Math.random() * 20 + 80);
-
-  return {
-    overallScore: Math.floor((technicalScore + communicationScore + problemSolvingScore + culturalFitScore) / 4),
-    categoryScores: {
-      technical: technicalScore,
-      communication: communicationScore,
-      problemSolving: problemSolvingScore,
-      culturalFit: culturalFitScore,
-    },
-    strengths: [
-      `Strong technical knowledge in ${jobSkills.slice(0, 2).join(' and ')}`,
-      'Clear and articulate communication',
-      'Structured problem-solving approach',
-      'Good cultural alignment',
-    ],
-    areasForImprovement: [
-      'Could provide more specific examples in some responses',
-      'Consider discussing more about testing methodologies',
-      'Could elaborate more on system design considerations',
-    ],
-    recommendations: [
-      'Candidate shows strong potential for the role',
-      'Technical skills align well with requirements',
-      'Would work well in a collaborative team environment',
-    ],
-  };
-};
-
-const generateInterviewData = (candidate: Candidate, job: Job): Interview | undefined => {
-  if (candidate.stage !== RecruitmentStage.INTERVIEWED && 
-      candidate.stage !== RecruitmentStage.OFFER_EXTENDED && 
-      candidate.stage !== RecruitmentStage.HIRED) {
-    return undefined;
-  }
-
-  const jobSkills = job.skills || [];
-  if (jobSkills.length === 0) {
-    jobSkills.push('general software development');
-  }
-
-  const transcript = generateInterviewTranscript(job.title, jobSkills);
-  const aiAssessment = generateAIAssessment(transcript, jobSkills);
-
-  return {
-    id: parseInt(candidate.id),
-    candidate: {
-      name: candidate.name,
-      position: job.title
-    },
-    date: new Date(new Date(candidate.appliedDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    time: '10:00 AM',
-    type: 'Technical',
-    status: 'Completed',
-    interviewers: [job.hiringManager, job.recruiter],
-    location: 'Virtual/Zoom',
-    transcript,
-    aiAssessment,
-    humanFeedback: {
-      score: Math.min(100, Math.max(0, aiAssessment.overallScore + Math.floor(Math.random() * 10 - 5))),
-      notes: `${candidate.name} demonstrated strong technical skills and good problem-solving abilities.${jobSkills.length > 0 ? ` Their experience with ${jobSkills.slice(0, 2).join(' and ')} was particularly impressive.` : ''}`,
-      nextSteps: candidate.stage === RecruitmentStage.INTERVIEWED ? 'Schedule follow-up interview' : 'Proceed with offer discussion',
-      decision: candidate.stage === RecruitmentStage.INTERVIEWED ? 'Further Evaluation' : 'Hire'
-    }
-  };
-};
 
 export const candidates: Candidate[] = [
   {
@@ -444,9 +209,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://drive.google.com/file/d/1eXaMpL3/view',
-    source: 'HireHub',
-    appliedDate: '2025-03-26',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '1',
     notes: 'Strong technical skills and good communication',
     assessment: {
@@ -474,8 +239,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://www.dropbox.com/s/aj8f7gh5k/MeeraSharmaResume.pdf',
     source: 'Company Website',
-    appliedDate: '2025-03-13',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-11-22',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Impressive product portfolio',
     assessment: {
@@ -501,10 +266,10 @@ export const candidates: Candidate[] = [
         year: 2019
       }
     ],
-    resume: 'https://vikramr.com/data/resume-2025.pdf',
+    resume: 'https://vikramr.com/data/resume-2024.pdf',
     source: 'Referral',
-    appliedDate: '2025-03-16',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-11-11',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Strong background in machine learning',
     assessment: {
@@ -531,8 +296,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/neha-gupta.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-28',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-03',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Good potential, needs more experience',
@@ -560,9 +325,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/rahul-khanna.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-07',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Extensive product experience',
     assessment: {
@@ -589,9 +354,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'N/A - See LinkedIn profile',
-    source: 'HireHub',
-    appliedDate: '2025-03-23',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-02-12',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Exceptional research background. Previously taught at IIIT-H for 2 years.',
     assessment: {
@@ -618,8 +383,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://bit.ly/rohan-desai-resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-25',
+    source: 'LinkedIn',
+    appliedDate: '2024-02-03',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Good background in cloud technologies',
@@ -648,8 +413,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/priya-mehta.pdf',
     source: 'Referral',
-    appliedDate: '2025-04-13',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-04',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Extensive experience with modern React frameworks',
     assessment: {
@@ -682,7 +447,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/aditya-verma.pdf',
     source: 'LinkedIn',
-    appliedDate: '2025-04-11',
+    appliedDate: '2024-03-08',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Technical background combined with business acumen',
@@ -710,9 +475,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/sanya-agarwal.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-27',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-14',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Published research in machine learning',
     assessment: {
@@ -745,8 +510,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://resume.karanmalhotra.com/latest.pdf',
     source: 'Naukri',
-    appliedDate: '2025-04-18',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2024-03-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Great problem-solving skills during technical interview',
     assessment: {
@@ -773,9 +538,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/pooja-iyer.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-20',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Referral',
+    appliedDate: '2024-03-09',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '2',
     notes: 'Strong experience working with engineering teams',
     assessment: {
@@ -807,9 +572,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rkapoor-portfolio.netlify.app/resume.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-09',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-13',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Impressive project portfolio in NLP',
     assessment: {
@@ -836,9 +601,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/deepika-joshi.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-18',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-17',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Solid experience with container orchestration',
     assessment: {
@@ -866,8 +631,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://aryansharma.design/cv',
     source: 'Naukri',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-12-14',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Strong design background with frontend skills',
     assessment: {
@@ -894,16 +659,16 @@ export const candidates: Candidate[] = [
       },
       {
         degree: 'B.Com',
-        institution: "St. Xavier's College, Mumbai",
+        institution: 'St. Xavier\'s College, Mumbai',
         year: 2014
       }
     ],
-    resume: 'https://example.com/ishita-resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-08',
-    stage: RecruitmentStage.INTERVIEWED,
+    resume: 'https://example.com/resumes/ishita-patel.pdf',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-10',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
-    notes: 'Strong background in product growth and analytics. Looking for next growth opportunity.',
+    notes: 'Strong background in growth and analytics',
     assessment: {
       score: 90,
       feedback: 'Excellent understanding of product metrics and user acquisition',
@@ -928,8 +693,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/varun-mathur.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-24',
+    source: 'Referral',
+    appliedDate: '2024-03-15',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Extensive experience with data pipelines',
@@ -957,9 +722,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/arnav-choudhary.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-27',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-18',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Impressive cloud architecture experience',
     assessment: {
@@ -986,9 +751,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Will share later',
-    source: 'HireHub',
-    appliedDate: '2025-04-16',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-02-06',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Led team of 5 frontend developers at current company',
     assessment: {
@@ -1015,8 +780,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/sandeep-kumar.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
+    source: 'Naukri',
+    appliedDate: '2024-03-11',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Strong technical background for a product role',
@@ -1045,8 +810,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://ananyac.notion.site/resume',
     source: 'LinkedIn',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-10-16',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Published papers at top ML conferences',
     assessment: {
@@ -1074,7 +839,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/ravi-shankar.pdf',
     source: 'Referral',
-    appliedDate: '2025-02-29',
+    appliedDate: '2024-03-19',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Strong experience in monitoring and alerting systems',
@@ -1102,8 +867,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/shreya-banerjee.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
+    source: 'Naukri',
+    appliedDate: '2024-03-07',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Self-taught developer with strong portfolio',
@@ -1131,9 +896,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/karthik-subramanian.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-16',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-12',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Promising candidate with fresh perspective',
     assessment: {
@@ -1160,8 +925,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://jyoti-mishra-portfolio.vercel.app/resume.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-27',
+    source: 'LinkedIn',
+    appliedDate: '2024-01-17',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Strong academic background, limited professional experience',
@@ -1189,9 +954,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/vivek-nair.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-15',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Naukri',
+    appliedDate: '2024-03-20',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Good experience with CI/CD pipelines',
     assessment: {
@@ -1218,9 +983,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/divya-krishnan.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-28',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Referral',
+    appliedDate: '2024-03-08',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Strong focus on testing and quality',
     assessment: {
@@ -1248,8 +1013,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'http://linkedin.com/in/nikhilmenon',
     source: 'LinkedIn',
-    appliedDate: '2025-02-27',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-02-13',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Extensive experience in B2B products',
     assessment: {
@@ -1276,9 +1041,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/ritu-agarwal.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-02-26',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-18',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Experience with deploying ML models to production',
     assessment: {
@@ -1305,9 +1070,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/gaurav-saxena.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-08',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-21',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Strong experience building internal developer platforms',
     assessment: {
@@ -1334,8 +1099,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aditikulkarni.in/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-07',
+    source: 'Naukri',
+    appliedDate: '2024-02-19',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Experience with mobile web development',
@@ -1368,8 +1133,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/nisha-thakur.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-29',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-14',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Strong background in product marketing',
@@ -1397,8 +1162,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://linktr.ee/ashwin_raghavan',
-    source: 'HireHub',
-    appliedDate: '2025-03-21',
+    source: 'Company Website',
+    appliedDate: '2023-12-19',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Experience with ML model deployment. Prefers remote work arrangement.',
@@ -1427,8 +1192,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/kavita-sharma.pdf',
     source: 'Referral',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-22',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Strong background in cloud infrastructure security',
     assessment: {
@@ -1455,9 +1220,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/vikas-goyal.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-08',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-10',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Impressive portfolio of React applications',
     assessment: {
@@ -1484,9 +1249,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Contacted through third-party recruiter',
-    source: 'HireHub',
-    appliedDate: '2025-04-01',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Naukri',
+    appliedDate: '2023-09-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Strong experience in consumer products',
     assessment: {
@@ -1513,9 +1278,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/deepak-bhatt.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-28',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Company Website',
+    appliedDate: '2024-03-20',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '3',
     notes: 'Published researcher in deep learning',
     assessment: {
@@ -1542,8 +1307,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/neelam-patel.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-07',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-23',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Experience with implementing GitOps practices',
@@ -1571,9 +1336,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://samir-portfolio-2023.web.app/resume',
-    source: 'HireHub',
-    appliedDate: '2025-02-29',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Naukri',
+    appliedDate: '2023-09-11',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Strong focus on web accessibility',
     assessment: {
@@ -1601,8 +1366,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/anita-reddy.pdf',
     source: 'Referral',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-16',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Strong background in Agile methodologies',
     assessment: {
@@ -1629,9 +1394,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/prakash-jain.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-26',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-21',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Strong experience in big data processing',
     assessment: {
@@ -1658,9 +1423,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rdeshmukh.dev/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-17',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2023-08-24',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Experience designing cloud architectures for regulated industries',
     assessment: {
@@ -1688,8 +1453,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/varun-chadha.pdf',
     source: 'LinkedIn',
-    appliedDate: '2025-04-10',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2024-03-12',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Strong portfolio of interactive web experiences',
     assessment: {
@@ -1720,9 +1485,9 @@ export const candidates: Candidate[] = [
         year: 2008
       }
     ],
-    resume: 'https://tinyurl.com/preeti-resume-2025',
+    resume: 'https://tinyurl.com/preeti-resume-2024',
     source: 'Referral',
-    appliedDate: '2025-03-26',
+    appliedDate: '2024-01-17',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Led successful product launches at current company. Took 2 years break (2018-2020) for family reasons.',
@@ -1750,9 +1515,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/arjun-nambiar.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-18',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-22',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Specialized in conversational AI systems',
     assessment: {
@@ -1780,8 +1545,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/sonali-joshi.pdf',
     source: 'Naukri',
-    appliedDate: '2025-04-04',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-25',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Strong focus on integrating security into CI/CD pipelines',
     assessment: {
@@ -1808,9 +1573,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Resume in portfolio site - manoj-singhania.vercel.app',
-    source: 'HireHub',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-13',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Strong system design skills and architectural experience. Applying for internal transfer.',
     assessment: {
@@ -1837,9 +1602,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/leela-prasad.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-06',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Company Website',
+    appliedDate: '2024-03-18',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Strong operational background supporting product teams',
     assessment: {
@@ -1866,9 +1631,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/kunal-malhotra.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Referral',
+    appliedDate: '2024-03-23',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Specialized in object detection systems',
     assessment: {
@@ -1895,8 +1660,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://mega.nz/file/abcXYZ#hashA1B2C3',
-    source: 'HireHub',
-    appliedDate: '2025-03-21',
+    source: 'LinkedIn',
+    appliedDate: '2023-12-26',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Experience implementing SRE practices at scale',
@@ -1925,7 +1690,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://kartikiyer.me/static/resume.pdf',
     source: 'Naukri',
-    appliedDate: '2025-03-03',
+    appliedDate: '2023-12-14',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Strong experience with cross-platform mobile development',
@@ -1953,9 +1718,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/shalini-gupta.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-25',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-19',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Strong design background combined with product management',
     assessment: {
@@ -1982,8 +1747,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/vineet-sharma.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
+    source: 'Company Website',
+    appliedDate: '2024-03-24',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Promising early career data scientist',
@@ -2012,10 +1777,10 @@ export const candidates: Candidate[] = [
     ],
     resume: 'No resume submitted - to be requested',
     source: 'Referral',
-    appliedDate: '2025-03-10',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-02-27',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
-    notes: 'Experience building developer platforms. Currently on notice period - available from June 2025.',
+    notes: 'Experience building developer platforms. Currently on notice period - available from June 2024.',
     assessment: {
       score: 87,
       feedback: 'Strong technical skills in platform engineering',
@@ -2040,9 +1805,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/rahul-mehra.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-05',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'LinkedIn',
+    appliedDate: '2024-03-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '1',
     notes: 'Strong leadership background and technical expertise',
     assessment: {
@@ -2070,8 +1835,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/kavya-menon.pdf',
     source: 'Naukri',
-    appliedDate: '2025-04-11',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-20',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '2',
     notes: 'Experience with B2B SaaS products',
     assessment: {
@@ -2103,9 +1868,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://scholar.google.com/citations?user=AbCdEf0',
-    source: 'HireHub',
-    appliedDate: '2025-04-21',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Conference (NeurIPS)',
+    appliedDate: '2023-08-25',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Published author in top ML conferences. Currently employed, looking for part-time consulting only.',
     assessment: {
@@ -2133,8 +1898,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/resumes/sneha-kapoor.pdf',
     source: 'Company Website',
-    appliedDate: '2025-03-12',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-03-28',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Led team of 8 DevOps engineers',
     assessment: {
@@ -2161,8 +1926,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://example.com/resumes/vikrant-khanna.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-10',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-16',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Strong focus on creating accessible web experiences',
@@ -2195,9 +1960,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://onedrive.live.com/resume-meenakshi.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-27',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Referral',
+    appliedDate: '2023-11-21',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '2',
     notes: 'Promising early career product manager. Worked as developer for 1 year before MBA.',
     assessment: {
@@ -2224,9 +1989,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ipfs.io/ipfs/QmXa12GhST5F',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'AngelList',
+    appliedDate: '2023-10-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Strong portfolio, previously founded a small startup that was acqui-hired',
     assessment: {
@@ -2258,9 +2023,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Resume shared privately via email',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Hired.com',
+    appliedDate: '2023-12-18',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Interested only if work from home is available 3 days/week. Overqualified but very interested in our mission.',
     assessment: {
@@ -2287,8 +2052,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'See attached resume.docx in email thread',
-    source: 'HireHub',
-    appliedDate: '2025-03-09',
+    source: 'Indeed',
+    appliedDate: '2024-01-28',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Currently commuting 3 hours daily, looking for remote opportunities',
@@ -2315,10 +2080,10 @@ export const candidates: Candidate[] = [
         year: 2017
       }
     ],
-    resume: 'https://github.com/nitinc-resume/blob/main/NitinC_Resume_2025.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.OUTREACHED,
+    resume: 'https://github.com/nitinc-resume/blob/main/NitinC_Resume_2024.pdf',
+    source: 'StackOverflow Jobs',
+    appliedDate: '2023-09-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Currently managing a team of 6 DevOps engineers. Interested in both IC and management roles.',
     assessment: {
@@ -2351,9 +2116,9 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://pallavijoshi.dev',
     source: 'LinkedIn',
-    appliedDate: '2025-02-26',
-    stage: RecruitmentStage.OUTREACHED,
-    jobId: '2',
+    appliedDate: '2024-02-07',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
+    jobId: '1',
     notes: 'Career changer - previously in marketing. Impressive portfolio of personal projects.',
     assessment: {
       score: 77,
@@ -2385,10 +2150,10 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://standardresume.co/r/ramesh-venkataraman',
     source: 'Direct Application',
-    appliedDate: '2025-04-05',
+    appliedDate: '2023-11-02',
     stage: RecruitmentStage.HIRED,
     jobId: '2',
-    notes: 'Accepted offer on March 10, 2025. Joining on April 15, 2025.',
+    notes: 'Accepted offer on March 10, 2024. Joining on April 15, 2024.',
     assessment: {
       score: 93,
       feedback: 'Outstanding product sense and analytical skills',
@@ -2418,9 +2183,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://fatimadata.notion.site/Resume-95f26a81c',
-    source: 'HireHub',
-    appliedDate: '2025-04-20',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Kaggle',
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Returning to India after working in US for 3 years. Top performer in our technical assessment.',
     assessment: {
@@ -2447,8 +2212,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://www.overleaf.com/read/shared/kamalvora',
-    source: 'HireHub',
-    appliedDate: '2025-03-19',
+    source: 'Internal Referral',
+    appliedDate: '2023-09-08',
     stage: RecruitmentStage.REJECTED,
     jobId: '4',
     notes: 'Good skills but not enough experience for our current needs. Consider for junior roles.',
@@ -2476,9 +2241,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://read.cv/gayatri',
-    source: 'HireHub',
-    appliedDate: '2025-02-29',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Conference (React India)',
+    appliedDate: '2023-12-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Presented at React India 2023. Looking for senior architect role with mentorship opportunities.',
     assessment: {
@@ -2510,8 +2275,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'http://bit.ly/rohit-yadav-resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-08',
+    source: 'Recruiter Outreach',
+    appliedDate: '2024-02-18',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Was referred by Ankit from marketing. Currently traveling, available for interviews after March 25.',
@@ -2544,9 +2309,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://drive.google.com/file/d/resume-zara-khan/view',
-    source: 'HireHub',
-    appliedDate: '2025-03-16',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'ML India Conference',
+    appliedDate: '2023-10-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Published research on satellite image processing. Wants to focus on practical ML applications.',
     assessment: {
@@ -2573,9 +2338,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://www.vihaan.dev/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-12',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'GitHub (open source contributor)',
+    appliedDate: '2023-08-20',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'Open source contributor to Kubernetes. Seeking a fully remote role. Prefers asynchronous communication.',
     assessment: {
@@ -2602,9 +2367,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://dribbble.com/deepti/resume',
-    source: 'HireHub',
-    appliedDate: '2025-02-25',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Dribbble',
+    appliedDate: '2023-11-14',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Designer who codes. Strong visual design portfolio with good React implementation skills.',
     assessment: {
@@ -2635,10 +2400,10 @@ export const candidates: Candidate[] = [
         year: 2014
       }
     ],
-    resume: 'https://www.slideshare.net/manishm/resume-2025',
-    source: 'HireHub',
-    appliedDate: '2025-02-25',
-    stage: RecruitmentStage.OUTREACHED,
+    resume: 'https://www.slideshare.net/manishm/resume-2024',
+    source: 'TopHire',
+    appliedDate: '2024-01-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Interested specifically in product monetization. Used our product extensively and has specific improvement ideas.',
     assessment: {
@@ -2670,8 +2435,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'To be furnished upon request',
-    source: 'HireHub',
-    appliedDate: '2025-03-01',
+    source: 'Consultancy Referral',
+    appliedDate: '2024-02-28',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Background in pure statistics with self-taught programming. Strong analytical skills.',
@@ -2700,8 +2465,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://jasmine-kaur.gitlab.io/cv',
     source: 'Twitter',
-    appliedDate: '2025-03-03',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-09-30',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Has worked with 12+ startups as a contractor. Available immediately but only for 100% remote work.',
     assessment: {
@@ -2728,8 +2493,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://flowcv.me/karthikeyan',
-    source: 'HireHub',
-    appliedDate: '2025-04-12',
+    source: 'LinkedIn',
+    appliedDate: '2024-01-22',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Looking to move from mobile to web. Has published 3 apps on Play Store with 100k+ downloads.',
@@ -2763,8 +2528,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://docs.google.com/document/d/aloksharma/edit',
     source: 'Product School',
-    appliedDate: '2025-03-15',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed hyperlocal services product with 200K+ daily active users. Interested in our company after using our service.',
     assessment: {
@@ -2797,8 +2562,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Resume available on Google Scholar profile',
     source: 'Conference (NeurIPS)',
-    appliedDate: '2025-04-20',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2023-12-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Published at top ML conferences. Looking to transition from research to applied ML.',
     assessment: {
@@ -2825,8 +2590,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://1drv.ms/w/s!kunal-anand-resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-23',
+    source: 'AWS Community Day',
+    appliedDate: '2023-11-05',
     stage: RecruitmentStage.REJECTED,
     jobId: '4',
     notes: 'Good experience but compensation expectations significantly above our range. Keep in network for future senior roles.',
@@ -2854,11 +2619,11 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aishwarya.page/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-01',
+    source: 'Employee Referral',
+    appliedDate: '2023-08-12',
     stage: RecruitmentStage.HIRED,
     jobId: '1',
-    notes: 'Joined on Jan 15th, 2025. Tech Lead for our new mobile web initiative.',
+    notes: 'Joined on Jan 15th, 2024. Tech Lead for our new mobile web initiative.',
     assessment: {
       score: 97,
       feedback: 'Exceptional technical skills and leadership experience',
@@ -2888,8 +2653,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: '',
-    source: 'HireHub',
-    appliedDate: '2025-03-13',
+    source: 'Instahyre',
+    appliedDate: '2023-10-22',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Candidate from manufacturing background - interesting domain expertise for our expansion plans.',
@@ -2918,8 +2683,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://mitali-patel.github.io',
     source: 'Hackerrank Contest',
-    appliedDate: '2025-04-19',
-    stage: RecruitmentStage.OUTREACHED,
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Won 2nd place in our ML hackathon. Very promising junior candidate.',
     assessment: {
@@ -2951,9 +2716,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'LinkedIn profile only',
-    source: 'HireHub',
-    appliedDate: '2025-03-06',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Headhunter',
+    appliedDate: '2023-12-01',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'NRI looking to move back to India for family reasons. Extremely experienced, but salary expectations are very high.',
     assessment: {
@@ -2980,9 +2745,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ritikasax.netlify.app/',
-    source: 'HireHub',
-    appliedDate: '2025-03-10',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Stack Overflow',
+    appliedDate: '2024-01-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Has worked on high-traffic consumer app. Created Zomato\'s animation library.',
     assessment: {
@@ -3009,9 +2774,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://drive.google.com/file/d/vikram-joshi-cv',
-    source: 'HireHub',
-    appliedDate: '2025-03-18',
-    stage: RecruitmentStage.OUTREACHED,
+    source: 'Indeed',
+    appliedDate: '2023-11-17',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led acquisition team at Snapdeal. Looking for product role with more strategy involvement.',
     assessment: {
@@ -3044,8 +2809,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Will be provided after initial discussion',
     source: 'Naukri',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-10-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Currently employed, requesting confidentiality. Strong background in financial ML models.',
     assessment: {
@@ -3072,8 +2837,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rajivmehta.in/resume.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-01',
+    source: 'AWS Certification Directory',
+    appliedDate: '2023-09-12',
     stage: RecruitmentStage.REJECTED,
     jobId: '4',
     notes: 'Very experienced but looking for leadership role that we don\'t currently have open.',
@@ -3101,9 +2866,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://resume.io/r/sandeepgupta87',
-    source: 'HireHub',
-    appliedDate: '2025-04-22',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'WhatsApp Developer Group',
+    appliedDate: '2024-01-20',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Leads payments team frontend at Razorpay. Interested in fintech opportunities.',
     assessment: {
@@ -3130,8 +2895,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://www.figma.com/file/divya-mohan-resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-04',
+    source: 'Outbound Recruitment',
+    appliedDate: '2023-12-12',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Interested in our product after being a power user. Has strong ideas on positioning.',
@@ -3158,9 +2923,9 @@ export const candidates: Candidate[] = [
         year: 2021
       }
     ],
-    resume: 'https://aryansingh.xyz/assets/resume-2025.pdf',
+    resume: 'https://aryansingh.xyz/assets/resume-2024.pdf',
     source: 'Kaggle',
-    appliedDate: '2025-03-16',
+    appliedDate: '2024-01-15',
     stage: RecruitmentStage.APPLIED,
     jobId: '3',
     notes: 'Active contributor to open source ML libraries. Currently implementing MLOps practices at Freshworks.',
@@ -3187,10 +2952,10 @@ export const candidates: Candidate[] = [
         year: 2020
       }
     ],
-    resume: 'https://www.dropbox.com/s/raman_resume_2025',
-    source: 'HireHub',
-    appliedDate: '2025-03-01',
-    stage: RecruitmentStage.INTERVIEWED,
+    resume: 'https://www.dropbox.com/s/raman_resume_2024',
+    source: 'DevOps Meetup',
+    appliedDate: '2023-10-18',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'Currently managing CI/CD for grocery delivery platform. Has experience with high-traffic systems.',
     assessment: {
@@ -3217,9 +2982,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://kirannair.design',
-    source: 'HireHub',
-    appliedDate: '2025-04-06',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Behance',
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Strong portfolio combining design and development skills. Passionate about accessibility.',
     assessment: {
@@ -3252,7 +3017,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Only LinkedIn profile available currently',
     source: 'Personal Network',
-    appliedDate: '2025-04-12',
+    appliedDate: '2023-11-22',
     stage: RecruitmentStage.REJECTED,
     jobId: '2',
     notes: 'Amazing candidate but far too senior for current role. Keep in network for leadership positions.',
@@ -3281,8 +3046,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Via encrypted email',
     source: 'Referral (Internal)',
-    appliedDate: '2025-03-28',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-09-20',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Leading recommendation engine team at Flipkart. Built system serving 400+ million users.',
     assessment: {
@@ -3309,9 +3074,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://github.com/jaypatel-docs/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-12',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Recruiters Campaign',
+    appliedDate: '2024-02-02',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Part of platform team that scaled Myntra for festival sales. Interested in developer experience and internal tooling.',
     assessment: {
@@ -3338,9 +3103,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://trishamukherjee.com/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-02',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'ReactIndia Conference',
+    appliedDate: '2023-10-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Currently managing team of 8 frontend developers. Wants to focus more on architecture role.',
     assessment: {
@@ -3372,9 +3137,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Resume shared via secure channel',
-    source: 'HireHub',
-    appliedDate: '2025-03-26',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'TopHire',
+    appliedDate: '2024-01-07',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led payments team at Ola. Scaled payment processing 5x in 18 months. Requests confidentiality.',
     assessment: {
@@ -3407,10 +3172,10 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://vjkumar.net/resume',
     source: 'LinkedIn',
-    appliedDate: '2025-02-25',
+    appliedDate: '2023-08-28',
     stage: RecruitmentStage.HIRED,
     jobId: '3',
-    notes: 'Joined as Director of Data Science on Feb 1, 2025. Leading our new ML platform initiative.',
+    notes: 'Joined as Director of Data Science on Feb 1, 2024. Leading our new ML platform initiative.',
     assessment: {
       score: 98,
       feedback: 'Exceptional technical and leadership skills',
@@ -3441,8 +3206,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://linktr.ee/sunita_patel',
     source: 'Employee Referral',
-    appliedDate: '2025-04-01',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-12-03',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Highly experienced manager who wants to go back to IC role. Values work-life balance over compensation.',
     assessment: {
@@ -3469,9 +3234,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rajeshmenon.dev/resume.pdf',
-    source: 'HireHub',
-    appliedDate: '2025-04-19',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Naukri.com',
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '1',
     notes: 'Worked on payment gateway integration projects. Has experience with microservices architecture.',
     assessment: {
@@ -3503,9 +3268,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://drive.google.com/kavita_k_resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-23',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'AngelList',
+    appliedDate: '2024-01-28',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led user acquisition initiatives at Swiggy. Increased conversion rates by 28% through targeted campaigns.',
     assessment: {
@@ -3532,9 +3297,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'http://sanjayvenk.me/cv',
-    source: 'HireHub',
-    appliedDate: '2025-04-19',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Internal Database',
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Developed computer vision models for retail analytics. Published paper at CVPR 2022.',
     assessment: {
@@ -3562,8 +3327,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Will share after initial screening',
     source: 'LinkedIn',
-    appliedDate: '2025-02-27',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-10',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Certified Kubernetes Administrator. Led migration from on-prem to cloud for major banking client.',
     assessment: {
@@ -3591,7 +3356,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://www.behance.net/lakshminair',
     source: 'Referral',
-    appliedDate: '2025-04-17',
+    appliedDate: '2024-02-22',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Impressive portfolio with focus on B2B interfaces. Redesigned Freshworks CRM dashboard.',
@@ -3624,9 +3389,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://shorturl.at/prakashm',
-    source: 'HireHub',
-    appliedDate: '2025-04-10',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'TopHire',
+    appliedDate: '2023-12-15',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Managed UPI payment products at PhonePe with 100M+ users. Looking for better work-life balance.',
     assessment: {
@@ -3658,9 +3423,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://bit.ly/shreya-agarwal-cv',
-    source: 'HireHub',
-    appliedDate: '2025-03-05',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Campus Recruitment',
+    appliedDate: '2024-03-01',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Good theoretical background in statistics. Worked on BFSI analytics projects.',
     assessment: {
@@ -3687,8 +3452,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://vipintiwari.com/about',
-    source: 'HireHub',
-    appliedDate: '2025-03-06',
+    source: 'Indeed',
+    appliedDate: '2024-01-05',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Managed production infrastructure for multiple enterprise clients. Reduced MTTR by 45%.',
@@ -3717,8 +3482,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://nikhiliyer.dev',
     source: 'Employee Referral',
-    appliedDate: '2025-04-03',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '1',
     notes: 'Worked on payment checkout components at Razorpay. Experienced with micro-frontends.',
     assessment: {
@@ -3746,7 +3511,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Contact HR for CV',
     source: 'Instahyre',
-    appliedDate: '2025-03-07',
+    appliedDate: '2024-03-05',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Worked on IRCTC mobile app with 100M downloads. Strong in public sector digital transformation.',
@@ -3774,9 +3539,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://github.com/rahulmahajan/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-01',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Kaggle Competition',
+    appliedDate: '2024-02-07',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed computer vision models for battery defect detection. Top 5% in 3 Kaggle competitions.',
     assessment: {
@@ -3804,8 +3569,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://manisharora.net/professional',
     source: 'Company Website',
-    appliedDate: '2025-03-14',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-12-18',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Led cloud migration projects at Jio. Manages infrastructure supporting 400M+ users.',
     assessment: {
@@ -3833,8 +3598,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://priyankasharma.dev',
     source: 'LinkedIn',
-    appliedDate: '2025-04-05',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2024-01-22',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Part of Flipkart\'s core UI team. Implemented accessibility improvements that increased user engagement by 15%.',
     assessment: {
@@ -3866,9 +3631,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://linktr.ee/kirandeshmukh',
-    source: 'HireHub',
-    appliedDate: '2025-03-31',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'PM School Network',
+    appliedDate: '2024-02-28',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Led K-12 math products at Byju\'s. Strong in education product metrics.',
     assessment: {
@@ -3896,8 +3661,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://adityachoudhary.me/resume',
     source: 'Hired.com',
-    appliedDate: '2025-03-03',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built data pipelines processing 5TB+ daily at ShareChat. Experience with video analytics.',
     assessment: {
@@ -3924,9 +3689,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ganeshramancv.zohocloud.com',
-    source: 'HireHub',
-    appliedDate: '2025-04-04',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Stack Overflow Jobs',
+    appliedDate: '2023-11-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'Long tenure at Zoho. Built private cloud infrastructure. Looking for new challenges.',
     assessment: {
@@ -3953,8 +3718,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ritujain.vercel.app',
-    source: 'HireHub',
-    appliedDate: '2025-03-08',
+    source: 'GeeksforGeeks Job Portal',
+    appliedDate: '2024-03-10',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Worked on MakeMyTrips hotel booking interface. Good UI skills but limited system design experience.',
@@ -3987,9 +3752,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://tinyurl.com/vsinghania',
-    source: 'HireHub',
-    appliedDate: '2025-02-26',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Cutshort',
+    appliedDate: '2024-01-30',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led PayTM\'s QR code payments product. Has experience scaling products from 1M to 50M users.',
     assessment: {
@@ -4022,8 +3787,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'Will be provided after initial discussion',
     source: 'ACL Conference',
-    appliedDate: '2025-03-12',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-18',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '3',
     notes: 'Working on multilingual NLP models at Microsoft Research. 2 research papers published at ACL.',
     assessment: {
@@ -4050,8 +3815,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rohankapoor.in/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-08',
+    source: 'Naukri.com',
+    appliedDate: '2024-03-02',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Built CI/CD pipelines for IoT device firmware updates at Ather. Interested in infrastructure automation.',
@@ -4079,8 +3844,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aryankapoor.netlify.app/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-09',
+    source: 'LinkedIn',
+    appliedDate: '2024-03-01',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Worked on Paytm merchant dashboard. Created reusable component library.',
@@ -4114,8 +3879,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://drive.google.com/sneha_resume',
     source: 'AngelList',
-    appliedDate: '2025-04-02',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-12',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed service provider app at Urban Company. Improved provider retention by 22%.',
     assessment: {
@@ -4142,9 +3907,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://karthikrajan.com/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Hired.com',
+    appliedDate: '2024-01-20',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed fraud detection models at Navi. Reduced false positives by 35%.',
     assessment: {
@@ -4171,9 +3936,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'http://venkats.in/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-07',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Cutshort',
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Implemented infrastructure automation at Cred. Reduced deployment time from hours to minutes.',
     assessment: {
@@ -4200,9 +3965,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://tanvimehta.com',
-    source: 'HireHub',
-    appliedDate: '2025-03-25',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Internal Database',
+    appliedDate: '2024-02-25',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '1',
     notes: 'Created interactive visualizations for Dream11 fantasy sports platform. Strong in performance optimization.',
     assessment: {
@@ -4234,9 +3999,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ankitsingh.me/resume',
-    source: 'HireHub',
-    appliedDate: '2025-02-27',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'LinkedIn',
+    appliedDate: '2023-12-10',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led grocery delivery product at BigBasket. Improved order fulfillment rate by 18%.',
     assessment: {
@@ -4263,9 +4028,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://www.linkedin.com/in/nehadata',
-    source: 'HireHub',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Referral',
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Built recommendation engine for Myntra fashion products. Increased conversion by 12%.',
     assessment: {
@@ -4293,7 +4058,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://bit.ly/vivek-patil-resume',
     source: 'Naukri.com',
-    appliedDate: '2025-02-27',
+    appliedDate: '2024-02-18',
     stage: RecruitmentStage.APPLIED,
     jobId: '4',
     notes: 'Managed critical payment infrastructure at PhonePe. Implemented robust monitoring solutions.',
@@ -4321,9 +4086,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rohitsharma.dev',
-    source: 'HireHub',
-    appliedDate: '2025-04-08',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Company Website',
+    appliedDate: '2023-11-20',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Led frontend team at Zomato. Improved app performance by 40%. Managed team of 8 developers.',
     assessment: {
@@ -4355,9 +4120,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'Will share directly',
-    source: 'HireHub',
-    appliedDate: '2025-03-28',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'TopHire',
+    appliedDate: '2024-01-28',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed tax filing products at ClearTax. Increased user retention by 25%.',
     assessment: {
@@ -4385,8 +4150,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://github.com/amitjha/resume',
     source: 'LinkedIn',
-    appliedDate: '2025-02-26',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Developed image classification models at Meesho. Focus on e-commerce product categorization.',
     assessment: {
@@ -4413,9 +4178,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://divyasundaram.dev/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-13',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Indeed',
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Implemented CI/CD pipelines at PolicyBazaar. Achieved 99.9% uptime for critical services.',
     assessment: {
@@ -4442,9 +4207,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://vishalmalhotra.me',
-    source: 'HireHub',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-05',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Led development of virtual try-on feature at Lenskart. Experienced with AR integration.',
     assessment: {
@@ -4476,8 +4241,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://bit.ly/naveen-kumar-pm',
-    source: 'HireHub',
-    appliedDate: '2025-03-06',
+    source: 'AngelList',
+    appliedDate: '2024-02-20',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Managed mutual fund investment products at Groww. Improved user onboarding completion by 30%.',
@@ -4505,9 +4270,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://preetig.dev/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-03',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Referral',
+    appliedDate: '2024-01-25',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built data pipelines for quick commerce logistics at Zepto. Experience with real-time analytics.',
     assessment: {
@@ -4534,9 +4299,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rajivsingh.cloud/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-31',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Naukri.com',
+    appliedDate: '2023-12-12',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'Managed cloud infrastructure at Unacademy. Reduced cloud costs by 25% while scaling user base.',
     assessment: {
@@ -4564,7 +4329,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://www.behance.net/leelakrishnan',
     source: 'Design Portfolio',
-    appliedDate: '2025-04-03',
+    appliedDate: '2024-02-08',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Designed fitness app interfaces at Cure.fit. Strong focus on intuitive user experience.',
@@ -4593,8 +4358,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://varunmishra.me/resume',
     source: 'PM School Network',
-    appliedDate: '2025-03-07',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-03-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed quick delivery products at Dunzo. Improved delivery times by 18%.',
     assessment: {
@@ -4621,9 +4386,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://sameerjoshi.ai/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-07',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Kaggle',
+    appliedDate: '2024-01-18',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed content recommendation models at Sharechat. Experienced with multilingual content.',
     assessment: {
@@ -4650,9 +4415,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://madhavipatil.dev/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-04',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Internal Referral',
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Managed payment infrastructure at Razorpay. Implemented secure deployment pipelines.',
     assessment: {
@@ -4679,9 +4444,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://mehta-vipul.web.app',
-    source: 'HireHub',
-    appliedDate: '2025-04-07',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Employee Referral',
+    appliedDate: '2024-01-08',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Led frontend architecture team at TCS. Built design system used across 15 internal products.',
     assessment: {
@@ -4714,8 +4479,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://nidhisaxena.notion.site/resume',
     source: 'Referral',
-    appliedDate: '2025-02-25',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-11',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed ticketing products at BookMyShow. Implemented new pricing strategy that increased conversions by 23%.',
     assessment: {
@@ -4747,9 +4512,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://gautam-b.github.io/cv',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2023-12-05',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed dynamic pricing models at MakeMyTrip. Manages team of 5 data scientists.',
     assessment: {
@@ -4776,9 +4541,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://siddharthnair.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-16',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'TopHire',
+    appliedDate: '2024-01-22',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Built service mesh infrastructure at Ola. Expertise in high-scale microservices deployment.',
     assessment: {
@@ -4805,8 +4570,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://meerarajput.dev',
-    source: 'HireHub',
-    appliedDate: '2025-02-24',
+    source: 'Linkedin',
+    appliedDate: '2024-02-20',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Developed mobile web experience at Nykaa. Reduced page load times by 40%.',
@@ -4839,9 +4604,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://vikashgupta.me',
-    source: 'HireHub',
-    appliedDate: '2025-03-07',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Company Website',
+    appliedDate: '2024-02-08',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led seller acquisition products at Cars24. Improved seller onboarding completion rate by 35%.',
     assessment: {
@@ -4874,8 +4639,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://avinashreddy.me/cv.pdf',
     source: 'Research Conference',
-    appliedDate: '2025-03-14',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-10',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Published 3 papers in top computer vision conferences. Developed vision algorithms for Samsung devices.',
     assessment: {
@@ -4903,8 +4668,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://deepakkhanna.gitlab.io',
     source: 'Naukri.com',
-    appliedDate: '2025-03-13',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-12-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Built infrastructure supporting Airtel DTH and streaming services. Managed team of 6 engineers.',
     assessment: {
@@ -4931,8 +4696,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aishamalik.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
+    source: 'Referral',
+    appliedDate: '2024-02-22',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Worked on travel booking interfaces with focus on mobile experience. Strong design collaboration skills.',
@@ -4965,9 +4730,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rajeevkhanna.io',
-    source: 'HireHub',
-    appliedDate: '2025-03-11',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Executive Search',
+    appliedDate: '2023-11-15',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led marketplace products at Quikr. Managed team of 8 product managers. Grew revenue by 45% in 2 years.',
     assessment: {
@@ -4999,9 +4764,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://sarikapatel.tech',
-    source: 'HireHub',
-    appliedDate: '2025-03-09',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-28',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built recommendation engines for JioTV and JioCinema. Strong telecom data analytics background.',
     assessment: {
@@ -5028,9 +4793,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://karansharma.dev',
-    source: 'HireHub',
-    appliedDate: '2025-04-16',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'AngelList',
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Managed production infrastructure at Oyo. Improved system uptime from 99.5% to 99.95%.',
     assessment: {
@@ -5057,9 +4822,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://nishamathur.com',
-    source: 'HireHub',
-    appliedDate: '2025-04-17',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Company Website',
+    appliedDate: '2023-12-20',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Developed map visualization features for Housing.com. Experience with WebGL and 3D rendering.',
     assessment: {
@@ -5091,8 +4856,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://tinyurl.com/subhash-chand-resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-13',
+    source: 'Indeed',
+    appliedDate: '2024-01-15',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Managed mobile banking products at HDFC. Strong understanding of banking regulations and financial products.',
@@ -5120,9 +4885,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://alokverma.github.io/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-29',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Cutshort',
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built recommendation systems for Tata Neu app. Experience with multi-category retail data.',
     assessment: {
@@ -5149,9 +4914,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://anishkumar.cloud/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-15',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Stack Overflow Jobs',
+    appliedDate: '2024-01-25',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Designed multi-cloud strategies for enterprise clients at Wipro. AWS and Azure certified professional.',
     assessment: {
@@ -5179,8 +4944,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://pankajm.dev',
     source: 'LinkedIn',
-    appliedDate: '2025-04-03',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2023-12-10',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Led frontend team for insurance comparison products. Built design system used across multiple products.',
     assessment: {
@@ -5212,9 +4977,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aditibajpai.notion.site',
-    source: 'HireHub',
-    appliedDate: '2025-03-10',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Instahyre',
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed skincare product line at Mamaearth. Launched 5 successful products generating 30% of revenue.',
     assessment: {
@@ -5247,8 +5012,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://rohinidesai.tech',
     source: 'JobsForHer',
-    appliedDate: '2025-02-28',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-20',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed credit risk models at ICICI Bank. Reduced false positives in fraud detection by 28%.',
     assessment: {
@@ -5276,8 +5041,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://tusharsharma.dev',
     source: 'Naukri.com',
-    appliedDate: '2025-02-24',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-08',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Managed containerization infrastructure at InMobi. Experience with high-volume ad tech systems.',
     assessment: {
@@ -5305,7 +5070,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://rishikapadia.dev',
     source: 'GeeksforGeeks',
-    appliedDate: '2025-03-12',
+    appliedDate: '2024-03-01',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Developed live classroom interfaces at Vedantu. Experience with WebRTC and real-time applications.',
@@ -5338,9 +5103,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://neelams.co/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-01',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Linkedin',
+    appliedDate: '2024-01-18',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Led test prep products at Unacademy. Increased user engagement metrics by 45% in six months.',
     assessment: {
@@ -5373,8 +5138,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://vijaykumar.ai',
     source: 'Hired.com',
-    appliedDate: '2025-03-13',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '3',
     notes: 'Developed healthcare ML models at Cognizant. Built diagnostic assistance systems for major hospital chain.',
     assessment: {
@@ -5402,8 +5167,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://divyanshu.cloud',
     source: 'Naukri.com',
-    appliedDate: '2025-03-29',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-12-18',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Led cloud migration projects for enterprise clients at Nagarro. Expertise in secure cloud deployments.',
     assessment: {
@@ -5430,8 +5195,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://komalverma.design',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
+    source: 'Design Portfolio',
+    appliedDate: '2024-02-15',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Designed and developed learning experience interfaces at MindTickle. Strong focus on accessibility.',
@@ -5464,9 +5229,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rajatc.me/resume',
-    source: 'HireHub',
-    appliedDate: '2025-04-06',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'TopHire',
+    appliedDate: '2024-01-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led enterprise learning solutions at upGrad. Increased B2B revenue by 120% year over year.',
     assessment: {
@@ -5494,8 +5259,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://pradeepmenon.com/resume',
     source: 'Referral',
-    appliedDate: '2025-03-30',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-28',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built real-time data pipelines at Uber. Experience with high-volume location data processing.',
     assessment: {
@@ -5523,8 +5288,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://abhishekgoyal.dev',
     source: 'LinkedIn',
-    appliedDate: '2025-04-01',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Managed ecommerce infrastructure at Walmart. Implemented SLO framework reducing incidents by 35%.',
     assessment: {
@@ -5551,9 +5316,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ankitajain.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-29',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Internal Database',
+    appliedDate: '2024-02-22',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '1',
     notes: 'Developed seller-facing applications at Meesho. Improved page load times by 60%.',
     assessment: {
@@ -5585,9 +5350,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://nikhilsharma.pm',
-    source: 'HireHub',
-    appliedDate: '2025-03-06',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'AngelList',
+    appliedDate: '2023-12-12',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led fitness and nutrition products at Cult.fit. Increased monthly active users by 85% in one year.',
     assessment: {
@@ -5619,9 +5384,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://tanmaybhatt.ml',
-    source: 'HireHub',
-    appliedDate: '2025-04-13',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Kaggle',
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Built content recommendation systems at Dailyhunt. Expertise in multilingual NLP for Indian languages.',
     assessment: {
@@ -5648,9 +5413,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://harshavardhan.cloud',
-    source: 'HireHub',
-    appliedDate: '2025-04-17',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Company Website',
+    appliedDate: '2023-11-22',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Led cloud architecture team at Infosys. Designed solutions for Fortune 500 clients.',
     assessment: {
@@ -5677,8 +5442,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aartisharma.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-10',
+    source: 'LinkedIn',
+    appliedDate: '2024-02-20',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Developed frontend for vernacular social media platform. Experience with low-bandwidth optimizations.',
@@ -5712,8 +5477,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://arjunmalhotra.co/resume',
     source: 'Referral',
-    appliedDate: '2025-04-11',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-01-08',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led medicine delivery products at Pharmeasy. Unique background with pharmacy education.',
     assessment: {
@@ -5745,9 +5510,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://mohitgupta.ai',
-    source: 'HireHub',
-    appliedDate: '2025-03-28',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Instahyre',
+    appliedDate: '2024-02-01',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Developed fraud detection models for payment processing at Pine Labs. Strong fintech analytics experience.',
     assessment: {
@@ -5775,8 +5540,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://bhavyareddy.dev',
     source: 'AngelList',
-    appliedDate: '2025-04-14',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2024-02-12',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Managed API testing platform infrastructure at Postman. Experience with high-scale developer tools.',
     assessment: {
@@ -5803,9 +5568,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://siddharthroy.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-29',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'LinkedIn',
+    appliedDate: '2023-12-05',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Led frontend team for healthcare e-commerce at 1mg. Improved accessibility compliance from 65% to 98%.',
     assessment: {
@@ -5837,8 +5602,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://ishitadas.co/resume',
-    source: 'HireHub',
-    appliedDate: '2025-03-29',
+    source: 'Company Website',
+    appliedDate: '2024-01-25',
     stage: RecruitmentStage.APPLIED,
     jobId: '2',
     notes: 'Managed beauty product categories at Nykaa. Strong understanding of beauty e-commerce industry.',
@@ -5866,9 +5631,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://vikrantsingh.io',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Cutshort',
+    appliedDate: '2024-02-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Built data pipelines for learning analytics at Byju\'s. Experience with educational data processing.',
     assessment: {
@@ -5895,9 +5660,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://prakashiyer.tech',
-    source: 'HireHub',
-    appliedDate: '2025-04-06',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Naukri.com',
+    appliedDate: '2023-11-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Led infrastructure team for healthcare analytics platform. Experience with HIPAA compliance requirements.',
     assessment: {
@@ -5925,8 +5690,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://anuragthakur.dev',
     source: 'LinkedIn',
-    appliedDate: '2025-04-11',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2023-12-01',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '1',
     notes: 'Led payment UI team at Paytm. Redesigned checkout flow increasing conversion by 22%.',
     assessment: {
@@ -5958,9 +5723,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://arunima-sen.notion.site',
-    source: 'HireHub',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'AngelList',
+    appliedDate: '2024-01-12',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Managed user engagement features at Tinder. Experience with dating app market in India.',
     assessment: {
@@ -5993,8 +5758,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://gauravmishra.science',
     source: 'Referral',
-    appliedDate: '2025-03-21',
-    stage: RecruitmentStage.SHORTLISTED,
+    appliedDate: '2023-11-10',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Led fraud detection team at PhonePe. Published research papers on fintech ML applications.',
     assessment: {
@@ -6021,9 +5786,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://farhan-khan.tech',
-    source: 'HireHub',
-    appliedDate: '2025-04-12',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Stack Overflow Jobs',
+    appliedDate: '2024-02-05',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Managed e-commerce infrastructure at Ajio. Experience with high traffic events like fashion sales.',
     assessment: {
@@ -6055,8 +5820,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://tanyachopra.design',
-    source: 'HireHub',
-    appliedDate: '2025-04-23',
+    source: 'Behance',
+    appliedDate: '2024-02-18',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Designed food delivery interfaces at Swiggy. Strong understanding of mobile UX patterns.',
@@ -6089,9 +5854,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://neerajkumar.pm',
-    source: 'HireHub',
-    appliedDate: '2025-04-12',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2024-01-20',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led vehicle telematics products at Ola Electric. Experience with hardware-software integrated products.',
     assessment: {
@@ -6123,9 +5888,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://vishalbhatia.ai',
-    source: 'HireHub',
-    appliedDate: '2025-04-07',
-    stage: RecruitmentStage.INTERVIEWED,
+    source: 'Research Conference',
+    appliedDate: '2023-12-15',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '3',
     notes: 'Published 5 papers in top ML conferences. Working on computer vision research at Microsoft.',
     assessment: {
@@ -6152,9 +5917,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://sureshpillai.dev',
-    source: 'HireHub',
-    appliedDate: '2025-04-09',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Internal Database',
+    appliedDate: '2024-01-05',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '4',
     notes: 'Managed critical e-commerce infrastructure at Flipkart. Experience with Big Billion Day sales traffic.',
     assessment: {
@@ -6181,8 +5946,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://nehaahuja.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-31',
+    source: 'Company Website',
+    appliedDate: '2024-02-10',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Working on Microsoft Teams frontend. Strong focus on accessibility and inclusive design.',
@@ -6216,8 +5981,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://aryangupta.co/resume',
     source: 'Referral',
-    appliedDate: '2025-04-07',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2023-11-25',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '2',
     notes: 'Led hotel booking products at MakeMyTrip. Increased booking conversions by 28% through UI optimizations.',
     assessment: {
@@ -6249,9 +6014,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://varunnair.tech',
-    source: 'HireHub',
-    appliedDate: '2025-04-05',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Hired.com',
+    appliedDate: '2024-01-18',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Developed supply chain forecasting models at Amazon. Experience with large-scale inventory management.',
     assessment: {
@@ -6278,9 +6043,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://karthiks.tech',
-    source: 'HireHub',
-    appliedDate: '2025-03-20',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Naukri.com',
+    appliedDate: '2023-12-10',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '4',
     notes: 'Led DevOps team at Freshworks. Built multi-region deployment infrastructure with 99.99% uptime.',
     assessment: {
@@ -6307,9 +6072,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://parulsaxena.dev',
-    source: 'HireHub',
-    appliedDate: '2025-04-09',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2024-02-15',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '1',
     notes: 'Developed fashion e-commerce interfaces at Myntra. Experience with image-heavy UI performance optimization.',
     assessment: {
@@ -6341,9 +6106,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://mohitverma.pm',
-    source: 'HireHub',
-    appliedDate: '2025-02-29',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'TopHire',
+    appliedDate: '2024-01-15',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '2',
     notes: 'Led restaurant-facing products at Zomato. Increased restaurant retention by 25% through new tools.',
     assessment: {
@@ -6370,9 +6135,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://sanjaymurthy.ai',
-    source: 'HireHub',
-    appliedDate: '2025-03-26',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Cutshort',
+    appliedDate: '2024-01-28',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '3',
     notes: 'Developed route optimization algorithms at Rivigo. Experience with logistics and transportation ML.',
     assessment: {
@@ -6400,8 +6165,8 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://naveenkrishnan.cloud',
     source: 'Instahyre',
-    appliedDate: '2025-04-08',
-    stage: RecruitmentStage.INTERVIEWED,
+    appliedDate: '2023-11-20',
+    stage: RecruitmentStage.FEEDBACK_DONE,
     jobId: '4',
     notes: 'Led cloud migration projects for enterprise clients. Certified in all major cloud platforms.',
     assessment: {
@@ -6428,8 +6193,8 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://kritikarao.dev',
-    source: 'HireHub',
-    appliedDate: '2025-04-05',
+    source: 'AngelList',
+    appliedDate: '2024-02-20',
     stage: RecruitmentStage.APPLIED,
     jobId: '1',
     notes: 'Developed map interfaces at Uber. Experience with real-time location tracking and mapping libraries.',
@@ -6462,9 +6227,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://aakashpatel.co',
-    source: 'HireHub',
-    appliedDate: '2025-04-10',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'LinkedIn',
+    appliedDate: '2023-12-18',
+    stage: RecruitmentStage.RESUME_SHORTLISTED,
     jobId: '2',
     notes: 'Led omnichannel products at Lenskart. Integrated online and offline shopping experiences.',
     assessment: {
@@ -6496,9 +6261,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://navyasingh.io',
-    source: 'HireHub',
-    appliedDate: '2025-03-26',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Referral',
+    appliedDate: '2024-02-01',
+    stage: RecruitmentStage.INTERVIEW_SCHEDULED,
     jobId: '3',
     notes: 'Developed rental price prediction models at Nestaway. Experience with real estate data analytics.',
     assessment: {
@@ -6525,9 +6290,9 @@ export const candidates: Candidate[] = [
       }
     ],
     resume: 'https://rohanmehta.dev',
-    source: 'HireHub',
-    appliedDate: '2025-03-24',
-    stage: RecruitmentStage.SHORTLISTED,
+    source: 'Company Website',
+    appliedDate: '2024-01-10',
+    stage: RecruitmentStage.ASSESSMENT_SENT,
     jobId: '4',
     notes: 'Managed trading infrastructure at Zerodha. Experience with high-performance, low-latency systems.',
     assessment: {
@@ -6536,42 +6301,4 @@ export const candidates: Candidate[] = [
       completed: false
     }
   }
-].map(candidate => {
-  const job = jobs.find(j => j.id === candidate.jobId);
-  if (!job) return candidate;
-
-  const interview = generateInterviewData(candidate, job);
-  
-  return {
-    ...candidate,
-    interview
-  };
-});
-
-export const getStageFromString = (stage: string): RecruitmentStage => {
-  if (stage.toLowerCase() === 'outreached') {
-    return RecruitmentStage.OUTREACHED;
-  }
-  if (stage.toLowerCase() === 'applied') {
-    return RecruitmentStage.APPLIED;
-  }
-  if (stage.toLowerCase() === 'shortlisted') {
-    return RecruitmentStage.SHORTLISTED;
-  }
-  if (stage.toLowerCase() === 'interviewed') {
-    return RecruitmentStage.INTERVIEWED;
-  }
-  if (stage.toLowerCase() === 'rejected') {
-    return RecruitmentStage.REJECTED;
-  }
-  if (stage.toLowerCase() === 'offer extended') {
-    return RecruitmentStage.OFFER_EXTENDED;
-  }
-  if (stage.toLowerCase() === 'offer rejected') {
-    return RecruitmentStage.OFFER_REJECTED;
-  }
-  if (stage.toLowerCase() === 'hired') {
-    return RecruitmentStage.HIRED;
-  }
-  return RecruitmentStage.APPLIED; // Default stage
-}; 
+]; 

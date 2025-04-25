@@ -1,0 +1,3663 @@
+import { Candidate, RecruitmentStage } from '@/types';
+
+export const candidates: Candidate[] = [
+  {
+    "id": "1",
+    "name": "Arjun Patel",
+    "email": "arjun.patel@gmail.com",
+    "phone": "+91 9876543210",
+    "currentTitle": "Senior Frontend Developer",
+    "currentCompany": "TechMinds Solutions",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "stage": "HIRED",
+    "jobId": "1",
+    "interview": {
+      "id": 1,
+      "candidate": {
+        "name": "Arjun Patel",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-29",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 96,
+          "communication": 97,
+          "problemSolving": 98,
+          "culturalFit": 96
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "2",
+    "name": "Meera Sharma",
+    "email": "meera.sharma@outlook.com",
+    "phone": "8765432109",
+    "currentTitle": "Product Manager",
+    "currentCompany": "InnovateHub",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "Product Management",
+      "Agile",
+      "JIRA"
+    ],
+    "stage": "HIRED",
+    "jobId": "2",
+    "interview": {
+      "id": 2,
+      "candidate": {
+        "name": "Meera Sharma",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-5",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 98,
+          "communication": 99,
+          "problemSolving": 98,
+          "culturalFit": 99
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "3",
+    "name": "Vikram Reddy",
+    "email": "vreddy2019@yahoo.com",
+    "phone": "+91 7654321098",
+    "currentTitle": "Data Scientist",
+    "currentCompany": "AnalyticsEdge",
+    "location": "Hyderabad, Telangana",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Data Analysis"
+    ],
+    "stage": "HIRED",
+    "jobId": "3",
+    "interview": {
+      "id": 3,
+      "candidate": {
+        "name": "Vikram Reddy",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-3",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 98,
+          "communication": 97,
+          "problemSolving": 99,
+          "culturalFit": 98
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "4",
+    "name": "Neha Gupta",
+    "email": "neha.gupta@outlook.com",
+    "phone": "+91-65432-10987",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "WebInnovators",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "stage": "HIRED",
+    "jobId": "1",
+    "interview": {
+      "id": 4,
+      "candidate": {
+        "name": "Neha Gupta",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-2",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 96,
+          "communication": 98,
+          "problemSolving": 99,
+          "culturalFit": 97
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "5",
+    "name": "Rahul Khanna",
+    "email": "rahul.khanna@gmail.com",
+    "phone": "+91-54321-09876",
+    "currentTitle": "Senior Product Manager",
+    "currentCompany": "ProductGenius",
+    "location": "Mumbai, Maharashtra",
+    "experience": 6,
+    "skills": [
+      "Product Management",
+      "Agile",
+      "JIRA",
+      "User Research"
+    ],
+    "stage": "HIRED",
+    "jobId": "2",
+    "interview": {
+      "id": 5,
+      "candidate": {
+        "name": "Rahul Khanna",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-5",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 99,
+          "communication": 98,
+          "problemSolving": 99,
+          "culturalFit": 97
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "6",
+    "name": "Anjali Singh",
+    "email": "dr.anjali.singh@outlook.com",
+    "phone": "8143210987",
+    "currentTitle": "Data Science Lead",
+    "currentCompany": "DataTech Solutions",
+    "location": "Hyderabad, Telangana",
+    "experience": 7,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Data Analysis",
+      "SQL",
+      "TensorFlow"
+    ],
+    "stage": "HIRED",
+    "jobId": "3",
+    "interview": {
+      "id": 6,
+      "candidate": {
+        "name": "Anjali Singh",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-5",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 98,
+        "categoryScores": {
+          "technical": 97,
+          "communication": 98,
+          "problemSolving": 98,
+          "culturalFit": 98
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Minor improvements in documentation",
+          "Could further develop mentoring skills"
+        ],
+        "recommendations": [
+          "Excellent candidate, recommend hiring"
+        ]
+      },
+      "humanFeedback": {
+        "score": 97,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Hire"
+      }
+    }
+  },
+  {
+    "id": "7",
+    "name": "Rohan Desai",
+    "email": "rohan.desai@gmail.com",
+    "phone": "9832109876",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Infracloudtech",
+    "location": "Pune, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Python"
+    ],
+    "stage": "REJECTED",
+    "jobId": "4"
+  },
+  {
+    "id": "10",
+    "name": "Sanya Agarwal",
+    "email": "sanya.agarwal@outlook.com",
+    "phone": "+91-09876-54321",
+    "currentTitle": "Data Scientist",
+    "currentCompany": "AI Research India",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "TensorFlow",
+      "Data Analysis"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "12",
+    "name": "Pooja Iyer",
+    "email": "pooja.iyer@outlook.com",
+    "phone": "+91-87654-23456",
+    "currentTitle": "Product Owner",
+    "currentCompany": "Agile Solutions India",
+    "location": "Bangalore, Karnataka",
+    "experience": 7,
+    "skills": [
+      "Product Management",
+      "Agile",
+      "Scrum",
+      "User Stories",
+      "Roadmapping"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "2",
+    "interview": {
+      "id": 12,
+      "candidate": {
+        "name": "Pooja Iyer",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-16",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 89,
+          "communication": 90,
+          "problemSolving": 89,
+          "culturalFit": 91
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "14",
+    "name": "Deepika Joshi",
+    "email": "deepika.joshi@outlook.com",
+    "phone": "+91-65432-45678",
+    "currentTitle": "Infrastructure Engineer",
+    "currentCompany": "CloudOps India",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Kubernetes",
+      "CI/CD"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "15",
+    "name": "Aryan Sharma",
+    "email": "aryan.sharma@gmail.com",
+    "phone": "+91 5432156789",
+    "currentTitle": "UI/UX Developer",
+    "currentCompany": "DesignFusion",
+    "location": "Delhi, NCR",
+    "experience": 5,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Design Systems",
+      "Figma"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "17",
+    "name": "Varun Mathur",
+    "email": "varun.mathur@gmail.com",
+    "phone": "+91-32109-78901",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "DataFlow Systems India",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Spark",
+      "SQL",
+      "ETL",
+      "AWS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "18",
+    "name": "Arnav Choudhary",
+    "email": "arnav.choudhary@outlook.com",
+    "phone": "+91-21098-89012",
+    "currentTitle": "Cloud Solutions Architect",
+    "currentCompany": "CloudTech India",
+    "location": "Hyderabad, Telangana",
+    "experience": 8,
+    "skills": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Terraform",
+      "Kubernetes"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "19",
+    "name": "Tanvi Agarwal",
+    "email": "tanvi.agarwal@hotmail.com",
+    "phone": "9810987901",
+    "currentTitle": "Frontend Lead",
+    "currentCompany": "Swiggy",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 7,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Jest",
+      "CSS-in-JS"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "1",
+    "interview": {
+      "id": 19,
+      "candidate": {
+        "name": "Tanvi Agarwal",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-25",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 89,
+          "communication": 89,
+          "problemSolving": 90,
+          "culturalFit": 90
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "20",
+    "name": "Sandeep Kumar",
+    "email": "sandeep.kumar@outlook.com",
+    "phone": "+91-09876-01234",
+    "currentTitle": "Technical Product Manager",
+    "currentCompany": "TechSoft India",
+    "location": "Pune, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "Product Management",
+      "Agile",
+      "Technical Documentation",
+      "API Design"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "21",
+    "name": "Ananya Chatterjee",
+    "email": "ananya.chatterjee@gmail.com",
+    "phone": "9875612340",
+    "currentTitle": "ML Research Scientist",
+    "currentCompany": "Ainovas",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "Python",
+      "Deep Learning",
+      "TensorFlow",
+      "Computer Vision",
+      "Research"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "3",
+    "interview": {
+      "id": 21,
+      "candidate": {
+        "name": "Ananya Chatterjee",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-20",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 91,
+          "communication": 90,
+          "problemSolving": 89,
+          "culturalFit": 91
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "22",
+    "name": "Ravi Shankar",
+    "email": "ravi.shankar@outlook.com",
+    "phone": "+91-87645-23410",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "ReliableTech India",
+    "location": "Pune, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "Linux",
+      "Docker",
+      "Kubernetes",
+      "Prometheus",
+      "Grafana",
+      "Bash"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "23",
+    "name": "Shreya Banerjee",
+    "email": "shreya.banerjee@gmail.com",
+    "phone": "+91-76534-34509",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "UserInterface Technologies",
+    "location": "Gurgaon, Haryana",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "24",
+    "name": "Karthik Subramanian",
+    "email": "karthik.subramanian@outlook.com",
+    "phone": "+91-65423-45608",
+    "currentTitle": "Associate Product Manager",
+    "currentCompany": "ProductPath India",
+    "location": "Bangalore, Karnataka",
+    "experience": 2,
+    "skills": [
+      "Product Management",
+      "User Stories",
+      "Product Analytics"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "25",
+    "name": "Jyoti Mishra",
+    "email": "jyoti.mishra@gmail.com",
+    "phone": "05431267807",
+    "currentTitle": "Junior Data Scientist",
+    "currentCompany": "DataViz India",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 1,
+    "skills": [
+      "Python",
+      "R",
+      "SQL",
+      "Data Visualization"
+    ],
+    "stage": "REJECTED",
+    "jobId": "3"
+  },
+  {
+    "id": "26",
+    "name": "Vivek Nair",
+    "email": "vivek.nair@outlook.com",
+    "phone": "+91-43201-78906",
+    "currentTitle": "DevOps Specialist",
+    "currentCompany": "CloudScale India",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "Jenkins",
+      "GitHub Actions"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "27",
+    "name": "Divya Krishnan",
+    "email": "divya.krishnan@gmail.com",
+    "phone": "+91-32190-89005",
+    "currentTitle": "React Developer",
+    "currentCompany": "AppFront Technologies",
+    "location": "Hyderabad, Telangana",
+    "experience": 4,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Redux",
+      "Jest"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "28",
+    "name": "Nikhil Menon",
+    "email": "nm@nmenon.co",
+    "phone": "21087-90004",
+    "currentTitle": "Senior Product Manager",
+    "currentCompany": "Flipkart",
+    "location": "Delhi, NCR",
+    "experience": 8,
+    "skills": [
+      "Product Strategy",
+      "Market Research",
+      "Competitive Analysis",
+      "Product Analytics"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "29",
+    "name": "Ritu Agarwal",
+    "email": "ritu.agarwal@gmail.com",
+    "phone": "+91-10978-90103",
+    "currentTitle": "AI Research Engineer",
+    "currentCompany": "NeuralTech India",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "TensorFlow",
+      "Machine Learning",
+      "NLP",
+      "AWS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "30",
+    "name": "Gaurav Saxena",
+    "email": "gaurav.saxena@outlook.com",
+    "phone": "+91-09875-01232",
+    "currentTitle": "Platform Engineer",
+    "currentCompany": "InfraCloud Technologies",
+    "location": "Pune, Maharashtra",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Terraform",
+      "Go"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "31",
+    "name": "Aditi Kulkarni",
+    "email": "aditi.k@gmail.com",
+    "phone": "9876413201",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "MobileFirst Technologies",
+    "location": "Nagpur, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "React Native",
+      "CSS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "33",
+    "name": "Ashwin Raghavan",
+    "email": "ashwin@gmail.com",
+    "phone": "7600534319",
+    "currentTitle": "Data Science Engineer",
+    "currentCompany": "PredictTech Solutions",
+    "location": "Remote (based in Madurai, TN)",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Data Engineering",
+      "Spark",
+      "SQL"
+    ],
+    "stage": "APPLIED",
+    "jobId": "3"
+  },
+  {
+    "id": "34",
+    "name": "Kavita Sharma",
+    "email": "kavita.sharma@outlook.com",
+    "phone": "+91-65423-13518",
+    "currentTitle": "Cloud Infrastructure Engineer",
+    "currentCompany": "CloudEngineer India",
+    "location": "Hyderabad, Telangana",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Terraform",
+      "Ansible",
+      "Python",
+      "Linux"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "35",
+    "name": "Vikas Goyal",
+    "email": "vikas.goyal@gmail.com",
+    "phone": "+91-54312-31607",
+    "currentTitle": "Senior React Developer",
+    "currentCompany": "AppCreators India",
+    "location": "Gurgaon, Haryana",
+    "experience": 8,
+    "skills": [
+      "React",
+      "TypeScript",
+      "GraphQL",
+      "Redux",
+      "Next.js"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "36",
+    "name": "Shikha Bajaj",
+    "email": "bajaj.shikha83@outlook.com",
+    "phone": "Not provided",
+    "currentTitle": "Product Manager",
+    "currentCompany": "UserFirst India",
+    "location": "Pune, Maharashtra",
+    "experience": 7,
+    "skills": [
+      "Product Management",
+      "Agile",
+      "User Research",
+      "Product Analytics",
+      "Wireframing"
+    ],
+    "stage": "REJECTED",
+    "jobId": "2"
+  },
+  {
+    "id": "37",
+    "name": "Deepak Bhatt",
+    "email": "deepak.bhatt@gmail.com",
+    "phone": "+91-32190-31805",
+    "currentTitle": "Machine Learning Researcher",
+    "currentCompany": "AI Labs India",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Deep Learning",
+      "TensorFlow",
+      "Research",
+      "NLP"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "38",
+    "name": "Neelam Patel",
+    "email": "neelam.patel@outlook.com",
+    "phone": "+91-21087-31904",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "DeployNow Technologies",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "Docker",
+      "Kubernetes",
+      "AWS",
+      "CI/CD",
+      "Python"
+    ],
+    "stage": "APPLIED",
+    "jobId": "4"
+  },
+  {
+    "id": "39",
+    "name": "Samir Varma",
+    "email": "samir.varma@gmail.com",
+    "phone": "+91-10978-32003",
+    "currentTitle": "Frontend Engineer",
+    "currentCompany": "WebUI Technologies",
+    "location": "Jaipur, Rajasthan",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Styled Components"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "40",
+    "name": "Anita Reddy",
+    "email": "anita.reddy@outlook.com",
+    "phone": "+91-09875-32102",
+    "currentTitle": "Product Owner",
+    "currentCompany": "AgileServices India",
+    "location": "Hyderabad, Telangana",
+    "experience": 5,
+    "skills": [
+      "Product Management",
+      "Scrum",
+      "User Stories",
+      "Backlog Management"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "41",
+    "name": "Prakash Jain",
+    "email": "prakash.jain@gmail.com",
+    "phone": "+91-98765-42301",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "BigData Solutions India",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "Python",
+      "SQL",
+      "Spark",
+      "Hadoop",
+      "AWS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "42",
+    "name": "Radhika Deshmukh",
+    "email": "radhika.deshmukh@outlook.com",
+    "phone": "8765453210",
+    "currentTitle": "Infrastructure Architect",
+    "currentCompany": "TechInfra Solutions",
+    "location": "Working remotely from Indore, MP",
+    "experience": 7,
+    "skills": [
+      "AWS",
+      "Azure",
+      "Infrastructure as Code",
+      "Terraform",
+      "Kubernetes"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "43",
+    "name": "Varun Chadha",
+    "email": "varun.chadha@gmail.com",
+    "phone": "+91-76543-64219",
+    "currentTitle": "UI Developer",
+    "currentCompany": "Creative UI India",
+    "location": "Delhi, NCR",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Animation",
+      "SVG"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "45",
+    "name": "Arjun Nambiar",
+    "email": "arjun.nambiar@gmail.com",
+    "phone": "+91-54321-86037",
+    "currentTitle": "NLP Engineer",
+    "currentCompany": "LanguageTech India",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Natural Language Processing",
+      "Machine Learning",
+      "BERT"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "46",
+    "name": "Sonali Joshi",
+    "email": "sonali.joshi@outlook.com",
+    "phone": "+91-43210-97846",
+    "currentTitle": "DevSecOps Engineer",
+    "currentCompany": "SecureOps India",
+    "location": "Mumbai, Maharashtra",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "Security Scanning",
+      "CI/CD",
+      "Docker",
+      "Terraform"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "47",
+    "name": "Manoj Singhania",
+    "email": "manoj.singhania2015@gmail.com",
+    "phone": "+91 8965432109",
+    "currentTitle": "Senior Frontend Engineer",
+    "currentCompany": "Paytm",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 9,
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Architecture",
+      "Team Leadership"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "48",
+    "name": "Leela Prasad",
+    "email": "leela.prasad@outlook.com",
+    "phone": "+91-21098-19664",
+    "currentTitle": "Product Operations Manager",
+    "currentCompany": "TechOps India",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Product Operations",
+      "Process Improvement",
+      "Data Analysis"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "49",
+    "name": "Kunal Malhotra",
+    "email": "kunal.malhotra@gmail.com",
+    "phone": "+91-10987-20573",
+    "currentTitle": "Computer Vision Engineer",
+    "currentCompany": "VisionAI Technologies",
+    "location": "Pune, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Computer Vision",
+      "Deep Learning",
+      "OpenCV",
+      "TensorFlow"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "50",
+    "name": "Aishwarya Rao",
+    "email": "a.rao-1993@outlook.com",
+    "phone": "(+91) 9987631482",
+    "currentTitle": "SRE",
+    "currentCompany": "ReliableOps Technologies",
+    "location": "Hyderabad, Telangana",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "Observability",
+      "SLOs",
+      "AWS",
+      "Terraform"
+    ],
+    "stage": "REJECTED",
+    "jobId": "4"
+  },
+  {
+    "id": "51",
+    "name": "Kartik Iyer",
+    "email": "kartik.iyer@gmail.com",
+    "phone": "9876553401",
+    "currentTitle": "React Native Developer",
+    "currentCompany": "CureIt",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React Native",
+      "JavaScript",
+      "TypeScript",
+      "Mobile Development"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "52",
+    "name": "Shalini Gupta",
+    "email": "shalini.gupta@outlook.com",
+    "phone": "+91-87654-64310",
+    "currentTitle": "UX Product Manager",
+    "currentCompany": "DesignFirst Technologies",
+    "location": "Gurgaon, Haryana",
+    "experience": 7,
+    "skills": [
+      "Product Management",
+      "UX Design",
+      "User Research",
+      "Prototyping"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "53",
+    "name": "Vineet Sharma",
+    "email": "vineet.sharma@gmail.com",
+    "phone": "+91-76543-75219",
+    "currentTitle": "Data Scientist",
+    "currentCompany": "PredictiveAI India",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Statistics",
+      "Data Visualization"
+    ],
+    "stage": "APPLIED",
+    "jobId": "3"
+  },
+  {
+    "id": "54",
+    "name": "Priyanka Verma",
+    "email": "priyanka.v@outlook.com",
+    "phone": "65432-86128",
+    "currentTitle": "Platform Engineer",
+    "currentCompany": "Razorpay",
+    "location": "Pune, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "Go",
+      "AWS",
+      "CI/CD"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "55",
+    "name": "Rahul Mehra",
+    "email": "rahul.mehra@gmail.com",
+    "phone": "+91-54321-97037",
+    "currentTitle": "Frontend Tech Lead",
+    "currentCompany": "WebLeaders India",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 8,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Web Performance",
+      "Team Leadership"
+    ],
+    "stage": "OFFER_EXTENDED",
+    "jobId": "1",
+    "interview": {
+      "id": 55,
+      "candidate": {
+        "name": "Rahul Mehra",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-17",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 94,
+        "categoryScores": {
+          "technical": 93,
+          "communication": 95,
+          "problemSolving": 95,
+          "culturalFit": 94
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 93,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Proceed with offer discussion",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "56",
+    "name": "Kavya Menon",
+    "email": "kavya.menon@outlook.com",
+    "phone": "+91-43210-08946",
+    "currentTitle": "Product Manager",
+    "currentCompany": "SaaSTech India",
+    "location": "Hyderabad, Telangana",
+    "experience": 6,
+    "skills": [
+      "Product Management",
+      "SaaS Products",
+      "Agile",
+      "User Stories"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "58",
+    "name": "Sneha Kapoor",
+    "email": "sneha.kapoor@outlook.com",
+    "phone": "+91-21098-20764",
+    "currentTitle": "DevOps Team Lead",
+    "currentCompany": "AutomateOps India",
+    "location": "Mumbai, Maharashtra",
+    "experience": 8,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Terraform",
+      "Team Leadership"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "59",
+    "name": "Vikrant Khanna",
+    "email": "vikrant.khanna@gmail.com",
+    "phone": "+91-10987-31673",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "WebFusion Technologies",
+    "location": "Delhi, NCR",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Responsive Design"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "61",
+    "name": "Pranav Ahuja",
+    "email": "pranav_ahuja1995@rediffmail.com",
+    "phone": "922-555-8876",
+    "currentTitle": "Senior React Developer",
+    "currentCompany": "Zeta",
+    "location": "Bengaluru (relocated from Chandigarh)",
+    "experience": 6,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "GraphQL",
+      "React Query"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "63",
+    "name": "Arif Mohammed",
+    "email": "arifm85@gmail.com",
+    "phone": "+91 9955 420 699",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "Reliance Jio",
+    "location": "Surat, Gujarat",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "SQL",
+      "AWS",
+      "Kafka",
+      "Hadoop"
+    ],
+    "stage": "APPLIED",
+    "jobId": "3"
+  },
+  {
+    "id": "64",
+    "name": "Nitin Choudhary",
+    "email": "nitinc@protonmail.com",
+    "phone": "9988776644",
+    "currentTitle": "DevOps Lead",
+    "currentCompany": "Meesho",
+    "location": "Gurgaon, NCR",
+    "experience": 7,
+    "skills": [
+      "Kubernetes",
+      "Terraform",
+      "AWS",
+      "CI/CD",
+      "Monitoring"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "68",
+    "name": "Kamal Vora",
+    "email": "k_vora@outlook.com",
+    "phone": "Please email first",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "upGrad",
+    "location": "Pune, Maharashtra",
+    "experience": 3,
+    "skills": [
+      "Linux",
+      "Docker",
+      "Kubernetes",
+      "AWS",
+      "Monitoring"
+    ],
+    "stage": "REJECTED",
+    "jobId": "4"
+  },
+  {
+    "id": "69",
+    "name": "Gayatri Deshpande",
+    "email": "g.deshpande@icloud.com",
+    "phone": "9870654321",
+    "currentTitle": "Frontend Architect",
+    "currentCompany": "Cred",
+    "location": "Bengaluru",
+    "experience": 9,
+    "skills": [
+      "React",
+      "TypeScript",
+      "State Management",
+      "Performance",
+      "CSS-in-JS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "72",
+    "name": "Vihaan Agarwal",
+    "email": "vihaan@cloudops.co.in",
+    "phone": "91-96543-98765",
+    "currentTitle": "Platform Engineering Team Lead",
+    "currentCompany": "Gojek",
+    "location": "Remote from Dharamshala, HP",
+    "experience": 8,
+    "skills": [
+      "Kubernetes",
+      "Terraform",
+      "GitOps",
+      "AWS",
+      "Go"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "73",
+    "name": "Deepti Raghavan",
+    "email": "deepti2012@outlook.com",
+    "phone": "+91 7654-876543",
+    "currentTitle": "UI/UX Developer",
+    "currentCompany": "Cars24",
+    "location": "Gurgaon",
+    "experience": 5,
+    "skills": [
+      "React",
+      "JavaScript",
+      "UI Design",
+      "Design Systems",
+      "Figma"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "76",
+    "name": "Jasmine Kaur",
+    "email": "jasmine.k@pm.me",
+    "phone": "(+91) 67890-54321",
+    "currentTitle": "DevOps Consultant",
+    "currentCompany": "Independent Contractor",
+    "location": "Anywhere (Digital Nomad)",
+    "experience": 6,
+    "skills": [
+      "AWS",
+      "GCP",
+      "Kubernetes",
+      "Terraform",
+      "CI/CD",
+      "Security"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "77",
+    "name": "Karthikeyan S",
+    "email": "karthik.ui@outlook.com",
+    "phone": "044-9876543",
+    "currentTitle": "React Native Developer",
+    "currentCompany": "Dream11",
+    "location": "Mumbai, MH",
+    "experience": 4,
+    "skills": [
+      "React",
+      "React Native",
+      "JavaScript",
+      "TypeScript",
+      "Redux"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "80",
+    "name": "Kunal Anand",
+    "email": "kanand12@infosys.com",
+    "phone": "+91 98765-43210 (office)",
+    "currentTitle": "Cloud Solutions Architect",
+    "currentCompany": "Infosys",
+    "location": "Hyderabad, Telangana",
+    "experience": 9,
+    "skills": [
+      "AWS",
+      "Azure",
+      "Cloud Architecture",
+      "Migration",
+      "Kubernetes"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "81",
+    "name": "Aishwarya Narayanan",
+    "email": "a.narayanan@flipkart.com",
+    "phone": "9812-34-5678",
+    "currentTitle": "Frontend Staff Engineer",
+    "currentCompany": "Flipkart",
+    "location": "Bangalore, Karnataka",
+    "experience": 10,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Architecture",
+      "Design Systems",
+      "Web Performance"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "83",
+    "name": "Mitali Patel",
+    "email": "mitu2000@gmail.com",
+    "phone": "70243 65874",
+    "currentTitle": "Data Scientist",
+    "currentCompany": "ShareChat",
+    "location": "Remote, based in Ahmedabad",
+    "experience": 2,
+    "skills": [
+      "Python",
+      "NLP",
+      "PyTorch",
+      "SQL",
+      "Data Analysis"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "85",
+    "name": "Ritika Saxena",
+    "email": "ritika.s@zomato.com",
+    "phone": "+91 79 2324 5698",
+    "currentTitle": "UI Engineer",
+    "currentCompany": "Zomato",
+    "location": "Gurgaon, Haryana",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Animation",
+      "Frontend Testing"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "86",
+    "name": "Vikram Joshi",
+    "email": "vikram.joshi@startupindia.org",
+    "phone": "9632587410",
+    "currentTitle": "Product Growth Lead",
+    "currentCompany": "Snapdeal",
+    "location": "New Delhi",
+    "experience": 7,
+    "skills": [
+      "Product Management",
+      "Growth Hacking",
+      "E-commerce",
+      "User Acquisition"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "2"
+  },
+  {
+    "id": "88",
+    "name": "Rajiv Mehta",
+    "email": "rajiv@mehta-cloud.in",
+    "phone": "022-66554433",
+    "currentTitle": "Cloud Architect",
+    "currentCompany": "TCS",
+    "location": "Mumbai, Maharashtra",
+    "experience": 15,
+    "skills": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Enterprise Architecture",
+      "Migration"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "89",
+    "name": "Sandeep Gupta",
+    "email": "sandeep-1987@rediffmail.com",
+    "phone": "8877665544",
+    "currentTitle": "Senior React Developer",
+    "currentCompany": "Razorpay",
+    "location": "Bangalore, KA",
+    "experience": 7,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "Payment Systems",
+      "Redux"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "90",
+    "name": "Divya Mohan",
+    "email": "divya.mohan@gmail.com",
+    "phone": "074-0639-4127",
+    "currentTitle": "Product Marketing Manager",
+    "currentCompany": "Dunzo",
+    "location": "Bangalore (WFH from Kochi)",
+    "experience": 6,
+    "skills": [
+      "Product Management",
+      "Go-to-Market",
+      "Analytics",
+      "User Research"
+    ],
+    "stage": "APPLIED",
+    "jobId": "2"
+  },
+  {
+    "id": "91",
+    "name": "Aryan Singh",
+    "email": "aryansingh.ds@gmail.com",
+    "phone": "+91 7878-789789",
+    "currentTitle": "ML Engineer",
+    "currentCompany": "Freshworks",
+    "location": "Chennai",
+    "experience": 3,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "FastAPI",
+      "MLOps",
+      "SQL"
+    ],
+    "stage": "APPLIED",
+    "jobId": "3"
+  },
+  {
+    "id": "92",
+    "name": "Raman Verma",
+    "email": "r.verma9@yahoo.com",
+    "phone": "98xx xx1230",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Grofers",
+    "location": "Delhi",
+    "experience": 4,
+    "skills": [
+      "Docker",
+      "Kubernetes",
+      "Jenkins",
+      "Ansible",
+      "AWS"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "4"
+  },
+  {
+    "id": "93",
+    "name": "Kiran Nair",
+    "email": "kiran_n@hotmail.com",
+    "phone": "(+9) 1909090090",
+    "currentTitle": "UX Designer & Developer",
+    "currentCompany": "Lowe\\",
+    "location": "Bangalore, KA",
+    "experience": 4,
+    "skills": [
+      "React",
+      "UI Design",
+      "Figma",
+      "CSS",
+      "User Testing"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "95",
+    "name": "Abdul Rahman",
+    "email": "ar1992@gmail.co.in",
+    "phone": "#######990",
+    "currentTitle": "Senior Machine Learning Engineer",
+    "currentCompany": "Flipkart",
+    "location": "Bangalore",
+    "experience": 7,
+    "skills": [
+      "Python",
+      "Deep Learning",
+      "Recommendation Systems",
+      "Spark",
+      "AWS"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "3"
+  },
+  {
+    "id": "96",
+    "name": "Jay Patel",
+    "email": "jay.devops@gmail.com",
+    "phone": "9876543210",
+    "currentTitle": "Platform Engineer",
+    "currentCompany": "Myntra",
+    "location": "Bangalore",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "Go",
+      "GitOps"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "97",
+    "name": "Trisha Mukherjee",
+    "email": "trisha.ui@outlook.com",
+    "phone": "♪♪♪-♪♪♪-♪♪♪♪",
+    "currentTitle": "Frontend Team Lead",
+    "currentCompany": "MoEngage",
+    "location": "Hyderabad",
+    "experience": 8,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Team Management",
+      "Performance Optimization"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "101",
+    "name": "Rajesh Menon",
+    "email": "rajeshmenon78@gmail.com",
+    "phone": "91-98765-43289",
+    "currentTitle": "Full Stack Developer",
+    "currentCompany": "HCL Technologies",
+    "location": "Kochi, Kerala",
+    "experience": 6,
+    "skills": [
+      "Node.js",
+      "React",
+      "MongoDB",
+      "Express",
+      "GraphQL"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "103",
+    "name": "Sanjay Venkatesh",
+    "email": "sanjay.venk@datainsights.in",
+    "phone": "+91 8845992167",
+    "currentTitle": "Machine Learning Engineer",
+    "currentCompany": "Genpact",
+    "location": "Hyderabad, Telangana",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "TensorFlow",
+      "Keras",
+      "Computer Vision",
+      "NLP"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "3"
+  },
+  {
+    "id": "104",
+    "name": "Anand Prakash",
+    "email": "anand.prakash@yahoo.co.in",
+    "phone": "7788990012",
+    "currentTitle": "DevOps Specialist",
+    "currentCompany": "Infosys",
+    "location": "Pune, Maharashtra",
+    "experience": 7,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "Jenkins",
+      "Ansible",
+      "Terraform"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "4"
+  },
+  {
+    "id": "105",
+    "name": "Lakshmi Nair",
+    "email": "lakshmi.nair92@gmail.com",
+    "phone": "8712345600",
+    "currentTitle": "UI/UX Designer",
+    "currentCompany": "Freshworks",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 4,
+    "skills": [
+      "Figma",
+      "Adobe XD",
+      "User Research",
+      "Design Systems",
+      "Prototyping"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "108",
+    "name": "Vipin Tiwari",
+    "email": "vipin.t@rediffmail.com",
+    "phone": "8877665599",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "Persistent Systems",
+    "location": "Pune, Maharashtra",
+    "experience": 6,
+    "skills": [
+      "AWS",
+      "GCP",
+      "Monitoring",
+      "Automation",
+      "Python",
+      "Shell Scripting"
+    ],
+    "stage": "APPLIED",
+    "jobId": "4"
+  },
+  {
+    "id": "109",
+    "name": "Nikhil Iyer",
+    "email": "nikhil.iyer@hotmail.com",
+    "phone": "9823456701",
+    "currentTitle": "Frontend Engineer",
+    "currentCompany": "Razorpay",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "React",
+      "Redux",
+      "TypeScript",
+      "NextJS",
+      "Webpack"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "110",
+    "name": "Deepika Malhotra",
+    "email": "deepika.pm@irctc.co.in",
+    "phone": "7045678912",
+    "currentTitle": "Associate Product Manager",
+    "currentCompany": "IRCTC",
+    "location": "New Delhi, Delhi",
+    "experience": 3,
+    "skills": [
+      "Product Management",
+      "User Research",
+      "JIRA",
+      "Analytics"
+    ],
+    "stage": "APPLIED",
+    "jobId": "2"
+  },
+  {
+    "id": "111",
+    "name": "Rahul Mahajan",
+    "email": "rahul.ml.engineer@gmail.com",
+    "phone": "+91 8956234109",
+    "currentTitle": "ML Engineer",
+    "currentCompany": "Ola Electric",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Deep Learning",
+      "Computer Vision",
+      "PyTorch",
+      "OpenCV"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "3"
+  },
+  {
+    "id": "112",
+    "name": "Manish Arora",
+    "email": "manish.arora@protonmail.com",
+    "phone": "9765438920",
+    "currentTitle": "Cloud Infrastructure Engineer",
+    "currentCompany": "Jio Platforms",
+    "location": "Mumbai, Maharashtra",
+    "experience": 7,
+    "skills": [
+      "AWS",
+      "Azure",
+      "Infrastructure as Code",
+      "Terraform",
+      "Network Security"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "4"
+  },
+  {
+    "id": "113",
+    "name": "Priyanka Sharma",
+    "email": "priyanka.webdev@gmail.com",
+    "phone": "9932108754",
+    "currentTitle": "Senior UI Developer",
+    "currentCompany": "Flipkart",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "Styled Components",
+      "Performance Optimization"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "1"
+  },
+  {
+    "id": "115",
+    "name": "Aditya Choudhary",
+    "email": "aditya.ch@outlook.com",
+    "phone": "8234567099",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "ShareChat",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Spark",
+      "Hadoop",
+      "Python",
+      "SQL",
+      "ETL",
+      "Airflow"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "3"
+  },
+  {
+    "id": "116",
+    "name": "Ganesh Raman",
+    "email": "ganesh.raman@zoho.com",
+    "phone": "9056782301",
+    "currentTitle": "Technical Lead - DevOps",
+    "currentCompany": "Zoho",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 9,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "CI/CD",
+      "Python",
+      "GitOps",
+      "Monitoring"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "4"
+  },
+  {
+    "id": "117",
+    "name": "Ritu Jain",
+    "email": "ritu.jain@ymail.com",
+    "phone": "7689012345",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "MakeMyTrip",
+    "location": "Gurgaon, Haryana",
+    "experience": 3,
+    "skills": [
+      "JavaScript",
+      "React",
+      "Redux",
+      "HTML5",
+      "CSS3"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "120",
+    "name": "Rohan Kapoor",
+    "email": "rohan.devops@yahoo.co.in",
+    "phone": "9876123450",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Ather Energy",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "AWS",
+      "Terraform",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Python"
+    ],
+    "stage": "APPLIED",
+    "jobId": "4"
+  },
+  {
+    "id": "121",
+    "name": "Aryan Kapoor",
+    "email": "aryan.k@gmail.com",
+    "phone": "9123456780",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Paytm",
+    "location": "Noida, Uttar Pradesh",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "Redux",
+      "GraphQL"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "123",
+    "name": "Karthik Rajan",
+    "email": "karthikr@gmail.com",
+    "phone": "8234567890",
+    "currentTitle": "AI Engineer",
+    "currentCompany": "Navi",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "NLP",
+      "Machine Learning",
+      "TensorFlow",
+      "Keras"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "124",
+    "name": "Venkat Subramaniam",
+    "email": "venkat.devops@gmail.com",
+    "phone": "+91 9876501234",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Cred",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Terraform",
+      "GitOps",
+      "Security"
+    ],
+    "stage": "OUTREACHED",
+    "jobId": "4"
+  },
+  {
+    "id": "125",
+    "name": "Tanvi Mehta",
+    "email": "tanvi.mehta@gmail.com",
+    "phone": "9567890123",
+    "currentTitle": "UI Developer",
+    "currentCompany": "Dream11",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Animation",
+      "Performance Optimization"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "127",
+    "name": "Neha Bhatia",
+    "email": "neha.data@gmail.com",
+    "phone": "8901234567",
+    "currentTitle": "Data Scientist",
+    "currentCompany": "Myntra",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Recommendation Systems",
+      "SQL",
+      "A/B Testing"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "128",
+    "name": "Vivek Patil",
+    "email": "vivek.patil@gmail.com",
+    "phone": "9123450678",
+    "currentTitle": "SRE",
+    "currentCompany": "PhonePe",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Kubernetes",
+      "Prometheus",
+      "Grafana",
+      "Python",
+      "Linux"
+    ],
+    "stage": "APPLIED",
+    "jobId": "4"
+  },
+  {
+    "id": "129",
+    "name": "Rohit Sharma",
+    "email": "rohit.sharma@outlook.com",
+    "phone": "7012345678",
+    "currentTitle": "Frontend Lead",
+    "currentCompany": "Zomato",
+    "location": "Gurgaon, Haryana",
+    "experience": 7,
+    "skills": [
+      "React",
+      "TypeScript",
+      "React Native",
+      "Redux",
+      "Performance"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "1",
+    "interview": {
+      "id": 129,
+      "candidate": {
+        "name": "Rohit Sharma",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-16",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 92,
+          "communication": 89,
+          "problemSolving": 89,
+          "culturalFit": 90
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "131",
+    "name": "Amit Jha",
+    "email": "amit.jha@gmail.com",
+    "phone": "9876541230",
+    "currentTitle": "ML Engineer",
+    "currentCompany": "Meesho",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Computer Vision",
+      "TensorFlow",
+      "AWS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "132",
+    "name": "Divya Sundaram",
+    "email": "divya.devops@outlook.com",
+    "phone": "8765019234",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "PolicyBazaar",
+    "location": "Gurgaon, Haryana",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Jenkins",
+      "Terraform",
+      "Docker",
+      "Kubernetes",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "133",
+    "name": "Vishal Malhotra",
+    "email": "vishal.m@gmail.com",
+    "phone": "9012345678",
+    "currentTitle": "Senior Frontend Developer",
+    "currentCompany": "Lenskart",
+    "location": "Delhi, NCR",
+    "experience": 5,
+    "skills": [
+      "React",
+      "JavaScript",
+      "Vue.js",
+      "Webpack",
+      "Micro-frontends"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "135",
+    "name": "Preeti Gupta",
+    "email": "preeti.gupta@gmail.com",
+    "phone": "9901234567",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "Zepto",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Spark",
+      "Kafka",
+      "Airflow",
+      "SQL",
+      "AWS"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "136",
+    "name": "Rajiv Singh",
+    "email": "rajiv.cloud@gmail.com",
+    "phone": "7890123405",
+    "currentTitle": "Cloud Infrastructure Engineer",
+    "currentCompany": "Unacademy",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "AWS",
+      "GCP",
+      "Terraform",
+      "Kubernetes",
+      "Docker",
+      "Infrastructure as Code"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "137",
+    "name": "Leela Krishnan",
+    "email": "leela.krishnan@gmail.com",
+    "phone": "9560123478",
+    "currentTitle": "UI Designer",
+    "currentCompany": "Cure.fit",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "UI Design",
+      "Figma",
+      "User Research",
+      "Design Systems",
+      "Motion Design"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "138",
+    "name": "Varun Mishra",
+    "email": "varun.prod@outlook.com",
+    "phone": "8456701923",
+    "currentTitle": "Associate Product Manager",
+    "currentCompany": "Dunzo",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "Product Management",
+      "Quick Commerce",
+      "Agile",
+      "User Research"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "2"
+  },
+  {
+    "id": "139",
+    "name": "Sameer Joshi",
+    "email": "sameer.joshi@yahoo.in",
+    "phone": "9012347856",
+    "currentTitle": "Machine Learning Engineer",
+    "currentCompany": "Sharechat",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Deep Learning",
+      "NLP",
+      "Recommendation Systems",
+      "PyTorch"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "140",
+    "name": "Madhavi Patil",
+    "email": "madhavi.devops@gmail.com",
+    "phone": "9876540123",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Razorpay",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "CI/CD",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "141",
+    "name": "Vipul Mehta",
+    "email": "vipul.mehta@hotmail.com",
+    "phone": "8234561790",
+    "currentTitle": "Frontend Architect",
+    "currentCompany": "Tata Consultancy Services",
+    "location": "Ahmedabad, Gujarat",
+    "experience": 8,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "Micro Frontends",
+      "Design Systems",
+      "NextJS"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "1",
+    "interview": {
+      "id": 141,
+      "candidate": {
+        "name": "Vipul Mehta",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-11",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 90,
+          "communication": 91,
+          "problemSolving": 92,
+          "culturalFit": 89
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "144",
+    "name": "Siddharth Nair",
+    "email": "sidd.devops@gmail.com",
+    "phone": "9012456789",
+    "currentTitle": "Platform Engineer",
+    "currentCompany": "Ola",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Terraform",
+      "Go",
+      "Microservices"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "145",
+    "name": "Meera Rajput",
+    "email": "meera.raj@yahoo.co.in",
+    "phone": "7781234567",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Nykaa",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "SASS",
+      "Redux",
+      "Performance Optimization"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "148",
+    "name": "Deepak Khanna",
+    "email": "deepak.devops@gmail.com",
+    "phone": "9876543009",
+    "currentTitle": "DevOps Lead",
+    "currentCompany": "Airtel Digital",
+    "location": "Gurgaon, Haryana",
+    "experience": 7,
+    "skills": [
+      "AWS",
+      "Terraform",
+      "Kubernetes",
+      "CI/CD",
+      "Monitoring",
+      "Security"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "149",
+    "name": "Aisha Malik",
+    "email": "aisha.frontend@outlook.com",
+    "phone": "8765409123",
+    "currentTitle": "UI Developer",
+    "currentCompany": "Goibibo",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "UI Animation",
+      "Design Systems"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "152",
+    "name": "Karan Sharma",
+    "email": "karan.devops@outlook.com",
+    "phone": "9912345678",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "Oyo Rooms",
+    "location": "Gurgaon, Haryana",
+    "experience": 5,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Monitoring",
+      "Prometheus",
+      "Grafana",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "153",
+    "name": "Nisha Mathur",
+    "email": "nisha.frontend@yahoo.in",
+    "phone": "9871234560",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Housing.com",
+    "location": "Mumbai, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS",
+      "Redux",
+      "GraphQL",
+      "WebGL"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "155",
+    "name": "Alok Verma",
+    "email": "alok.data@gmail.com",
+    "phone": "9980123456",
+    "currentTitle": "Machine Learning Engineer",
+    "currentCompany": "Tata Digital",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "MLOps",
+      "AWS",
+      "Retail Analytics"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "156",
+    "name": "Anish Kumar",
+    "email": "anish.devops@gmail.com",
+    "phone": "7890451236",
+    "currentTitle": "Cloud Engineer",
+    "currentCompany": "Wipro Digital",
+    "location": "Hyderabad, Telangana",
+    "experience": 5,
+    "skills": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Terraform",
+      "CloudFormation",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "157",
+    "name": "Pankaj Mishra",
+    "email": "pankaj.ui@outlook.com",
+    "phone": "8801234567",
+    "currentTitle": "Senior UI Developer",
+    "currentCompany": "Policybazaar",
+    "location": "Gurgaon, Haryana",
+    "experience": 6,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "CSS",
+      "Design Systems",
+      "Micro Frontends"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "160",
+    "name": "Tushar Sharma",
+    "email": "tushar.sre@hotmail.com",
+    "phone": "8123456789",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "InMobi",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Monitoring",
+      "CI/CD",
+      "Go"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "161",
+    "name": "Rishi Kapadia",
+    "email": "rishi.frontend@gmail.com",
+    "phone": "9899012345",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Vedantu",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "WebRTC",
+      "EdTech",
+      "Real-time Applications",
+      "CSS3"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "164",
+    "name": "Divyanshu Singh",
+    "email": "divyanshu.cloud@outlook.com",
+    "phone": "9876123456",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Nagarro",
+    "location": "Noida, Uttar Pradesh",
+    "experience": 6,
+    "skills": [
+      "AWS",
+      "Kubernetes",
+      "Terraform",
+      "CI/CD",
+      "Docker",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "165",
+    "name": "Komal Verma",
+    "email": "komal.frontend@gmail.com",
+    "phone": "8776541230",
+    "currentTitle": "UI/UX Developer",
+    "currentCompany": "MindTickle",
+    "location": "Pune, Maharashtra",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "UI Design",
+      "Figma",
+      "CSS3",
+      "Design Systems"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "167",
+    "name": "Pradeep Menon",
+    "email": "pradeep.data@gmail.com",
+    "phone": "8887776665",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "Uber India",
+    "location": "Hyderabad, Telangana",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Spark",
+      "Kafka",
+      "Data Pipelines",
+      "AWS",
+      "Airflow"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "168",
+    "name": "Abhishek Goyal",
+    "email": "abhishek.sre@outlook.com",
+    "phone": "7890654321",
+    "currentTitle": "SRE",
+    "currentCompany": "Walmart Global Tech",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Monitoring",
+      "Incident Management",
+      "Automation",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "169",
+    "name": "Ankita Jain",
+    "email": "ankita.js@gmail.com",
+    "phone": "9123456780",
+    "currentTitle": "Frontend Engineer",
+    "currentCompany": "Meesho",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "React",
+      "TypeScript",
+      "NextJS",
+      "GraphQL",
+      "State Management",
+      "Performance"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "172",
+    "name": "Harsha Vardhan",
+    "email": "harsha.cloud@outlook.com",
+    "phone": "9988776655",
+    "currentTitle": "Cloud Architect",
+    "currentCompany": "Infosys",
+    "location": "Hyderabad, Telangana",
+    "experience": 8,
+    "skills": [
+      "AWS",
+      "Azure",
+      "Cloud Architecture",
+      "Migration Strategy",
+      "Security",
+      "Cost Optimization"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "4",
+    "interview": {
+      "id": 172,
+      "candidate": {
+        "name": "Harsha Vardhan",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-21",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 92,
+          "communication": 90,
+          "problemSolving": 89,
+          "culturalFit": 89
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "173",
+    "name": "Aarti Sharma",
+    "email": "aarti.ui@gmail.com",
+    "phone": "9870123456",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Sharechat",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "Mobile Web",
+      "Performance"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "176",
+    "name": "Bhavya Reddy",
+    "email": "bhavya.sre@outlook.com",
+    "phone": "8765432100",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "Postman",
+    "location": "Bangalore, Karnataka",
+    "experience": 5,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Terraform",
+      "CI/CD",
+      "Monitoring"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "177",
+    "name": "Siddharth Roy",
+    "email": "siddharth.fe@gmail.com",
+    "phone": "9800123456",
+    "currentTitle": "Senior Frontend Developer",
+    "currentCompany": "1mg",
+    "location": "Gurgaon, Haryana",
+    "experience": 7,
+    "skills": [
+      "React",
+      "TypeScript",
+      "Redux",
+      "Design Systems",
+      "A11y",
+      "Performance"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "1",
+    "interview": {
+      "id": 177,
+      "candidate": {
+        "name": "Siddharth Roy",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-3",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 90,
+          "communication": 90,
+          "problemSolving": 91,
+          "culturalFit": 90
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "179",
+    "name": "Vikrant Singh",
+    "email": "vikrant.data@gmail.com",
+    "phone": "9871234500",
+    "currentTitle": "Data Engineer",
+    "currentCompany": "Byju\\",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "Python",
+      "Spark",
+      "Kafka",
+      "AWS",
+      "Airflow",
+      "ETL"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "180",
+    "name": "Prakash Iyer",
+    "email": "prakash.devops@outlook.com",
+    "phone": "8890123456",
+    "currentTitle": "DevOps Lead",
+    "currentCompany": "Innovaccer",
+    "location": "Noida, Uttar Pradesh",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "CI/CD",
+      "Security",
+      "Healthcare IT"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "181",
+    "name": "Anurag Thakur",
+    "email": "anurag.frontend@gmail.com",
+    "phone": "9087654321",
+    "currentTitle": "Frontend Tech Lead",
+    "currentCompany": "Paytm",
+    "location": "Delhi, NCR",
+    "experience": 7,
+    "skills": [
+      "React",
+      "TypeScript",
+      "NextJS",
+      "Performance",
+      "Team Management",
+      "Architecture"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "1",
+    "interview": {
+      "id": 181,
+      "candidate": {
+        "name": "Anurag Thakur",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-12",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 90,
+          "communication": 91,
+          "problemSolving": 91,
+          "culturalFit": 92
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "184",
+    "name": "Farhan Khan",
+    "email": "farhan.devops@gmail.com",
+    "phone": "8790123456",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Ajio",
+    "location": "Mumbai, Maharashtra",
+    "experience": 5,
+    "skills": [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "CI/CD",
+      "Monitoring",
+      "Python"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "188",
+    "name": "Suresh Pillai",
+    "email": "suresh.sre@outlook.com",
+    "phone": "9988776654",
+    "currentTitle": "Site Reliability Engineer",
+    "currentCompany": "Flipkart",
+    "location": "Bangalore, Karnataka",
+    "experience": 7,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "Monitoring",
+      "Incident Management",
+      "SLO"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "189",
+    "name": "Neha Ahuja",
+    "email": "neha.frontend@gmail.com",
+    "phone": "7654321098",
+    "currentTitle": "Frontend Engineer",
+    "currentCompany": "Microsoft India",
+    "location": "Hyderabad, Telangana",
+    "experience": 5,
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Accessibility",
+      "Design Systems",
+      "Performance"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "192",
+    "name": "Karthik Subramanian",
+    "email": "karthik.devops@gmail.com",
+    "phone": "9087654311",
+    "currentTitle": "DevOps Lead",
+    "currentCompany": "Freshworks",
+    "location": "Chennai, Tamil Nadu",
+    "experience": 7,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Azure",
+      "Terraform",
+      "CI/CD",
+      "Security",
+      "Monitoring"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  },
+  {
+    "id": "193",
+    "name": "Parul Saxena",
+    "email": "parul.ui@gmail.com",
+    "phone": "9870123456",
+    "currentTitle": "UI Developer",
+    "currentCompany": "Myntra",
+    "location": "Bangalore, Karnataka",
+    "experience": 4,
+    "skills": [
+      "React",
+      "JavaScript",
+      "CSS3",
+      "Animation",
+      "E-commerce",
+      "Design Systems"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "1"
+  },
+  {
+    "id": "195",
+    "name": "Sanjay Murthy",
+    "email": "sanjay.ml@gmail.com",
+    "phone": "9876512340",
+    "currentTitle": "ML Engineer",
+    "currentCompany": "Rivigo",
+    "location": "Gurgaon, Haryana",
+    "experience": 5,
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Logistics Optimization",
+      "Route Planning",
+      "GPS Analytics"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "3"
+  },
+  {
+    "id": "196",
+    "name": "Naveen Krishnan",
+    "email": "naveen.cloud@gmail.com",
+    "phone": "8901234567",
+    "currentTitle": "Cloud Architect",
+    "currentCompany": "Accenture India",
+    "location": "Bangalore, Karnataka",
+    "experience": 8,
+    "skills": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Multi-cloud Strategy",
+      "Migration",
+      "Security"
+    ],
+    "stage": "INTERVIEWED",
+    "jobId": "4",
+    "interview": {
+      "id": 196,
+      "candidate": {
+        "name": "Naveen Krishnan",
+        "position": "Software Developer"
+      },
+      "date": "2024-04-4",
+      "time": "10:00 AM",
+      "type": "Technical",
+      "status": "Completed",
+      "interviewers": [
+        "Interviewer 1",
+        "Interviewer 2"
+      ],
+      "location": "Virtual/Zoom",
+      "transcript": [
+        {
+          "timestamp": "10:00:00",
+          "speaker": "Interviewer",
+          "content": "Could you tell us about your relevant experience?"
+        },
+        {
+          "timestamp": "10:01:00",
+          "speaker": "Candidate",
+          "content": "I have several years of experience in this field working on various projects."
+        },
+        {
+          "timestamp": "10:02:00",
+          "speaker": "Interviewer",
+          "content": "How would you approach problem-solving in our tech stack?"
+        },
+        {
+          "timestamp": "10:03:00",
+          "speaker": "Candidate",
+          "content": "I believe in a methodical approach, starting with understanding the requirements, breaking down the problem, and implementing solutions iteratively."
+        }
+      ],
+      "aiAssessment": {
+        "overallScore": 91,
+        "categoryScores": {
+          "technical": 89,
+          "communication": 89,
+          "problemSolving": 92,
+          "culturalFit": 90
+        },
+        "strengths": [
+          "Strong technical knowledge",
+          "Clear communication",
+          "Excellent problem-solving approach"
+        ],
+        "areasForImprovement": [
+          "Could provide more specific examples",
+          "Consider more varied test approaches"
+        ],
+        "recommendations": [
+          "Candidate shows strong potential for the role"
+        ]
+      },
+      "humanFeedback": {
+        "score": 90,
+        "notes": "Demonstrated strong technical skills and good problem-solving abilities.",
+        "nextSteps": "Schedule follow-up interview",
+        "decision": "Further Evaluation"
+      }
+    }
+  },
+  {
+    "id": "197",
+    "name": "Kritika Rao",
+    "email": "kritika.fe@outlook.com",
+    "phone": "9988776655",
+    "currentTitle": "Frontend Developer",
+    "currentCompany": "Uber India",
+    "location": "Bangalore, Karnataka",
+    "experience": 3,
+    "skills": [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "Redux",
+      "Maps Integration",
+      "Geolocation"
+    ],
+    "stage": "APPLIED",
+    "jobId": "1"
+  },
+  {
+    "id": "200",
+    "name": "Rohan Mehta",
+    "email": "rohan.devops@gmail.com",
+    "phone": "8765432190",
+    "currentTitle": "DevOps Engineer",
+    "currentCompany": "Zerodha",
+    "location": "Bangalore, Karnataka",
+    "experience": 6,
+    "skills": [
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "CI/CD",
+      "Monitoring",
+      "Security"
+    ],
+    "stage": "SHORTLISTED",
+    "jobId": "4"
+  }
+];

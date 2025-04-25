@@ -26,7 +26,7 @@ const divyaKrishnan: Candidate = {
   ],
   resume: 'https://example.com/divya-krishnan-resume',
   source: 'LinkedIn',
-  appliedDate: '2024-03-08',
+  appliedDate: '2025-03-08',
   stage: RecruitmentStage.INTERVIEWED,
   jobId: '1',
   notes: 'Strong frontend development background with excellent React expertise.',
@@ -41,7 +41,7 @@ const divyaKrishnan: Candidate = {
       name: 'Divya Krishnan',
       position: 'Senior Frontend Developer'
     },
-    date: '2024-03-20',
+    date: '2025-03-20',
     time: '2:30 PM',
     type: 'Technical',
     status: 'Completed',
@@ -99,7 +99,7 @@ const divyaKrishnan: Candidate = {
       decision: 'Further Evaluation'
     }
   },
-  lastUpdated: '2024-03-20'
+  lastUpdated: '2025-03-20'
 };
 
 export const candidates: Candidate[] = [
@@ -129,7 +129,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/sarah-johnson-resume',
     source: 'LinkedIn',
-    appliedDate: '2024-03-05',
+    appliedDate: '2025-03-05',
     stage: RecruitmentStage.INTERVIEWED,
     jobId: '1',
     notes: 'Strong portfolio and system design experience. Technical interview completed with positive feedback.',
@@ -144,7 +144,7 @@ export const candidates: Candidate[] = [
         name: 'Sarah Johnson',
         position: 'Senior UI/UX Designer'
       },
-      date: '2024-03-15',
+      date: '2025-03-15',
       time: '10:00 AM',
       type: 'Technical',
       status: 'Completed',
@@ -200,7 +200,7 @@ export const candidates: Candidate[] = [
         decision: 'Hire'
       }
     },
-    lastUpdated: '2024-03-15'
+    lastUpdated: '2025-03-15'
   },
   {
     id: '2',
@@ -227,7 +227,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/raj-sharma-resume',
     source: 'Internal Referral',
-    appliedDate: '2024-03-08',
+    appliedDate: '2025-03-08',
     stage: RecruitmentStage.SHORTLISTED,
     jobId: '2',
     notes: 'Strong sales background with excellent track record. Shortlisted for interview round.',
@@ -236,7 +236,7 @@ export const candidates: Candidate[] = [
       feedback: 'Good domain knowledge and leadership experience',
       completed: true
     },
-    lastUpdated: '2024-03-12'
+    lastUpdated: '2025-03-12'
   },
   {
     id: '3',
@@ -263,7 +263,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/amit-patel-resume',
     source: 'Naukri.com',
-    appliedDate: '2024-03-12',
+    appliedDate: '2025-03-12',
     stage: RecruitmentStage.OFFER_EXTENDED,
     jobId: '3',
     notes: 'Strong technical skills and system design expertise. Offer letter sent.',
@@ -278,7 +278,7 @@ export const candidates: Candidate[] = [
         name: 'Amit Patel',
         position: 'Senior Full Stack Developer'
       },
-      date: '2024-03-18',
+      date: '2025-03-18',
       time: '2:00 PM',
       type: 'Technical',
       status: 'Completed',
@@ -334,7 +334,7 @@ export const candidates: Candidate[] = [
         decision: 'Hire'
       }
     },
-    lastUpdated: '2024-03-20'
+    lastUpdated: '2025-03-20'
   },
   {
     id: '4',
@@ -360,7 +360,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/priya-gupta-resume',
     source: 'University Placement',
-    appliedDate: '2024-03-01',
+    appliedDate: '2025-03-01',
     stage: RecruitmentStage.REJECTED,
     jobId: '4',
     notes: 'Good technical skills but insufficient experience for senior role',
@@ -369,7 +369,7 @@ export const candidates: Candidate[] = [
       feedback: 'Good theoretical knowledge but lacks practical experience',
       completed: true
     },
-    lastUpdated: '2024-03-10'
+    lastUpdated: '2025-03-10'
   },
   {
     id: '5',
@@ -395,7 +395,7 @@ export const candidates: Candidate[] = [
     ],
     resume: 'https://example.com/vikram-resume',
     source: 'LinkedIn',
-    appliedDate: '2024-02-28',
+    appliedDate: '2025-02-28',
     stage: RecruitmentStage.OFFER_REJECTED,
     jobId: '5',
     notes: 'Excellent candidate but declined offer due to compensation mismatch',
@@ -410,7 +410,7 @@ export const candidates: Candidate[] = [
         name: 'Vikram Malhotra',
         position: 'Product Manager'
       },
-      date: '2024-03-10',
+      date: '2025-03-10',
       time: '11:00 AM',
       type: 'Technical',
       status: 'Completed',
@@ -466,6 +466,8 @@ export const candidates: Candidate[] = [
         decision: 'Hire'
       }
     },
-    lastUpdated: '2024-03-20'
+    lastUpdated: '2025-03-20'
   }
-]; 
+];
+
+export { divyaKrishnan }; 
