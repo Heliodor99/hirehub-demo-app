@@ -19,7 +19,7 @@ const navigation = [
   { name: 'Jobs', href: '/jobs', icon: FiBriefcase },
   { name: 'Candidates', href: '/candidates', icon: FiUsers },
   { name: 'Interviews', href: '/interviews', icon: FiCalendar },
-  { name: 'Reports and Analytics', href: '/analytics', icon: FiBarChart2 },
+  { name: 'Reports and Analytics', href: '/reports-analytics', icon: FiBarChart2 },
   { name: 'Settings', href: '/settings', icon: FiSettings },
 ];
 
