@@ -8,6 +8,7 @@ import CandidateCompetencyChart from '@/components/CandidateCompetencyChart';
 import { Candidate, Job, RecruitmentStage } from '@/types';
 import { CommunicationTimeline } from '@/components/CommunicationTimeline';
 import { generateCommunicationTimeline } from '@/utils/communication';
+import { getSkillsForCandidate } from '@/utils/hardcodedSkills';
 
 interface Skill {
   name: string;
@@ -56,11 +57,9 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
     });
   }, [params.id]);
 
-  // Find candidate with more robust ID matching - handle both string and number IDs
-  const candidate = candidates.find(c => 
-    String(c.id) === String(params.id)
-  );
-  const job = jobs.find(j => j.id === candidate?.jobId);
+  // Lookup the candidate by ID
+  const candidate = candidates.find((c) => c.id === params.id) || candidates[0];
+  const job = jobs.find((j) => j.id === candidate.jobId) || jobs[0];
 
   if (!candidate || !job) {
     return (
@@ -236,11 +235,10 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
     }
   ];
 
-  // Generate mock skill competencies if they don't exist
-  const skillCompetencies = candidate.skills.map(skill => ({
-    name: typeof skill === 'string' ? skill : skill.name,
-    proficiency: Math.floor(Math.random() * 5) + 5 // Random score between 5-10
-  }));
+  // Update skill type in the skills chart with proper type checking
+  const skillsChartData = useMemo(() => {
+    return getSkillsForCandidate(candidate.id);
+  }, [candidate.id]);
 
   // Function to get the actual header height
   const getHeaderHeight = (): number => {
@@ -309,27 +307,6 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
   const interviewData = candidate.interview || null;
   const interviewTranscript = interviewData?.transcript || [];
   const aiAssessment = interviewData?.aiAssessment || null;
-
-  // Update skill type in the skills chart with proper type checking and use skillCompetencies
-  const skillsChartData = useMemo(() => {
-    // If skillCompetencies is available, use it
-    if (candidate.skillCompetencies) {
-      return candidate.skillCompetencies;
-    }
-
-    // Otherwise, map from skills array
-    if (!candidate.skills) return [];
-
-    return candidate.skills.map((skill: string | Skill): Skill => {
-      if (typeof skill === 'string') {
-        return {
-          name: skill,
-          proficiency: Math.floor(Math.random() * 5) + 5 // Random score between 5-10 for consistency
-        };
-      }
-      return skill;
-    });
-  }, [candidate.skills, candidate.skillCompetencies]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -620,7 +597,7 @@ export default function CandidateDetailsPage({ params }: { params: { id: string 
               <CandidateCompetencyChart 
                 candidateId={candidate.id}
                 candidateName={candidate.name}
-                skills={skillCompetencies}
+                skills={skillsChartData}
               />
 
               {candidate.assessment && (

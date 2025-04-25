@@ -11,10 +11,9 @@ import RecentApplications from './components/RecentApplications';
 import ActiveJobs from './components/ActiveJobs';
 import UpcomingInterviews from './components/UpcomingInterviews';
 import TopTalent from './components/TopTalent';
-import ApplicationSourceChart from './components/ApplicationSourceChart';
 
 export default function DashboardPage() {
-  const [timeRange, setTimeRange] = useState('7d');
+  const [timeRange, setTimeRange] = useState('30d');
 
   // Calculate metrics
   const metrics = {
@@ -34,21 +33,10 @@ export default function DashboardPage() {
     .sort((a, b) => new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime())
     .slice(0, 5);
 
-  // Calculate metrics
-  const activeJobs = jobs.filter(job => job.status === 'Active').length;
-  const totalCandidates = candidates.length;
-  const interviewsToday = interviews.filter(interview => 
-    interview.status === 'Scheduled' && 
-    new Date(interview.date).toDateString() === new Date().toDateString()
-  ).length;
-  const hiredThisMonth = candidates.filter(candidate => 
-    candidate.stage === 'Hired'
-  ).length;
-
   return (
-    <div className="p-6 space-y-8 bg-gray-50">
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
         <SectionHeading
           subheading="Welcome back! Here's what's happening with your recruitment process."
         >
@@ -73,8 +61,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="transition-all duration-200 hover:shadow-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Card className="transition-all duration-200 hover:shadow-md">
           <CardBody>
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-primary-100">
@@ -88,7 +76,7 @@ export default function DashboardPage() {
           </CardBody>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
+        <Card className="transition-all duration-200 hover:shadow-md">
           <CardBody>
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-teal-100">
@@ -102,7 +90,7 @@ export default function DashboardPage() {
           </CardBody>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
+        <Card className="transition-all duration-200 hover:shadow-md">
           <CardBody>
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-purple-100">
@@ -116,7 +104,7 @@ export default function DashboardPage() {
           </CardBody>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
+        <Card className="transition-all duration-200 hover:shadow-md">
           <CardBody>
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-yellow-100">
@@ -132,14 +120,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-6">
           <ActiveJobs />
-          <ApplicationSourceChart />
-        </div>
-        <div className="space-y-8">
-          <RecentApplications />
           <UpcomingInterviews />
+        </div>
+        <div className="space-y-6">
+          <RecentApplications />
           <TopTalent />
         </div>
       </div>

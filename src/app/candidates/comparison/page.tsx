@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { FiArrowLeft, FiUsers, FiRefreshCw, FiBriefcase } from 'react-icons/fi';
 import { candidates, jobs } from '@/data/jobs';
 import MultiCandidateComparisonChart from '@/components/MultiCandidateComparisonChart';
-import { Skill } from '@/types';
+import { getSkillsForCandidate } from '@/utils/hardcodedSkills';
 
 export default function CandidateComparisonPage() {
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
@@ -51,7 +51,8 @@ export default function CandidateComparisonPage() {
     jobCandidates
       .filter(c => selectedCandidates.includes(c.id))
       .forEach(candidate => {
-        candidate.skillCompetencies.forEach(skill => {
+        // Use hardcoded skills instead of skillCompetencies
+        getSkillsForCandidate(candidate.id).forEach(skill => {
           skillSet.add(skill.name);
         });
       });
@@ -65,7 +66,7 @@ export default function CandidateComparisonPage() {
       .map(c => ({
         candidateId: c.id,
         candidateName: c.name,
-        skills: c.skillCompetencies
+        skills: getSkillsForCandidate(c.id)
       }));
   }, [jobCandidates, selectedCandidates]);
 

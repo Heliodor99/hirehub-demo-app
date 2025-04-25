@@ -17,6 +17,16 @@ export default function ApplicationSourceChart() {
     return acc;
   }, {} as Record<string, number>);
 
+  // Create default sources if empty to prevent empty chart
+  const defaultSources = {
+    'LinkedIn': 0,
+    'Indeed': 0,
+    'Upwork': 0, 
+    'Naukri': 0,
+    'Website': 0,
+    ...sourceCounts
+  };
+
   // Get color for source
   const getSourceColor = (source: string) => {
     switch (source) {
@@ -35,8 +45,11 @@ export default function ApplicationSourceChart() {
     }
   };
 
+  // Calculate total for percentage (avoid division by zero)
+  const total = Object.values(defaultSources).reduce((sum, count) => sum + count, 0) || 1;
+
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">Application Sources</h2>
@@ -44,31 +57,38 @@ export default function ApplicationSourceChart() {
         </div>
       </div>
       <div className="p-6">
-        <div className="space-y-4">
-          {Object.entries(sourceCounts).map(([source, count]) => (
-            <div key={source} className="flex items-center justify-between">
-              <div className="flex items-center">
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSourceColor(source)}`}>
-                  {source}
-                </span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-gray-900">
-                  {count}
-                </span>
-                <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-primary-600 rounded-full"
-                    style={{ width: `${(count / lastWeekApplications.length) * 100}%` }}
-                  />
+        {Object.keys(defaultSources).length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+            <FiBarChart2 className="w-12 h-12 mb-4" />
+            <p className="text-sm">No application data available for this period</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {Object.entries(defaultSources).map(([source, count]) => (
+              <div key={source} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSourceColor(source)}`}>
+                    {source}
+                  </span>
                 </div>
-                <span className="text-sm text-gray-500">
-                  {Math.round((count / lastWeekApplications.length) * 100)}%
-                </span>
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-900">
+                    {count}
+                  </span>
+                  <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary-600 rounded-full"
+                      style={{ width: `${(count / total) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-500">
+                    {Math.round((count / total) * 100)}%
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

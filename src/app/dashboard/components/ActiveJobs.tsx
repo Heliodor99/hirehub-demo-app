@@ -18,40 +18,47 @@ export default function ActiveJobs() {
         <Badge variant="primary">{activeJobs.length} Jobs</Badge>
       </CardHeader>
       <CardBody className="p-0">
-        <div className="divide-y divide-gray-200/70">
-          {activeJobs.map((job) => (
-            <div key={job.id} className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Link 
-                    href={`/jobs/${job.id}`}
-                    className="text-sm font-medium text-gray-900 hover:text-primary-600 flex items-center"
-                  >
-                    {job.title}
-                    <FiExternalLink className="ml-1.5 h-3.5 w-3.5 text-gray-400" />
-                  </Link>
-                  <div className="mt-1.5 flex items-center text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <FiBriefcase className="mr-1.5 h-4 w-4 text-primary-400" />
-                      {job.department}
-                    </span>
-                    <span className="mx-2 text-gray-300">•</span>
-                    <span className="flex items-center">
-                      <FiUsers className="mr-1.5 h-4 w-4 text-teal-400" />
-                      {getApplicationCount(job.id)} applicants
-                    </span>
+        {activeJobs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-10 text-gray-500">
+            <FiBriefcase className="w-12 h-12 mb-4" />
+            <p className="text-sm">No active jobs available</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-200/70">
+            {activeJobs.map((job) => (
+              <div key={job.id} className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Link 
+                      href={`/jobs/${job.id}`}
+                      className="text-sm font-medium text-gray-900 hover:text-primary-600 flex items-center"
+                    >
+                      {job.title}
+                      <FiExternalLink className="ml-1.5 h-3.5 w-3.5 text-gray-400" />
+                    </Link>
+                    <div className="mt-1.5 flex items-center text-sm text-gray-500">
+                      <span className="flex items-center">
+                        <FiBriefcase className="mr-1.5 h-4 w-4 text-primary-400" />
+                        {job.department}
+                      </span>
+                      <span className="mx-2 text-gray-300">•</span>
+                      <span className="flex items-center">
+                        <FiUsers className="mr-1.5 h-4 w-4 text-teal-400" />
+                        {getApplicationCount(job.id)} applicants
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <FiCalendar className="mr-1.5 h-4 w-4 text-purple-400" />
+                    Posted {new Date(job.postedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </div>
                 </div>
-                <div className="flex items-center text-sm text-gray-500">
-                  <FiCalendar className="mr-1.5 h-4 w-4 text-purple-400" />
-                  Posted {new Date(job.postedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </CardBody>
-      <CardFooter className="flex justify-center">
+      <CardFooter className="flex justify-center border-t border-gray-200">
         <Link
           href="/jobs"
           className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center"

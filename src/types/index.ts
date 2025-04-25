@@ -32,7 +32,8 @@ export interface Candidate {
     currentCompany: string;
     location: string;
     experience: number;
-    skills: string[];
+    skills: string[] | Array<{ name: string; proficiency: number }>;
+    skillCompetencies?: Array<{ name: string; proficiency: number }>;
     education: Education[];
     resume: string;
     source: string;
