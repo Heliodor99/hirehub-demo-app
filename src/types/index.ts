@@ -21,6 +21,7 @@ export interface Job {
   };
   skills?: string[];
   benefits?: string[];
+  user?: User;
 }
 
 export interface Skill {
@@ -55,23 +56,34 @@ export interface Candidate {
   name: string;
   email: string;
   phone: string;
-  currentTitle: string;
-  currentCompany: string;
+  current_title: string;
+  current_company: string;
   location: string;
   experience: number;
-  skills: Skill[] | string[]; // Support both formats for backward compatibility
+  skills: Skill[] | string[];
   education: Education[];
   resume: string;
   source: string;
-  appliedDate: string;
+  applied_date: string;
   stage: RecruitmentStage;
-  jobId: string;
+  job_id: string;
   notes?: string;
   assessment?: Assessment;
-  skillCompetencies?: Skill[]; // Optional dedicated field for skill competencies
-  interview?: Interview; // Add interview property
-  lastUpdated?: string; // Add lastUpdated property
+  skillCompetencies?: Skill[];
+  interview?: Interview;
+  last_updated?: string;
   communicationTimeline?: CommunicationEvent[];
+  // Deprecated camelCase fields for backward compatibility
+  /** @deprecated Use current_title */
+  currentTitle?: string;
+  /** @deprecated Use current_company */
+  currentCompany?: string;
+  /** @deprecated Use applied_date */
+  appliedDate?: string;
+  /** @deprecated Use job_id */
+  jobId?: string;
+  /** @deprecated Use last_updated */
+  lastUpdated?: string;
 }
 
 export interface Task {

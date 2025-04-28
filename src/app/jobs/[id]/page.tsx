@@ -1,5 +1,7 @@
 'use client';
 
+import { useQuery, gql } from '@apollo/client';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { FiBriefcase, FiMapPin, FiCalendar, FiUsers, FiChevronDown, FiChevronUp, FiSearch } from 'react-icons/fi';
 import { jobs, candidates } from '@/data/jobs';
@@ -7,38 +9,66 @@ import { RecruitmentStage } from '@/types';
 import { getStageColor, formatStageName, pipelineStageGroups, getCandidatesByStageGroup } from '@/utils/recruitment';
 import Link from 'next/link';
 
-export default function JobDetailsPage({ params }: { params: { id: string } }) {
+const GET_JOB_BY_ID = gql`
+  query GetJobById($id: String!) {
+    jobs_by_pk(id: $id) {
+      id
+      title
+      company
+      location
+      posted_date
+      status
+      description
+      requirements
+      skills
+      benefits
+      candidates_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+// Helper to safely format date
+function formatDateString(dateString: unknown): string {
+  if (typeof dateString === 'string' && dateString) {
+    const d = new Date(dateString);
+    return isNaN(d.getTime()) ? 'N/A' : d.toLocaleDateString();
+  }
+  return 'N/A';
+}
+
+export default function JobDetailsPage() {
+  const params = useParams();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const { data, loading, error } = useQuery(GET_JOB_BY_ID, { variables: { id } });
+
+  // All hooks must be called unconditionally, at the top
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
-  
-  const job = jobs.find(j => j.id === params.id);
+
+  if (loading) return <div className="p-6">Loading job...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading job: {error.message}</div>;
+  if (!data?.jobs_by_pk) return <div className="p-6">Job not found.</div>;
+
+  const job = data.jobs_by_pk;
+
   const jobCandidates = candidates.filter(c => c.jobId === params.id);
 
   // Filter candidates based on search query and selected stage
   const filteredCandidates = jobCandidates.filter(candidate => {
     const matchesSearch = searchQuery === '' || 
       candidate.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      candidate.currentTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (candidate.currentTitle && candidate.currentTitle.toLowerCase().includes(searchQuery.toLowerCase())) ||
       candidate.location.toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesStage = !selectedStage || candidate.stage === selectedStage;
     
     return matchesSearch && matchesStage;
   });
-
-  if (!job) {
-    return (
-      <div className="p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center py-12">
-            <h1 className="text-2xl font-bold text-gray-900">Job Not Found</h1>
-            <p className="mt-2 text-gray-600">The job you're looking for doesn't exist or has been removed.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Calculate pipeline stage counts
   const stageCounts = Object.values(RecruitmentStage).reduce((acc, stage) => {
@@ -72,14 +102,11 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                 </div>
                 <div className="flex items-center">
                   <FiCalendar className="mr-1.5 h-4 w-4" />
-                  Posted {new Date(job.postedDate).toLocaleDateString()}
+                  Posted {formatDateString(job.posted_date)}
                 </div>
                 <div className="flex items-center">
                   <FiUsers className="mr-1.5 h-4 w-4" />
-                  {jobCandidates.length} Candidates
-                </div>
-                <div className="flex items-center">
-                  ₹{job.salary.min.toLocaleString()} - ₹{job.salary.max.toLocaleString()}
+                  {job.candidates_aggregate.aggregate.count} Candidates
                 </div>
               </div>
             </div>
@@ -117,7 +144,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                   <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-2">Requirements</h3>
                     <ul className="list-disc list-inside text-gray-600 space-y-2">
-                      {job.requirements.map((req, index) => (
+                      {job.requirements?.map((req: string, index: number) => (
                         <li key={index}>{req}</li>
                       ))}
                     </ul>
@@ -126,7 +153,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                   <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-2">Required Skills</h3>
                     <div className="flex flex-wrap gap-2">
-                      {job.skills?.map((skill, index) => (
+                      {job.skills?.map((skill: string, index: number) => (
                         <span
                           key={index}
                           className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800"
@@ -159,24 +186,10 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                       <div>
                         <h3 className="text-lg font-semibold mb-2">Benefits</h3>
                         <ul className="list-disc list-inside text-gray-600 space-y-2">
-                          {job.benefits?.map((benefit, index) => (
+                          {job.benefits?.map((benefit: string, index: number) => (
                             <li key={index}>{benefit}</li>
                           ))}
                         </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Hiring Team</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-sm text-gray-500">Hiring Manager</p>
-                            <p className="font-medium">{job.hiringManager}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Recruiter</p>
-                            <p className="font-medium">{job.recruiter}</p>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   )}
@@ -302,7 +315,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                   </div>
                   <div className="mt-2 text-sm text-gray-500">
                     <p>Source: {candidate.source}</p>
-                    <p>Applied: {new Date(candidate.appliedDate).toLocaleDateString()}</p>
+                    <p>Applied: {formatDateString(candidate.appliedDate)}</p>
                   </div>
                 </div>
               ))}

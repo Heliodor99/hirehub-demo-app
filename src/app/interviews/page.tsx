@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import { FiSearch, FiPlus, FiCalendar, FiClock, FiUser, FiBriefcase, FiMessageSquare, FiStar, FiVideo } from 'react-icons/fi';
-import { candidates, jobs } from '@/data/jobs';
 import Link from 'next/link';
-import { Interview, RecruitmentStage } from '@/types';
+import { Interview, RecruitmentStage, Candidate } from '@/types';
+import { useQuery, gql } from '@apollo/client';
 
 type InterviewListItem = {
   id: string;
@@ -31,53 +31,109 @@ type InterviewListItem = {
   };
 };
 
+const GET_INTERVIEWS = gql`
+  query GetInterviews {
+    interviews {
+      id
+      candidate_name
+      candidate_position
+      date
+      time
+      type
+      status
+      interviewers
+      location
+      interview_assessments {
+        overall_score
+        category_scores
+        strengths
+        areas_for_improvement
+        recommendations
+      }
+      interview_human_feedback {
+        score
+        notes
+        next_steps
+        decision
+      }
+      interview_notes {
+        transcript
+        ai_score
+        human_score
+        feedback
+      }
+    }
+  }
+`;
+
 export default function InterviewsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   const [selectedInterview, setSelectedInterview] = useState<InterviewListItem | null>(null);
   const [view, setView] = useState<'list' | 'calendar'>('list');
 
-  // Get all candidates with interviews
+  const { data, loading, error } = useQuery(GET_INTERVIEWS);
+  const interviewsData = data?.interviews || [];
+
   const interviews = useMemo(() => {
-    return candidates
-      .filter(candidate => candidate.stage === RecruitmentStage.INTERVIEWED)
-      .map(candidate => ({
-        id: candidate.id,
+    return interviewsData.map((interview: any) => {
+      // Parse transcript and feedback JSON if needed
+      let transcript = [];
+      if (interview.interview_notes?.transcript) {
+        try {
+          transcript = JSON.parse(interview.interview_notes.transcript);
+        } catch {
+          transcript = [];
+        }
+      }
+      let feedback = {};
+      if (interview.interview_notes?.feedback) {
+        try {
+          feedback = typeof interview.interview_notes.feedback === 'string'
+            ? { overall: interview.interview_notes.feedback }
+            : interview.interview_notes.feedback;
+        } catch {
+          feedback = {};
+        }
+      }
+      const assessment = interview.interview_assessments;
+      const humanFeedback = interview.interview_human_feedback;
+      return {
+        id: interview.id,
         candidate: {
-          name: candidate.name,
-          position: candidate.currentTitle,
+          name: interview.candidate_name || '',
+          position: interview.candidate_position || '',
         },
-        date: new Date(candidate.appliedDate).toLocaleDateString(),
-        time: '10:00 AM',
-        type: 'Technical' as const,
-        interviewers: ['John Doe', 'Jane Smith'],
-        status: 'Scheduled' as const,
-        gmeetLink: 'https://meet.google.com/abc-defg-hij',
-        notes: candidate.assessment ? {
-          transcript: [],
-          aiScore: candidate.assessment.score,
-          humanScore: candidate.assessment.score,
-          feedback: {
-            technical: candidate.assessment.feedback,
-            communication: 'Good communication skills',
-            problemSolving: 'Strong problem-solving abilities',
-            areasForImprovement: 'Could improve on system design'
-          }
+        date: interview.date || '',
+        time: interview.time || '',
+        type: interview.type || 'Technical',
+        interviewers: interview.interviewers || [],
+        status: interview.status || 'Scheduled',
+        gmeetLink: '',
+        notes: assessment && humanFeedback && interview.interview_notes ? {
+          transcript: transcript || [],
+          aiScore: interview.interview_notes.ai_score ?? 0,
+          humanScore: interview.interview_notes.human_score ?? 0,
+          feedback: feedback || {},
+          assessment,
+          humanFeedback,
         } : undefined
-      }));
-  }, [candidates]);
+      };
+    });
+  }, [interviewsData]);
 
   const filteredInterviews = useMemo(() => {
-    return interviews.filter(interview => {
+    return interviews.filter((interview: InterviewListItem) => {
       const matchesSearch = 
         interview.candidate.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         interview.candidate.position.toLowerCase().includes(searchQuery.toLowerCase());
-      
       const matchesFilter = filter === 'all' || interview.status.toLowerCase() === filter.toLowerCase();
-      
       return matchesSearch && matchesFilter;
     });
   }, [interviews, searchQuery, filter]);
+
+  if (loading) return <div className="p-6">Loading interviews from Hasura...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading interviews: {error.message}</div>;
 
   return (
     <div className="p-6">
@@ -165,7 +221,7 @@ export default function InterviewsPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredInterviews.map((interview) => (
+                  {filteredInterviews.map((interview: InterviewListItem) => (
                     <tr 
                       key={interview.id}
                       className="hover:bg-gray-50 cursor-pointer"
@@ -202,22 +258,32 @@ export default function InterviewsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {interview.notes && (
+                        {interview.status === 'Completed' && interview.notes ? (
                           <div className="flex flex-col gap-1">
                             <div className="flex items-center">
                               <FiStar className="h-4 w-4 text-yellow-400" />
-                              <span className="ml-1 text-sm text-gray-500">AI: {interview.notes.aiScore}%</span>
+                              <span className="ml-1 text-sm text-gray-500">
+                                AI: {interview.notes.aiScore && interview.notes.aiScore > 0 ? `${interview.notes.aiScore}%` : '-'}
+                              </span>
                             </div>
                             <div className="flex items-center">
                               <FiStar className="h-4 w-4 text-blue-400" />
-                              <span className="ml-1 text-sm text-gray-500">Human: {interview.notes.humanScore}%</span>
+                              <span className="ml-1 text-sm text-gray-500">
+                                Human: {interview.notes.humanScore && interview.notes.humanScore > 0 ? `${interview.notes.humanScore}%` : '-'}
+                              </span>
                             </div>
+                            {/* Transcript link if available */}
+                            {interview.notes.transcript && interview.notes.transcript.length > 0 && (
+                              <a href="#" className="text-xs text-primary-600 underline mt-1">Transcript</a>
+                            )}
                           </div>
+                        ) : (
+                          <span>-</span>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <a 
-                          href={interview.gmeetLink}
+                          href="https://meet.google.com/abc-defg-hij"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary-600 hover:text-primary-900"
@@ -250,24 +316,32 @@ export default function InterviewsPage() {
               <div>
                 <h3 className="text-sm font-medium text-gray-900 mb-2">Transcript</h3>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <pre className="text-sm text-gray-700 whitespace-pre-wrap">
-                    {selectedInterview.notes.transcript.map((entry) => 
-                      `${entry.timestamp} - ${entry.speaker}: ${entry.content}\n`
-                    )}
-                  </pre>
+                  {selectedInterview.notes.transcript && selectedInterview.notes.transcript.length > 0 ? (
+                    <pre className="text-sm text-gray-700 whitespace-pre-wrap">
+                      {selectedInterview.notes.transcript.map((entry) => 
+                        `${entry.timestamp} - ${entry.speaker}: ${entry.content}\n`
+                      )}
+                    </pre>
+                  ) : (
+                    <span className="text-gray-400">No transcript available.</span>
+                  )}
                 </div>
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-900 mb-2">Feedback</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {Object.entries(selectedInterview.notes.feedback).map(([key, value]) => (
-                    <div key={key} className="bg-gray-50 p-4 rounded-lg">
-                      <h4 className="text-sm font-medium text-gray-900 capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                      </h4>
-                      <p className="mt-1 text-sm text-gray-700">{value}</p>
-                    </div>
-                  ))}
+                  {selectedInterview.notes.feedback && Object.keys(selectedInterview.notes.feedback).length > 0 ? (
+                    Object.entries(selectedInterview.notes.feedback).map(([key, value]) => (
+                      <div key={key} className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="text-sm font-medium text-gray-900 capitalize">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}
+                        </h4>
+                        <p className="mt-1 text-sm text-gray-700">{value}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-gray-400">No feedback available.</span>
+                  )}
                 </div>
               </div>
             </div>

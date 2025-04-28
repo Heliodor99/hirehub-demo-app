@@ -283,7 +283,7 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
     direction: 'system',
     status: 'completed',
     metadata: {
-      score: candidate.assessment?.score || 85,
+      score: candidate.assessment?.overallScore || 85,
       duration: '78 minutes',
       completedSections: ['Technical Knowledge', 'Problem Solving', 'Code Quality']
     }
@@ -412,7 +412,18 @@ export const generateCommunicationTimeline = (candidate: Candidate, job: Job): C
       interviewers: [job.hiringManager],
       overallImpression: 'Positive',
       technicalScore: Math.floor(Math.random() * 20) + 80,
-      culturalFitScore: Math.floor(Math.random() * 20) + 80
+      culturalFitScore: Math.floor(Math.random() * 20) + 80,
+      notes: candidate.aiAssessment ? {
+        transcript: candidate.aiAssessment.interview_transcripts || [],
+        aiScore: candidate.aiAssessment.overallScore,
+        humanScore: candidate.aiAssessment.overallScore,
+        feedback: {
+          technical: candidate.aiAssessment.feedback,
+          communication: 'Good communication skills',
+          problemSolving: 'Strong problem-solving abilities',
+          areasForImprovement: 'Could improve on system design'
+        }
+      } : undefined
     }
   });
   

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { FiSearch, FiUser, FiUserPlus, FiX, FiFilter, FiChevronDown, FiChevronRight, FiBarChart2, FiBriefcase, FiMail, FiPhone, FiCalendar, FiClock, FiChevronLeft, FiList, FiUsers, FiMessageSquare } from 'react-icons/fi';
-import { candidates, jobs } from '@/data/jobs';
+import { useQuery, gql } from '@apollo/client';
 import Link from 'next/link';
 import { RecruitmentStage, Candidate } from '@/types';
 import { 
@@ -12,6 +12,40 @@ import {
   getCandidatesByStageGroup
 } from '@/utils/recruitment';
 
+// GraphQL query for all candidates and aggregate counts by stage
+const GET_CANDIDATES_STATS = gql`
+  query GetCandidatesStats {
+    candidates {
+      id
+      name
+      email
+      phone
+      current_title
+      current_company
+      location
+      experience
+      skills
+      education
+      resume
+      source
+      applied_date
+      stage
+      job_id
+      notes
+      assessment
+      last_updated
+    }
+    shortlisted: candidates_aggregate(where: {stage: {_eq: "Shortlisted"}}) { aggregate { count } }
+    interviewed: candidates_aggregate(where: {stage: {_eq: "Interviewed"}}) { aggregate { count } }
+    applied: candidates_aggregate(where: {stage: {_eq: "Applied"}}) { aggregate { count } }
+    outreached: candidates_aggregate(where: {stage: {_eq: "Outreached"}}) { aggregate { count } }
+    rejected: candidates_aggregate(where: {stage: {_eq: "Rejected"}}) { aggregate { count } }
+    offer_extended: candidates_aggregate(where: {stage: {_eq: "Offer Extended"}}) { aggregate { count } }
+    offer_rejected: candidates_aggregate(where: {stage: {_eq: "Offer Rejected"}}) { aggregate { count } }
+    hired: candidates_aggregate(where: {stage: {_eq: "Hired"}}) { aggregate { count } }
+  }
+`;
+
 type FilterField = {
   field: string;
   operator: 'contains' | 'equals' | 'greater' | 'less' | 'between';
@@ -19,6 +53,7 @@ type FilterField = {
 };
 
 export default function CandidatesPage() {
+  // All hooks at the top
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
@@ -34,21 +69,46 @@ export default function CandidatesPage() {
     appliedDate: { start: '', end: '' }
   });
 
+  const { data, loading, error } = useQuery(GET_CANDIDATES_STATS);
+  const candidates: Candidate[] = data?.candidates || [];
+
+  // Aggregate counts by stage
+  const stageCounts = {
+    Shortlisted: data?.shortlisted.aggregate.count ?? 0,
+    Interviewed: data?.interviewed.aggregate.count ?? 0,
+    Applied: data?.applied.aggregate.count ?? 0,
+    Outreached: data?.outreached.aggregate.count ?? 0,
+    Rejected: data?.rejected.aggregate.count ?? 0,
+    'Offer Extended': data?.offer_extended.aggregate.count ?? 0,
+    'Offer Rejected': data?.offer_rejected.aggregate.count ?? 0,
+    Hired: data?.hired.aggregate.count ?? 0,
+  };
+
+  const stageIdToStageValue: Record<string, string> = {
+    outreached: 'Outreached',
+    applied: 'Applied',
+    shortlisted: 'Shortlisted',
+    interviewed: 'Interviewed',
+    rejected: 'Rejected',
+    offer_extended: 'Offer Extended',
+    offer_rejected: 'Offer Rejected',
+    hired: 'Hired'
+  };
+
   const filteredCandidates = useMemo(() => {
     // First filter candidates based on criteria
     const filtered = candidates.filter(candidate => {
       // Basic search
       const matchesSearch = 
         candidate.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        candidate.currentTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        candidate.current_title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         candidate.location.toLowerCase().includes(searchQuery.toLowerCase());
 
       // Job filter
-      const matchesJob = !selectedJob || candidate.jobId === selectedJob;
+      const matchesJob = !selectedJob || candidate.job_id === selectedJob;
       
       // Stage filter
-      const matchesStage = !selectedStage || 
-        pipelineStageGroups.find(group => group.id === selectedStage)?.stages.includes(candidate.stage);
+      const matchesStage = !selectedStage || candidate.stage === stageIdToStageValue[selectedStage];
 
       // Advanced filters
       const matchesExperience = (!advancedFilters.experience.min || candidate.experience >= Number(advancedFilters.experience.min)) &&
@@ -78,10 +138,10 @@ export default function CandidatesPage() {
 
       const matchesAppliedDate = (
         !advancedFilters.appliedDate.start || 
-        new Date(candidate.appliedDate) >= new Date(advancedFilters.appliedDate.start)
+        new Date(candidate.applied_date) >= new Date(advancedFilters.appliedDate.start)
       ) && (
         !advancedFilters.appliedDate.end ||
-        new Date(candidate.appliedDate) <= new Date(advancedFilters.appliedDate.end)
+        new Date(candidate.applied_date) <= new Date(advancedFilters.appliedDate.end)
       );
 
       return matchesSearch && matchesJob && matchesStage && 
@@ -100,11 +160,10 @@ export default function CandidatesPage() {
       // If only candidate B has a score, it should come first
       if (b.assessment?.score) return 1;
       // If neither has a score, sort by application date (newest first)
-      return new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+      return new Date(b.applied_date).getTime() - new Date(a.applied_date).getTime();
     });
-  }, [searchQuery, selectedJob, selectedStage, advancedFilters]);
+  }, [searchQuery, selectedJob, selectedStage, advancedFilters, candidates]);
 
-  // Calculate pipeline stages from the jobs data
   const pipelineStages = useMemo(() => {
     return [
       { 
@@ -158,19 +217,16 @@ export default function CandidatesPage() {
     ];
   }, []);
 
-  // Get candidates for each pipeline stage
   const getCandidatesInStage = (stageGroup: typeof pipelineStages[0]) => {
     return filteredCandidates.filter(candidate => 
       stageGroup.stages.includes(candidate.stage)
     ).length;
   };
 
-  // Get match percentage from assessment
   const getMatchPercentage = (candidate: Candidate) => {
     return candidate.assessment?.score || null;
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedJob(null);
@@ -187,7 +243,6 @@ export default function CandidatesPage() {
     });
   };
 
-  // Calendar helper functions
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -200,15 +255,11 @@ export default function CandidatesPage() {
     return date.toISOString().split('T')[0];
   };
 
-  // Get candidates with events for the selected month
   const calendarEvents = useMemo(() => {
     const events = new Map<string, Array<{ candidate: Candidate; type: string; time?: string }>>();
-    
     filteredCandidates.forEach(candidate => {
-      // Add application date
-      const applicationDate = new Date(candidate.appliedDate);
+      const applicationDate = new Date(candidate.applied_date);
       const applicationDateStr = formatDate(applicationDate);
-      
       if (!events.has(applicationDateStr)) {
         events.set(applicationDateStr, []);
       }
@@ -216,31 +267,23 @@ export default function CandidatesPage() {
         candidate,
         type: 'application'
       });
-
-      // Add interview date if interviewed
       if (candidate.stage === RecruitmentStage.INTERVIEWED) {
-        // For interviewed candidates, set interview date 5 days after application
         const interviewDate = new Date(applicationDate);
         interviewDate.setDate(interviewDate.getDate() + 5);
         const interviewDateStr = formatDate(interviewDate);
-        
         if (!events.has(interviewDateStr)) {
           events.set(interviewDateStr, []);
         }
         events.get(interviewDateStr)?.push({ 
           candidate,
           type: 'interview',
-          time: '10:00 AM' // You would get this from actual data in a real app
+          time: '10:00 AM'
         });
       }
-
-      // Add hire date for hired candidates
       if (candidate.stage === RecruitmentStage.HIRED) {
-        // For hired candidates, set hire date 14 days after application
         const hireDate = new Date(applicationDate);
         hireDate.setDate(hireDate.getDate() + 14);
         const hireDateStr = formatDate(hireDate);
-        
         if (!events.has(hireDateStr)) {
           events.set(hireDateStr, []);
         }
@@ -251,9 +294,12 @@ export default function CandidatesPage() {
         });
       }
     });
-
     return events;
   }, [filteredCandidates]);
+
+  // Only now, handle early returns
+  if (loading) return <div className="p-6">Loading candidates...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading candidates: {error.message}</div>;
 
   return (
     <div className="p-6">
@@ -298,11 +344,7 @@ export default function CandidatesPage() {
               className="block w-48 pl-3 pr-10 py-2.5 text-base border-gray-200 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-xl bg-white/90 backdrop-blur-sm transition-colors"
             >
               <option value="">All Jobs</option>
-              {jobs.map(job => (
-                <option key={job.id} value={job.id}>
-                  {job.title}
-                </option>
-              ))}
+              {/* Add job options here */}
             </select>
             <button
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
@@ -376,11 +418,7 @@ export default function CandidatesPage() {
                     skills: Array.from(e.target.selectedOptions, option => option.value)
                   })}
                 >
-                  {Array.from(new Set(candidates.flatMap(c => 
-                    c.skills.map(s => typeof s === 'string' ? s : s.name)
-                  ))).map(skill => (
-                    <option key={skill} value={skill}>{skill}</option>
-                  ))}
+                  {/* Add skill options here */}
                 </select>
               </div>
 
@@ -440,7 +478,8 @@ export default function CandidatesPage() {
         {/* Pipeline Stages */}
         <div className="mb-8 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {pipelineStages.map(stage => {
-            const candidatesInStage = getCandidatesInStage(stage);
+            // Use aggregate count from DB, not filtered list
+            const candidatesInStage = stageCounts[stage.name as keyof typeof stageCounts] ?? 0;
             
             // Define custom colors based on our brand palette
             const stageColors = {
@@ -498,7 +537,7 @@ export default function CandidatesPage() {
               </thead>
               <tbody className="bg-white/80 divide-y divide-gray-200">
                 {filteredCandidates.map((candidate) => {
-                  const job = jobs.find(j => j.id === candidate.jobId);
+                  const job = /* Add job data retrieval logic here */ null;
                   return (
                     <tr 
                       key={candidate.id}
@@ -552,7 +591,7 @@ export default function CandidatesPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{job?.title}</div>
-                        <div className="text-sm text-gray-500">{candidate.currentTitle}</div>
+                        <div className="text-sm text-gray-500">{candidate.current_title}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex flex-col space-y-1">

@@ -1,16 +1,67 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FiPlus, FiSearch, FiBriefcase, FiMapPin, FiUsers, FiCalendar } from 'react-icons/fi';
-import { jobs, getCandidateCountForJob } from '@/data/jobs';
+import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/navigation';
+
+const GET_JOBS_WITH_CANDIDATE_COUNT = gql`
+  query GetJobsWithCandidateCount {
+    jobs {
+      id
+      title
+      company
+      location
+      posted_date
+      status
+      candidates_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  department: string;
+  status: string;
+  posted_date: string;
+  candidates_aggregate?: {
+    aggregate: {
+      count: number;
+    };
+  };
+}
 
 export default function JobsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const { data, loading, error } = useQuery(GET_JOBS_WITH_CANDIDATE_COUNT);
+  const jobs: Job[] = data?.jobs || [];
 
-  const filteredJobs = jobs.filter(job =>
+  // Demo: Hide Senior Frontend Developer job until flag is set
+  const [showSeniorFrontendJob, setShowSeniorFrontendJob] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const show = localStorage.getItem('showSeniorFrontendJob');
+      if (show === 'true') setShowSeniorFrontendJob(true);
+    }
+  }, []);
+
+  console.log('JobsPage Apollo Query:', { loading, error, data });
+
+  if (loading) return <div className="p-6">Loading jobs from Hasura...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading jobs: {error.message}</div>;
+
+  const filteredJobs = jobs.filter((job: Job) =>
+    showSeniorFrontendJob ? true : job.title !== 'Senior Frontend Developer'
+  ).filter((job: Job) =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
     job.location.toLowerCase().includes(searchQuery.toLowerCase())
@@ -18,6 +69,38 @@ export default function JobsPage() {
 
   const handleRowClick = (jobId: string) => {
     router.push(`/jobs/${jobId}`);
+  };
+
+  const JobList: React.FC<{ jobs: Job[] }> = ({ jobs }) => {
+    return (
+      <div className="space-y-4">
+        {jobs.map((job) => (
+          <div key={job.id} className="bg-white p-6 rounded-lg shadow">
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-semibold">{job.title}</h3>
+                <p className="text-gray-600">{job.company}</p>
+                <p className="text-gray-500">{job.location}</p>
+                <p className="text-gray-500">{job.department}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-gray-500">
+                  Posted: {new Date(job.posted_date).toLocaleDateString()}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Candidates: {job.candidates_aggregate?.aggregate.count || 0}
+                </p>
+                <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                  job.status === 'open' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {job.status}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -80,7 +163,7 @@ export default function JobsPage() {
                 </tr>
               </thead>
               <tbody className="bg-white/80 divide-y divide-gray-200">
-                {filteredJobs.map((job) => (
+                {filteredJobs.map((job: Job) => (
                   <tr 
                     key={job.id} 
                     className="hover:bg-gray-50 cursor-pointer transition-colors"
@@ -114,7 +197,7 @@ export default function JobsPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900 flex items-center">
                         <FiCalendar className="mr-2 h-3 w-3 text-secondary-500" />
-                        {new Date(job.postedDate).toLocaleDateString()}
+                        {new Date(job.posted_date).toLocaleDateString()}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -130,7 +213,7 @@ export default function JobsPage() {
                       <div className="flex items-center text-sm text-gray-900">
                         <FiUsers className="mr-2 h-3 w-3 text-primary-500" />
                         <div className="flex items-center justify-center h-8 w-8 text-xs font-medium rounded-full bg-primary-50 text-primary-700 border border-primary-200">
-                          {getCandidateCountForJob(job.id)}
+                          {job.candidates_aggregate?.aggregate.count || 0}
                         </div>
                       </div>
                     </td>

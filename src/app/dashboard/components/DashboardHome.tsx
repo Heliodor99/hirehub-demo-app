@@ -2,248 +2,165 @@ import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiMail, FiUser, FiCheck, FiChevronRight, FiCalendar, FiPhone, FiFileText, FiVideo } from 'react-icons/fi';
-import { jobs } from '@/data/jobs';
-import { candidates } from '@/data/candidates';
-import { RecruitmentStage } from '@/types';
+import { useQuery, useMutation, gql } from '@apollo/client';
+import type { Job } from '@/types';
 
-// Brand colors
+const GET_DASHBOARD_STATS = gql`
+  query DashboardStats($today: date!) {
+    activeJobs: jobs_aggregate(where: {status: {_eq: "Active"}}) { aggregate { count } }
+    shortlistedCandidates: candidates_aggregate(where: {stage: {_eq: "Shortlisted"}}) { aggregate { count } }
+    topRankers: candidates_aggregate(where: {assessment: {_contains: {score: 85}}}) { aggregate { count } }
+    newApplications: candidates_aggregate(where: {applied_date: {_eq: $today}}) { aggregate { count } }
+    weeklyApplications: candidates { applied_date }
+    jobs {
+      id
+      title
+      location
+      posted_date
+      status
+      candidates_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+    tasks(order_by: {due_date: asc}) {
+      id
+      title
+      description
+      due_date
+      priority
+      status
+      category
+    }
+    interviews(where: {date: {_gte: $today}}, order_by: {date: asc}) {
+      id
+      candidate_name
+      candidate_position
+      date
+      time
+      type
+      status
+    }
+  }
+`;
+
+const UPDATE_TASK_STATUS = gql`
+  mutation UpdateTaskStatus($id: String!, $status: String!) {
+    update_tasks_by_pk(pk_columns: {id: $id}, _set: {status: $status}) {
+      id
+      status
+    }
+  }
+`;
+
 const BRAND = {
   blue: '#2B7BD3',
   teal: '#2ECDC3',
   purple: '#9B5CFF'
 };
 
-// Task interface
-interface Task {
-  id: number;
-  description: string;
-  completed: boolean;
-  icon: React.ReactNode;
-  dueDate: string;
-}
-
-// Interview interface
-interface Interview {
-  id: number;
-  candidateName: string;
-  position: string;
-  date: Date;
-  jobId: string;
+interface ApplicationsByJob {
+  id: string;
+  name: string;
+  value: number;
 }
 
 export default function DashboardHome() {
-  // Filter active jobs
-  const activeJobs = useMemo(() => {
-    return jobs.filter(job => job.status === 'Active');
-  }, []);
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, loading, error } = useQuery(GET_DASHBOARD_STATS, { variables: { today } });
+  const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
 
-  // Get total job count
-  const activeJobCount = useMemo(() => {
-    return activeJobs.length;
-  }, [activeJobs]);
+  // Add state for displayed month/year
+  const todayDate = new Date();
+  const [calendarMonth, setCalendarMonth] = useState(todayDate.getMonth());
+  const [calendarYear, setCalendarYear] = useState(todayDate.getFullYear());
 
-  // Fixed total of 95 applications (changed from 200)
-  const TOTAL_APPLICATIONS = 95;
-
-  // Count applications by job with fixed total of 95
-  const applicationsByJob = useMemo(() => {
-    // Distribute applications proportionally with some randomness
-    const baseCount = Math.floor(TOTAL_APPLICATIONS / activeJobs.length);
-    let remaining = TOTAL_APPLICATIONS;
-    
-    return activeJobs.map((job, index) => {
-      // For the last job, use all remaining applications to ensure total is exactly 95
-      let count;
-      if (index === activeJobs.length - 1) {
-        count = remaining;
-      } else {
-        // Add some randomness but ensure we don't exceed total
-        const variance = Math.floor(baseCount * 0.3 * (Math.random() - 0.5));
-        count = Math.min(remaining - (activeJobs.length - index - 1), baseCount + variance);
-      }
-      
-      remaining -= count;
-      
-      return {
-        id: job.id,
-        name: job.title,
-        value: count
-      };
+  // Filter interviews for the displayed month/year
+  const filteredInterviews = useMemo(() => {
+    return (data?.interviews || []).filter((interview: any) => {
+      const date = new Date(interview.date);
+      return date.getMonth() === calendarMonth && date.getFullYear() === calendarYear;
     });
-  }, [activeJobs]);
+  }, [data?.interviews, calendarMonth, calendarYear]);
 
-  // Total applications is now fixed at 95
-  const totalApplications = useMemo(() => {
-    return TOTAL_APPLICATIONS;
-  }, []);
-
-  // Fixed shortlisted count at 47
-  const shortlistedCount = 47;
-
-  // Count top ranking candidates (those with high assessment scores)
-  const topRankingCount = useMemo(() => {
-    return candidates.filter(candidate => 
-      candidate.assessment && candidate.assessment.score > 85
-    ).length || 10; // Default to 10 if no data
-  }, []);
-
-  // Mock interviews for the schedule
-  const mockInterviews = useMemo<Interview[]>(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const dayAfterTomorrow = new Date(today);
-    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-    
-    const nextWeek = new Date(today);
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    
-    return [
-      {
-        id: 1,
-        candidateName: "Amit Singh",
-        position: activeJobs[0]?.title || "Senior Frontend Developer",
-        date: new Date(today.setHours(10, 0, 0)),
-        jobId: activeJobs[0]?.id || "1"
-      },
-      {
-        id: 2,
-        candidateName: "Priya Patel",
-        position: activeJobs[1]?.title || "Product Manager",
-        date: new Date(today.setHours(14, 30, 0)),
-        jobId: activeJobs[1]?.id || "2"
-      },
-      {
-        id: 3,
-        candidateName: "Raj Malhotra",
-        position: activeJobs[2]?.title || "Data Scientist",
-        date: new Date(tomorrow.setHours(11, 0, 0)),
-        jobId: activeJobs[2]?.id || "3"
-      },
-      {
-        id: 4,
-        candidateName: "Siddharth Mehta",
-        position: activeJobs[0]?.title || "Senior Frontend Developer",
-        date: new Date(dayAfterTomorrow.setHours(15, 0, 0)),
-        jobId: activeJobs[0]?.id || "1"
-      },
-      {
-        id: 5,
-        candidateName: "Neha Gupta",
-        position: activeJobs[3]?.title || "DevOps Engineer",
-        date: new Date(nextWeek.setHours(10, 30, 0)),
-        jobId: activeJobs[3]?.id || "4"
-      }
-    ];
-  }, [activeJobs]);
-
-  // Create more realistic tasks related to real jobs and candidates
-  const initialTasks = useMemo<Task[]>(() => {
-    const jobTitles = activeJobs.map(job => job.title);
-    const randomCandidates = ["Raghav Sharma", "Siddharth Mehta", "Priya Patel", "Neha Gupta", "Amit Singh", "Kavita Reddy"];
-    
-    return [
-      {
-        id: 1,
-        description: `Review ${randomCandidates[0]}'s application for ${jobTitles[0] || 'Senior Frontend Developer'}`,
-        completed: false,
-        icon: <FiFileText />,
-        dueDate: "Today"
-      },
-      {
-        id: 2,
-        description: `Interview scheduled with ${randomCandidates[1]} at 3:00 PM for ${jobTitles[1] || 'Product Manager'}`,
-        completed: false,
-        icon: <FiCalendar />,
-        dueDate: "Today"
-      },
-      {
-        id: 3,
-        description: `Call ${randomCandidates[2]} to discuss offer details`,
-        completed: true,
-        icon: <FiPhone />,
-        dueDate: "Yesterday"
-      },
-      {
-        id: 4,
-        description: `Send assessment test to ${randomCandidates[3]} for ${jobTitles[2] || 'Data Scientist'} position`,
-        completed: false,
-        icon: <FiMail />,
-        dueDate: "Tomorrow"
-      },
-      {
-        id: 5,
-        description: `Follow up with ${randomCandidates[4]} about reference check`,
-        completed: false,
-        icon: <FiUser />,
-        dueDate: "Tomorrow"
-      },
-      {
-        id: 6,
-        description: `Update hiring manager about ${jobTitles[3] || 'DevOps Engineer'} candidates`,
-        completed: false,
-        icon: <FiFileText />,
-        dueDate: "24 Mar"
-      }
-    ];
-  }, [activeJobs]);
-
-  // State for task completion
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
-
-  // Toggle task completion
-  const toggleTaskCompletion = (taskId: number) => {
-    setTasks(prevTasks => 
-      prevTasks.map(task => 
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const days = useMemo(() => {
-    return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  }, []);
-
-  // Weekly application data
-  const weeklyData = useMemo(() => {
-    return days.map((day, index) => {
-      // Generate a realistic distribution of applications across the week
-      const multiplier = [0.8, 1.2, 1.5, 1.3, 1.0, 0.6, 0.4][index];
-      return Math.floor((totalApplications / 7) * multiplier);
-    });
-  }, [days, totalApplications]);
-
-  // Find days with interviews for calendar highlighting
+  // Highlight interview days for the displayed month/year
   const interviewDays = useMemo(() => {
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-    
-    // Get the days of the month for each interview
-    return mockInterviews.map(interview => {
-      // Only include interviews from the current month
-      if (interview.date.getMonth() === currentMonth && 
-          interview.date.getFullYear() === currentYear) {
-        return interview.date.getDate();
-      }
-      return null;
-    }).filter(day => day !== null);
-  }, [mockInterviews]);
+    return filteredInterviews.map((interview: any) => {
+      const date = new Date(interview.date);
+      return date.getDate();
+    });
+  }, [filteredInterviews]);
 
-  // Calculate max value for the weekly chart to ensure proper scaling
-  const maxWeeklyValue = useMemo(() => {
-    const max = Math.max(...weeklyData);
-    // Round up to the nearest 5 for a clean scale
-    return Math.ceil(max / 5) * 5;
-  }, [weeklyData]);
+  // Helper to get month name
+  const monthName = new Date(calendarYear, calendarMonth).toLocaleString('default', { month: 'short' });
+  const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+  // Prepare all hooks at the top, using fallback values if data is not loaded yet
+  const interviews = data?.interviews || [];
+
+  // Add state for week offset
+  const [weekOffset, setWeekOffset] = useState(0);
+
+  // Calculate start and end of the displayed week
+  const getStartOfWeek = (date: Date) => {
+    const d = new Date(date);
+    const day = d.getDay() === 0 ? 6 : d.getDay() - 1; // Monday as first day
+    d.setDate(d.getDate() - day);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  };
+  const baseDate = new Date();
+  const startOfWeek = getStartOfWeek(new Date(baseDate.setDate(baseDate.getDate() + weekOffset * 7)));
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+  // Filter applications for the selected week
+  const filteredWeeklyApplications = (data?.weeklyApplications || []).filter((c: { applied_date: string }) => {
+    const date = new Date(c.applied_date);
+    return date >= startOfWeek && date <= endOfWeek;
+  });
+
+  // Weekly Application Tracker
+  const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const weeklyCounts: Record<string, number> = {};
+  filteredWeeklyApplications.forEach((c: { applied_date: string }) => {
+    const date = new Date(c.applied_date);
+    const day = days[date.getDay() === 0 ? 6 : date.getDay() - 1];
+    weeklyCounts[day] = (weeklyCounts[day] || 0) + 1;
+    });
+  const weeklyData = days.map((day, _i) => weeklyCounts[day] || 0);
+  const maxWeeklyValue = Math.max(...weeklyData, 1);
+
+  // Helper for week range label
+  const weekRangeLabel = `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    
+  // Applications by Job
+  const applicationsByJob: ApplicationsByJob[] = (data?.jobs || []).map((job: any) => ({
+    id: job.id,
+    name: job.title,
+    value: job.candidates_aggregate.aggregate.count
+  }));
+
+  // Tasks
+  const tasks = data?.tasks || [];
+
+  // Handle loading and error
+  if (loading) return <div className="p-6">Loading dashboard...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading dashboard: {error.message}</div>;
+
+  // Stats
+  const activeJobCount = data?.activeJobs.aggregate.count ?? 0;
+  const shortlistedCount = data?.shortlistedCandidates.aggregate.count ?? 0;
+  const topRankingCount = data?.topRankers.aggregate.count ?? 0;
+  const totalApplications = data?.newApplications.aggregate.count ?? 0;
 
   return (
     <div className="p-6 max-w-[1600px] mx-auto">
       <div className="grid grid-cols-4 gap-6">
         {/* Top Row */}
         <div className="grid grid-cols-4 col-span-4 gap-6">
-          {/* Hello Recruiter - 1w x 4h */}
+          {/* Hello Recruiter */}
           <div className="col-span-1 row-span-4 bg-blue-50 rounded-lg shadow-sm relative overflow-hidden h-[500px]" style={{ backgroundColor: `${BRAND.blue}15` }}>
             <div className="h-full relative">
               <div className="w-full flex justify-center">
@@ -276,7 +193,7 @@ export default function DashboardHome() {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="text-4xl font-bold">0{activeJobCount}</h2>
+                    <h2 className="text-4xl font-bold">{activeJobCount}</h2>
                     <p className="text-gray-600 mt-1">Active Job Post{activeJobCount !== 1 ? 's' : ''}</p>
                   </div>
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: `${BRAND.teal}15` }}>
@@ -298,7 +215,7 @@ export default function DashboardHome() {
                 </div>
               </div>
 
-              {/* HirehubAI Top Rankers - renamed from Top Ranking Candidates */}
+              {/* HirehubAI Top Rankers */}
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex justify-between items-start">
                   <div>
@@ -327,9 +244,15 @@ export default function DashboardHome() {
 
             {/* Weekly Application Tracker */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold mb-4">Weekly Application Tracker</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Weekly Application Tracker</h3>
+                <div className="flex items-center gap-2">
+                  <button className="p-1" style={{ color: BRAND.blue }} onClick={() => setWeekOffset(weekOffset - 1)}>◀</button>
+                  <span className="text-sm text-gray-600">{weekRangeLabel}</span>
+                  <button className="p-1" style={{ color: BRAND.blue }} onClick={() => setWeekOffset(weekOffset + 1)}>▶</button>
+                </div>
+              </div>
               <div className="h-48 relative">
-                {/* Y-axis labels - Updated to use dynamic max value and fewer steps */}
                 <div className="absolute left-0 h-[75%] flex flex-col justify-between text-xs text-gray-500 top-4">
                   <span>{maxWeeklyValue}</span>
                   <span>{Math.round(maxWeeklyValue * 0.75)}</span>
@@ -337,8 +260,6 @@ export default function DashboardHome() {
                   <span>{Math.round(maxWeeklyValue * 0.25)}</span>
                   <span>0</span>
                 </div>
-                
-                {/* Chart container with bars */}
                 <div className="ml-10 h-[75%] bg-white rounded flex items-end justify-between px-2 mt-4 border border-gray-100">
                   {weeklyData.map((value, index) => (
                     <div 
@@ -351,8 +272,6 @@ export default function DashboardHome() {
                     ></div>
                   ))}
                 </div>
-                
-                {/* X-axis labels - positioned at the bottom of the container */}
                 <div className="ml-10 flex justify-between text-xs text-gray-500 px-2 mt-2">
                   {days.map((day, i) => (
                     <span key={i} className="w-8 text-center">{day.substring(0, 3)}</span>
@@ -362,24 +281,23 @@ export default function DashboardHome() {
             </div>
           </div>
           
-          {/* New Applications Chart - 1w x 4h */}
+          {/* Applications by Job - 1w x 4h */}
           <div className="col-span-1 row-span-4 bg-white rounded-lg shadow-sm p-6 h-[500px]">
             <div className="mb-3">
-              <h3 className="text-lg font-semibold">New Applications</h3>
-              <p className="text-gray-500 text-sm">Latest applications received</p>
+              <h3 className="text-lg font-semibold">Applications by Job</h3>
+              <p className="text-gray-500 text-sm">Total candidates applied for each job</p>
             </div>
             <div className="flex-1 flex flex-col h-[400px]">
               <div className="flex-1 flex flex-col items-center justify-center">
                 <div className="w-40 h-40 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {applicationsByJob.map((job, index, array) => {
+                    {applicationsByJob.map((job: ApplicationsByJob, index: number, array: ApplicationsByJob[]) => {
                       const colors = [BRAND.blue, '#60A5FA', BRAND.purple, BRAND.teal];
-                      const total = array.reduce((sum, j) => sum + j.value, 0);
+                      const total = array.reduce((sum: number, j: ApplicationsByJob) => sum + j.value, 0);
                       const startPercent = array
                         .slice(0, index)
-                        .reduce((sum, j) => sum + j.value, 0) / total;
+                        .reduce((sum: number, j: ApplicationsByJob) => sum + j.value, 0) / total;
                       const percent = job.value / total;
-                      
                       return (
                         <circle 
                           key={job.id}
@@ -404,13 +322,13 @@ export default function DashboardHome() {
                       fontSize="16" 
                       fontWeight="bold"
                     >
-                      {totalApplications}
+                      {applicationsByJob.reduce((sum, job) => sum + job.value, 0)}
                     </text>
                   </svg>
                 </div>
               </div>
               <div className="mt-6 space-y-3">
-                {applicationsByJob.map((job, index) => (
+                {applicationsByJob.map((job: ApplicationsByJob, index: number) => (
                   <div key={job.id} className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div 
@@ -437,7 +355,7 @@ export default function DashboardHome() {
           {/* Active Jobs Table - 2w x 4h */}
           <div className="col-span-2 bg-white rounded-lg shadow-sm overflow-hidden h-[500px] flex flex-col">
             <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Active Job Post,0{activeJobCount}</h3>
+              <h3 className="text-lg font-semibold">Active Job Post, {activeJobCount}</h3>
               <div className="flex items-center text-gray-500 text-sm">
                 <span>New ones first</span>
                 <FiChevronRight className="ml-2 transform rotate-90" />
@@ -456,16 +374,15 @@ export default function DashboardHome() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {activeJobs.map((job, index) => {
-                    const postedDate = new Date(job.postedDate);
+                  {data?.jobs.filter((job: any) => job.status === 'Active').map((job: any) => {
+                    const postedDate = new Date(job.posted_date);
                     const formattedDate = `${postedDate.getDate()} ${postedDate.toLocaleString('default', { month: 'short' })}, ${postedDate.getFullYear()}`;
-                    const applications = applicationsByJob.find(j => j.id === job.id)?.value || 0;
-                    
+                    const applications = job.candidates_aggregate.aggregate.count;
                     return (
                       <tr key={job.id}>
                         <td className="py-3 px-4 text-sm">{formattedDate}</td>
                         <td className="py-3 px-4 text-sm">
-                          <Link href={`/job/${job.id}`} className="text-blue-600 hover:underline" style={{ color: BRAND.blue }}>
+                          <Link href={`/jobs/${job.id}`} className="text-blue-600 hover:underline" style={{ color: BRAND.blue }}>
                             {job.title}
                           </Link>
                         </td>
@@ -477,9 +394,11 @@ export default function DashboardHome() {
                           </span>
                         </td>
                         <td className="py-3 px-4">
+                          <Link href={`/jobs/${job.id}`}>
                           <button className="p-1 text-white rounded" style={{ backgroundColor: BRAND.blue }}>
                             <FiChevronRight />
                           </button>
+                          </Link>
                         </td>
                       </tr>
                     );
@@ -498,28 +417,40 @@ export default function DashboardHome() {
               </button>
             </div>
             <div className="space-y-4 flex-1 overflow-auto">
-              {tasks.map((task) => (
+              {tasks.map((task: any) => (
                 <div key={task.id} className="flex items-start border-b border-gray-100 pb-4">
                   <div className="mt-0.5 mr-3 text-gray-400">
-                    {task.icon}
+                    <FiFileText />
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
-                      <p className={`text-sm ${task.completed ? 'line-through text-gray-400' : ''}`}>{task.description}</p>
-                      <span className="text-xs text-gray-500 ml-2 whitespace-nowrap">{task.dueDate}</span>
+                      <p className={`text-sm ${task.status === 'Completed' ? 'line-through text-gray-400' : ''}`}>{task.title}</p>
+                      <span className="text-xs text-gray-500 ml-2 whitespace-nowrap">{task.due_date}</span>
                     </div>
                   </div>
                   <div className="ml-3">
                     <div 
                       className="w-5 h-5 border rounded flex items-center justify-center cursor-pointer transition-colors"
                       style={{ 
-                        borderColor: task.completed ? BRAND.teal : BRAND.blue,
-                        backgroundColor: task.completed ? BRAND.teal : 'transparent',
-                        color: task.completed ? 'white' : BRAND.blue
+                        borderColor: task.status === 'Completed' ? BRAND.teal : BRAND.blue,
+                        backgroundColor: task.status === 'Completed' ? BRAND.teal : 'transparent',
+                        color: task.status === 'Completed' ? 'white' : BRAND.blue
                       }}
-                      onClick={() => toggleTaskCompletion(task.id)}
+                      onClick={async () => {
+                        console.log('Checkbox clicked for task:', task.id, 'Current status:', task.status);
+                        try {
+                          const result = await updateTaskStatus({ 
+                            variables: { id: task.id.toString(), status: task.status === 'Completed' ? 'Pending' : 'Completed' },
+                            refetchQueries: [{ query: GET_DASHBOARD_STATS, variables: { today } }],
+                            awaitRefetchQueries: true
+                          });
+                          console.log('Mutation result:', result);
+                        } catch (err) {
+                          console.error('Failed to update task status:', err);
+                        }
+                      }}
                     >
-                      {task.completed && <FiCheck className="w-3 h-3" />}
+                      {task.status === 'Completed' && <FiCheck className="w-3 h-3" />}
                     </div>
                   </div>
                 </div>
@@ -532,12 +463,17 @@ export default function DashboardHome() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Schedule</h3>
               <div className="flex items-center">
-                <span className="text-sm text-gray-600 mr-2">Mar, 2025</span>
-                <button className="p-1" style={{ color: BRAND.blue }}>◀</button>
-                <button className="p-1" style={{ color: BRAND.blue }}>▶</button>
+                <span className="text-sm text-gray-600 mr-2">{monthName}, {calendarYear}</span>
+                <button className="p-1" style={{ color: BRAND.blue }} onClick={() => {
+                  setCalendarMonth(prev => prev === 0 ? 11 : prev - 1);
+                  if (calendarMonth === 0) setCalendarYear(y => y - 1);
+                }}>◀</button>
+                <button className="p-1" style={{ color: BRAND.blue }} onClick={() => {
+                  setCalendarMonth(prev => prev === 11 ? 0 : prev + 1);
+                  if (calendarMonth === 11) setCalendarYear(y => y + 1);
+                }}>▶</button>
               </div>
             </div>
-            
             <div className="mt-4 flex-1">
               <div className="grid grid-cols-7 text-center mb-2">
                 <div className="text-xs text-gray-500">Mon</div>
@@ -548,13 +484,11 @@ export default function DashboardHome() {
                 <div className="text-xs text-gray-500">Sat</div>
                 <div className="text-xs text-gray-500">Sun</div>
               </div>
-              
               <div className="grid grid-cols-7 gap-1 text-xs">
-                {[...Array(28)].map((_, i) => {
+                {[...Array(daysInMonth)].map((_, i) => {
                   const day = i + 1;
-                  const isToday = day === 27;
+                  const isToday = day === todayDate.getDate() && calendarMonth === todayDate.getMonth() && calendarYear === todayDate.getFullYear();
                   const hasInterview = interviewDays.includes(day);
-                  
                   return (
                     <div 
                       key={day} 
@@ -574,21 +508,20 @@ export default function DashboardHome() {
                   );
                 })}
               </div>
-              
               <div className="mt-6 space-y-2">
                 <h4 className="text-sm font-medium text-gray-700">Upcoming Interviews</h4>
-                {mockInterviews.slice(0, 3).map(interview => {
-                  const formattedTime = interview.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                  const formattedDate = interview.date.toLocaleDateString([], {day: 'numeric', month: 'short'});
-                  
+                {filteredInterviews.slice(0, 3).map((interview: any) => {
+                  const date = new Date(interview.date);
+                  const formattedTime = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                  const formattedDate = date.toLocaleDateString([], {day: 'numeric', month: 'short'});
                   return (
                     <div key={interview.id} className="border-l-2 pl-3 py-1" style={{ borderColor: BRAND.purple }}>
                       <div className="flex items-center">
                         <FiVideo className="mr-2 text-gray-400" />
                         <div>
-                          <p className="text-xs font-medium">Interview with {interview.candidateName}</p>
+                          <p className="text-xs font-medium">Interview with {interview.candidate_name}</p>
                           <p className="text-xs text-gray-500">{formattedDate}, {formattedTime}</p>
-                          <p className="text-xs text-gray-400">{interview.position}</p>
+                          <p className="text-xs text-gray-400">{interview.candidate_position}</p>
                         </div>
                       </div>
                     </div>

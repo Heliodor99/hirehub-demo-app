@@ -105,6 +105,9 @@ export default function NewJobPage() {
     e.preventDefault();
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1000));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('showSeniorFrontendJob', 'true');
+    }
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
