@@ -13,8 +13,10 @@ const GET_JOBS_WITH_CANDIDATE_COUNT = gql`
       title
       company
       location
+      department
       posted_date
       status
+      description
       candidates_aggregate {
         aggregate {
           count
@@ -32,6 +34,7 @@ interface Job {
   department: string;
   status: string;
   posted_date: string;
+  description: string;
   candidates_aggregate?: {
     aggregate: {
       count: number;
@@ -41,16 +44,15 @@ interface Job {
 
 export default function JobsPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSeniorFrontendJob, setShowSeniorFrontendJob] = useState(false);
   const router = useRouter();
   const { data, loading, error } = useQuery(GET_JOBS_WITH_CANDIDATE_COUNT);
   const jobs: Job[] = data?.jobs || [];
 
-  // Demo: Hide Senior Frontend Developer job until flag is set
-  const [showSeniorFrontendJob, setShowSeniorFrontendJob] = useState(false);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const show = localStorage.getItem('showSeniorFrontendJob');
-      if (show === 'true') setShowSeniorFrontendJob(true);
+      setShowSeniorFrontendJob(show === 'true');
     }
   }, []);
 
@@ -59,13 +61,15 @@ export default function JobsPage() {
   if (loading) return <div className="p-6">Loading jobs from Hasura...</div>;
   if (error) return <div className="p-6 text-red-600">Error loading jobs: {error.message}</div>;
 
-  const filteredJobs = jobs.filter((job: Job) =>
-    showSeniorFrontendJob ? true : job.title !== 'Senior Frontend Developer'
-  ).filter((job: Job) =>
-    job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    job.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredJobs = jobs
+    .filter((job: Job) =>
+      job.title !== 'Senior Frontend Developer' || showSeniorFrontendJob
+    )
+    .filter((job: Job) =>
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.location.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const handleRowClick = (jobId: string) => {
     router.push(`/jobs/${jobId}`);
