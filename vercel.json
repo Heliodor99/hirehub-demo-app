@@ -1,4 +1,8 @@
 {
+  "public": true,
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
   "version": 2,
   "builds": [
     {
