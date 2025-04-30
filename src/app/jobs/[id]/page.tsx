@@ -263,49 +263,91 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
             </div>
 
             {/* Candidates List */}
-            <div className="space-y-4">
-              {filteredCandidates.map(candidate => (
-                <div key={candidate.id} className="border-b border-gray-200 pb-4 last:border-0">
-                  <div className="flex justify-between items-start">
-                    <div className="group relative">
-                      <div className="flex items-center space-x-1 cursor-pointer">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Candidate
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Current Role
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Location
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Source
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Applied Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Stage
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredCandidates.map(candidate => (
+                    <tr key={candidate.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <Link href={`/candidates/${candidate.id}`} className="font-medium text-gray-900 hover:text-primary-600">
                           {candidate.name}
                         </Link>
-                        <FiChevronDown className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block z-10">
-                        <div className="py-1">
-                          <Link
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {candidate.currentTitle}
+                        {candidate.currentCompany && (
+                          <span className="block text-xs text-gray-400">
+                            {candidate.currentCompany}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {candidate.location}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {candidate.source}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {new Date(candidate.appliedDate).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStageColor(candidate.stage)}`}>
+                          {formatStageName(candidate.stage)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-3">
+                          <Link 
                             href={`/candidates/${candidate.id}`}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            className="text-primary-600 hover:text-primary-900"
                           >
-                            View Profile
+                            View
                           </Link>
                           <a
                             href={candidate.resume}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            className="text-gray-600 hover:text-gray-900"
                           >
-                            View Resume
+                            Resume
                           </a>
                         </div>
-                      </div>
-                      <p className="text-sm text-gray-500">{candidate.currentTitle}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                      getStageColor(candidate.stage)
-                    }`}>
-                      {formatStageName(candidate.stage)}
-                    </span>
-                  </div>
-                  <div className="mt-2 text-sm text-gray-500">
-                    <p>Source: {candidate.source}</p>
-                    <p>Applied: {new Date(candidate.appliedDate).toLocaleDateString()}</p>
-                  </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              
+              {filteredCandidates.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">No candidates found matching your criteria.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

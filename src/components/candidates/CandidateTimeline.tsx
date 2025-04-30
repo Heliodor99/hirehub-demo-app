@@ -15,7 +15,7 @@ const formatDate = (dateString: string) => {
     day: 'numeric'
   });
 };
-
+yes 
 export function CandidateTimeline({ candidate }: CandidateTimelineProps) {
   if (!candidate.processStages) {
     return null;
