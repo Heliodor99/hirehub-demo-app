@@ -291,7 +291,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredCandidates.map(candidate => (
+              {filteredCandidates.map(candidate => (
                     <tr key={candidate.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Link href={`/candidates/${candidate.id}`} className="font-medium text-gray-900 hover:text-primary-600">
@@ -322,7 +322,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-3">
-                          <Link 
+                          <Link
                             href={`/candidates/${candidate.id}`}
                             className="text-primary-600 hover:text-primary-900"
                           >
